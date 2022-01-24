@@ -68,9 +68,9 @@ A few key points should be highlighted:
 
 In 1999, the Regional Municipalities of York, Peel, Durham, the City of Toronto (YPDT), and their associated six Conservation Authorities (Credit Valley; Toronto and Region; Lake Simcoe and Region; Central Lake Ontario; Kawartha; and Ganaraska) formed a cooperative alliance for addressing groundwater issues within the collective geographical area of all partnered agencies.  In addition to these partners, three additional conservation authorities (Otonabee, Lower Trent, and Nottawasaga) also having jurisdiction on portions of the Oak Ridges Moraine, through the Conservation Authorities Moraine Coalition (CAMC) have also supported the development of the technical tools that have been developed for groundwater management.  The study area is shown in Figure 1.1.  At the request of the Source Water Protection project managers, the area was expanded slightly in recent years to incorporate more northerly areas to assist with Source Water Protection Planning.
 
-![*Figure 1.1.1 - Oak Ridges Moraine Groundwater Management Program study area
+![*Figure 1.1.1 Oak Ridges Moraine Groundwater Management Program study area
 displayed with a 25km boundary buffer; the Oak Ridges Moraine is also
-shown*](./f01_01_01_study_area.jpg)
+shown.*](./f01_01_01_study_area.jpg)
 
 Since its inception in 1999 the project has transitioned through what can be identified as three stages:
 
