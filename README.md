@@ -1,4 +1,4 @@
 # database-manual
 ORMGP Database Manual
 
-Transfer of database manual from .doc based to repository based
+Transfer of database manual from a doc based to repository based
