@@ -80,7 +80,7 @@ The numeric values used in DOC_FOLDER_ID are based upon assigned ranges made ava
 
 Each report should follow a consistent naming structure, similar to
 
-<Author last name>_<Year>_<Short title>_<DOC_FOLDER_ID>.pdf
+[Author last name]_[Year]_[Short title]_[DOC_FOLDER_ID].pdf
 
 The '<>' quotes should not be included - they're just present to show what needs to be replaced.  The 'Author last name' can include up to two authors (e.g. 'Eyles and Boyce_1991_Earth Science Survey of the Rouge Valley Park_3641.pdf'); if more than two authors are on the report, an 'et al' should be appended to the first author name (e.g. 'Eyles et al_2003_Geophysical and sedimentological assessment of urban impacts in a Lake Ontario watershed and lagoon_2236.pdf').  The optional compressed file (i.e. a zip file; containing data or associated files, as noted above) should have a short name, only, but is not otherwise constrained.
 
