@@ -1,7 +1,7 @@
 ---
 title:  "Section 1.0 to 1.2"
 author: "ORMGP"
-date:   "20220124"
+date:   "20220125"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -80,7 +80,8 @@ In 1999, the Regional Municipalities of York, Peel, Durham, the City of Toronto 
 
 ![*Figure 1.1.1 Oak Ridges Moraine Groundwater Management Program study area
 displayed with a 25km boundary buffer; the Oak Ridges Moraine is also
-shown.*](./f01_01_01_study_area.jpg)
+shown.*](f01_01_01_study_area.jpg)\*Figure 1.1.1 Oak Ridges Moraine
+Groundwater Managment Program*\
 
 Since its inception in 1999 the project has transitioned through what can be identified as three stages:
 
