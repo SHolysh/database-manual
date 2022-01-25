@@ -3,7 +3,7 @@ title:  "Section 2.4"
 author: "ORMGP"
 date:   "20220125"
 output: html_document
-knitr:  (
+knit:  (
             function(input_file, encoding) {
                 out_dir <- '';
                 rmarkdown::render(
@@ -14,6 +14,10 @@ knitr:  (
                 )
             }
         )
+---
+
+knitr::opts_chunk$set(echo = TRUE)
+
 ---
 
 ## Section 2.4 Secondary (or Derived) Data Relationships
@@ -198,9 +202,9 @@ where:
 
 The Well Loss is calculated by
 
-$
+$$
     s_w = C \cdot Q^2
-$
+$$
 
 where:	
 * C is the Well Loss Constant (BR1985 defaults to 380.121905 s2/m5)
