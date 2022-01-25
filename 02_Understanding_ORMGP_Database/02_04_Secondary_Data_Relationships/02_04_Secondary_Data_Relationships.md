@@ -187,30 +187,30 @@ The equation assembled by Bradbury and Rothschild (1985; subsequently referred t
 
 
 where:	
->T is Transmissivity (m2/s)
->Q is Pumping Rate (litres-per-minute [m3/s])
->s is the Drawdown (m)
->sw is the non-linear (turbulent) Well Loss (m)
->t is the Pumping Duration (s)
->rw is the Well Radius (m)
->S is the Storage Coefficient (unitless; defaults to 1x10-5 - Kassenaar and Wexlar, 2006)
->sp is the Partial Penetration Factor (unitless).
+* T is Transmissivity (m2/s)
+* Q is Pumping Rate (litres-per-minute [m3/s])
+* s is the Drawdown (m)
+* sw is the non-linear (turbulent) Well Loss (m)
+* t is the Pumping Duration (s)
+* rw is the Well Radius (m)
+* S is the Storage Coefficient (unitless; defaults to 1x10-5 - Kassenaar and Wexlar, 2006)
+* sp is the Partial Penetration Factor (unitless).
 
 The Well Loss is calculated by
 
 
 
 where:	
->C is the Well Loss Constant (BR1985 defaults to 380.121905 s2/m5)
+* C is the Well Loss Constant (BR1985 defaults to 380.121905 s2/m5)
 
 The Partial Penetration Factor is calculated by
 
 
 
 where:	
->L is the Screen Length (m)
->b is the Aquifer Thickness (m)
->G{L/b} is a fitted polynomial equation (with an R of 0.992) of the form
+* L is the Screen Length (m)
+* b is the Aquifer Thickness (m)
+* G{L/b} is a fitted polynomial equation (with an R of 0.992) of the form
 
 
 
@@ -219,14 +219,14 @@ Hydraulic Conductivity is then calculated from Transmissivity by
 
 
 where:	
->K is Hydraulic Conductivity (m/s)
+* K is Hydraulic Conductivity (m/s)
 
 Note that the Specific Capacity, in this methodology, is calculated through
 
 
 
 where: 
->Cs is Specific Capacity (m/s)
+* Cs is Specific Capacity (m/s)
 
 To ease the complexity of the views, these calculations are divided into three components
 
