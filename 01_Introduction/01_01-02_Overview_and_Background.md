@@ -80,8 +80,9 @@ In 1999, the Regional Municipalities of York, Peel, Durham, the City of Toronto 
 
 ![*Figure 1.1.1 Oak Ridges Moraine Groundwater Management Program study area
 displayed with a 25km boundary buffer; the Oak Ridges Moraine is also
-shown.*](f01_01_01_study_area.jpg)\*Figure 1.1.1 Oak Ridges Moraine
-Groundwater Managment Program*\
+shown.*](f01_01_01_study_area.jpg)*Figure 1.1.1 Oak Ridges Moraine
+Groundwater Managment Program study area displayed with a 25km boundary
+buffer; the Oak Ridges Moraine is also shown.*
 
 Since its inception in 1999 the project has transitioned through what can be identified as three stages:
 
