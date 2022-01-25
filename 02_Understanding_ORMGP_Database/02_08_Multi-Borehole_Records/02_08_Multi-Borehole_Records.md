@@ -16,7 +16,7 @@ knit:   (
         )
 ---
 
-Section 2.8 Multi-Borehole Wells
+## Section 2.8 Multi-Borehole Wells
 
 Since 2003 the MOE has allowed consultants to provide only one well record for a site upon which many boreholes may be drilled.  This option was provided so that the geology, which may be similar at different boreholes drilled on the same site, need only be submitted and entered into the WWIS once.  For these cases, within the WWIS each borehole is given a BORE_HOLE_ID (in the MOE's 'tblBore_Hole' table) and they are all linked under one WELL_ID.  The 'tblBore_Hole' table provides limited information on each borehole including the UTM coordinates, the completion date and whether the borehole is a bedrock or overburden well.
 
