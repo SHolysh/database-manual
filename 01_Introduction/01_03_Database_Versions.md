@@ -1,15 +1,25 @@
 ---
 title:  "Section 1.3"
 author: "ORMGP"
-date:   "20220124"
+date:   "20220125"
 output: html_document
+knit:   (
+            function(input_file, encoding) {
+                out_dir <- 'docs';
+                rmarkdown::render(
+                    input_file,
+                    encoding=encoding,
+                    output_file=file.path(dirname(input_file), out_dir, 'forward.html')
+                )
+            }
+        )
 ---
 
-#Section 1.3 Database Versions and Current Status
+## Section 1.3 Database Versions and Current Status
 
 The following is a summary of the 'official' versions of the ORMGP (previously the YPDT-CAMC) database since the inception of the program in 2001 as well as a high level overview of significant changes and additions to the database over time.  For a more detailed timeline outlining the detailed changes and additions to the database, refer to Appendix E.
 
-##Database Release 1
+### Database Release 1
 
 * Date: 2002 - 2003
 * Database Type: Microsoft Access
@@ -20,7 +30,7 @@ The following is a summary of the 'official' versions of the ORMGP (previously t
     + City of Toronto boreholes
 * Release: used by the YPDT-CAMC Group & released to Partner Agencies (2002 through 2003)
 
-##Database Release 2
+### Database Release 2
 
 * Date: October 2004
 * Database Type: Microsoft Access
@@ -33,7 +43,7 @@ The following is a summary of the 'official' versions of the ORMGP (previously t
 * Release: Database released along with geological surfaces (the Core
 Model and Regional Model layers) as a combined package (2004)
 
-##Database Release 3
+### Database Release 3
 
 * Date: April 2006
 * Database Type: Microsoft Access
@@ -47,7 +57,7 @@ Model and Regional Model layers) as a combined package (2004)
 geologic model (extending from the CVC, above the escarpment, to east 
 of the Durham Region)
 
-##Database Release 4
+### Database Release 4
 
 * Date: Unreleased - incorporated into Database Release 5, described below
 * Database Type:  No specific documentation on this work
@@ -62,7 +72,7 @@ of the Durham Region)
     + Incorporation of 236 Durham Region high quality monitoring wells - this created some duplicates of these wells within the database
 * Release: Unreleased, used internally at the YPDT-CAMC group
 
-##Database Release 5
+### Database Release 5
 
 * Dated Version: 20120615
 * Date: June 6, 2012
@@ -82,7 +92,7 @@ of the Durham Region)
 * Release: June, 2012 (through 2012-2016)
 * Comments: This version incorporates all modifications necessary for conversion between Microsoft Access (MS Access) and Microsoft SQL Server 2008 (MSSQL2008) and also includes structural changes to many existing tables and the addition of tables, fields, constraints, triggers, etc...  Refer to Appendix E for detailed changes.
 
-##Database Release 6
+### Database Release 6
 
 * Dated Version: 20160831
 * Date: August 31, 2016
@@ -93,7 +103,7 @@ of the Durham Region)
     + 20170922 - All streamflow data has been moved to D_INTERVAL_TEPORAL_5; all calculated baseflow information has been removed from the database (this is replaced by a web-based on-the-fly calculation)
 * Release: August, 2016
 
-##Database Release 7
+### Database Release 7
 
 * Dated Version: 20160831 (main schema)
 * Secondary Dated Version: 20210901 (updated schema)
@@ -111,6 +121,6 @@ The current distribution of all locations found within the database is shown (Fi
 
 ![*Figure 1.3.1 The spatial extents of the study area showing locations
 (boreholes, climate stations, surface water stations, reports, etc.) currently
-residing in the database.*](./f01_01_03_locations.jpg)
+residing in the database.*](f01_01_03_locations.jpg)
 
 
