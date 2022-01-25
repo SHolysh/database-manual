@@ -30,6 +30,7 @@ The geological models that have been evaluated in assigning the screen to a form
 
 * Core Model (CM2004)
 * Web Model (2018)
+* Web Model (2021)
 * York Tier 3 Model (YT32011)
 
 Other older models are available but have not been incorporated, to date, due to the expectation of updates for these models (e.g. Durham Region).  Information on these individual models is documented elsewhere.  Additional models will be included in this table as they become available (as necessary).
@@ -125,7 +126,7 @@ The elevation value in LOC_ELEV is meant to reflect the most accurate and up-to-
 * If the location is outside of the ORMGP study area but within Ontario, the SRTM DEM v4.1 value is used
 * If the location is outside of Ontario, no value is assigned (and the location may not be present in the table; these should  have a QA_COORD_CONFIDENCE_CODE of '117', refer to R_QA_COORD_CONFIDENCE_CODE for details)
 
-Note that SiteFX does not use the D_LOCATION_SPATIAL\* tables.  Instead, SiteFX uses a combination of the BH_GND_ELEV, BH_GND_ELEV_OUOM (as well as BH_GND_ELEV_UNIT_OUOM) and BH_DEM_GND_ELEV.  The BH_GND_ELEV is populated by the BH_GND_ELEV_OUOM field (with the appropriate conversion from the specified units) except in the case when a QA_COORD_CONFIDENCE_CODE of '10' (i.e. the elevation is from a DEM) is assigned.  In the latter case, the BH_GND_ELEV is populated from the BH_DEM_GND_OUOM field.   In addition, the current Viewlog 'header' files also access the D_BOREHOLE table for elevations.
+Note that SiteFX does not use the D_LOCATION_SPATIAL_\* tables.  Instead, SiteFX uses a combination of the BH_GND_ELEV, BH_GND_ELEV_OUOM (as well as BH_GND_ELEV_UNIT_OUOM) and BH_DEM_GND_ELEV.  The BH_GND_ELEV is populated by the BH_GND_ELEV_OUOM field (with the appropriate conversion from the specified units) except in the case when a QA_COORD_CONFIDENCE_CODE of '10' (i.e. the elevation is from a DEM) is assigned.  In the latter case, the BH_GND_ELEV is populated from the BH_DEM_GND_OUOM field.   In addition, the current Viewlog 'header' files also access the D_BOREHOLE table for elevations.
 
 To prevent issues, then, the LOC_ELEV from D_LOCATION_SPATIAL (this points to the value found in D_LOCATION_SPATIAL_HIST) should be copied into each of the BH_GND_ELEV, BH_GND_ELEV_OUOM and BH_DEM_GND_ELEV fields.  Note that any existing value here should already have been captured in the D_LOCATION_SPATIAL_HIST table (and classified appropriately; otherwise this would be an 'original elevation').  Refer to Appendix G for details regarding the ORMGP routine checks and procedures for synchronizing these sets of elevation tables.
 
@@ -146,6 +147,13 @@ In cases where no REF_ELEV value has been supplied, a default value of ground su
 The D_PICK (previously PICKS) table holds the 'geologic' picks that are (in almost all cases) made from within the Viewlog software package.  When viewing in cross-section mode, Viewlog allows the elevation of any geological formation top, at any well location, to be written back into the database.  These 'picks' are tied back to the borehole location through the LOC_ID (automatically populated into the D_PICK table at the time a 'pick' is made).  These 'picks' therefore represent the most up-to-date geological interpretation and are used to kriging/interpolation of the geological surfaces across the study area.  
 
 Since the beginning of the ORMGP program, these 'picks' (in the D_PICK table) have been continually updated.  This means that if a new or slightly different geological interpretation is put forward, the existing picks could potentially be deleted from the picks table and replaced with a new pick at a different elevation.  The D_PICK table has been backed up on a regular basis (over the past 10 years) in the case that a check against an older interpretation of the geology is required.
+
+A new table (as of 2022-01-20), D_PICK_EXTERNAL, allows incorporation of
+'picks' from alternate sources without having to associate a pick with a
+specific location (i.e. using a LOC_ID).  Instead, the coordinate and 
+elevation information as well as the QA information is captured for each pick.  
+In addition, polyline and polygonal information can be stored with additional
+ancillary information.  Refer to Section 2.1.1 for details.
 
 ### Section 2.4.4 Baseflow Estimation
 
