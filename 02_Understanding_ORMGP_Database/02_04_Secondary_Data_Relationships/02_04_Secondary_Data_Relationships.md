@@ -3,7 +3,7 @@ title:  "Section 2.4"
 author: "ORMGP"
 date:   "20220125"
 output: html_document
-knit:   (
+knitr:  (
             function(input_file, encoding) {
                 out_dir <- '';
                 rmarkdown::render(
