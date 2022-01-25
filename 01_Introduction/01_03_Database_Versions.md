@@ -121,6 +121,8 @@ The current distribution of all locations found within the database is shown (Fi
 
 ![*Figure 1.3.1 The spatial extents of the study area showing locations
 (boreholes, climate stations, surface water stations, reports, etc.) currently
-residing in the database.*](f01_01_03_locations.jpg)
+residing in the database.*](f01_01_03_locations.jpg)*Figure 1.3.1 The spatial
+extents of the study area showing locations (boreholes, climate stations,
+surface water stations, reports, etc...) currently residing in the database.*
 
 
