@@ -3,9 +3,19 @@ title:  "Section 1.0 to 1.2"
 author: "ORMGP"
 date:   "20220124"
 output: html_document
+knit:   (
+            function(input_file, encoding) {
+                out_dir <- '';
+                rmarkdown::render(
+                    input_file,
+                    encoding=encoding,
+                    output_file=file.path(dirname(input_file), out_dir, '01_01-02_Overview_and_Background.html')
+                )
+            }
+        )
 ---
 
-#Section 1.0 Overview
+# Section 1.0 Overview
 
 This document has been created to provide information pertaining to the  Oak Ridges Moraine Groundwater Program (ORMGP) database and the underlying data model.  Specifically the document provides:
 
@@ -24,7 +34,7 @@ The ultimate goal of the ORMGP's data management is to maintain a water manageme
 
 One piece of absolutely reliable data is far better than a million pieces of unreliable data.
 
-##Database Contents
+## Database Contents
 
 The database contains information that can be grouped into three broad
 headings:
@@ -64,7 +74,7 @@ A few key points should be highlighted:
 * throughout the document the terms borehole and well are used interchangeably - the database does not distinguish between the two;
 * responsibility for maintaining and updating the database in a reliable manner - and to check data prior to incorporation into the database - is a shared responsibility between all users.
 
-#Section 1.1 Background
+# Section 1.1 Background
 
 In 1999, the Regional Municipalities of York, Peel, Durham, the City of Toronto (YPDT), and their associated six Conservation Authorities (Credit Valley; Toronto and Region; Lake Simcoe and Region; Central Lake Ontario; Kawartha; and Ganaraska) formed a cooperative alliance for addressing groundwater issues within the collective geographical area of all partnered agencies.  In addition to these partners, three additional conservation authorities (Otonabee, Lower Trent, and Nottawasaga) also having jurisdiction on portions of the Oak Ridges Moraine, through the Conservation Authorities Moraine Coalition (CAMC) have also supported the development of the technical tools that have been developed for groundwater management.  The study area is shown in Figure 1.1.  At the request of the Source Water Protection project managers, the area was expanded slightly in recent years to incorporate more northerly areas to assist with Source Water Protection Planning.
 
@@ -79,7 +89,7 @@ Since its inception in 1999 the project has transitioned through what can be ide
 * Stage 3 - 2008 - onward - This stage of work to date has focused on implementing the tools to assist in various groundwater studies that have arisen, as well as on infilling geological and hydrogeological data gaps and on maintaining and updating the available tools and database.
 * Stage 4 - 2016 - onward - This stage has focused on ease-of-access to the database and other products, concentrating on web/internet access and dissemination of data.  This is to be applied to both public and Partner access.
 
-##Program Mandate
+## Program Mandate
 
 The project was initially established in 2000 recognizing that effective protection and management of groundwater resources required an adequate information base and coordinated practices and policies.  The intent of the groundwater management strategy at the time was to ensure co-ordination and consistency in approaches, policies, and practices across the regions and conservation authorities such that common goals and objectives could be met.  At the time a series of objectives were laid out that spoke to the need to protect and/or restore various groundwater based functions (e.g. sustainable use of groundwater, habitat, stream form, assimilative capacity, etc.).  It was also recognized early on, that protection, restoration and management of the groundwater flow system first required that an adequate level of understanding be acquired.  In 2001, the project was steered in this direction.
 
