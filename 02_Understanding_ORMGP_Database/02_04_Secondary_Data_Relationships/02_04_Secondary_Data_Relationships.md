@@ -198,7 +198,9 @@ where:
 
 The Well Loss is calculated by
 
-
+$$
+    s_w = C\cdotQ^2
+$$
 
 where:	
 * C is the Well Loss Constant (BR1985 defaults to 380.121905 s2/m5)
