@@ -199,8 +199,8 @@ where:
 The Well Loss is calculated by
 
 <img
-    src="https://latex.codecogs.com/svg.image?s_w = C \cdot Q^2"
-    title="s_w = C \cdot Q^2"
+    src="https://latex.codecogs.com/svg.image?\s_w = C \cdot Q^2"
+    title="\s_w = C \cdot Q^2"
 />
 
 $$
