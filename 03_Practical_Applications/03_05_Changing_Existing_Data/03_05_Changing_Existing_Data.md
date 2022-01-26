@@ -28,7 +28,7 @@ suitable for novice users as the safeguards in place will help avoid
 accidental errors.  In many cases, modification using SiteFX (of, for example,
 a location) results in changes across multiple tables that would be
 transparent to the user.  Note that some overview training
-should be carried out by ORMGP staff to avoid or be aware of this programs
+should be carried out by ORMGP staff to allow users to avoid or be aware of this programs
 foibles.
 
 SiteFX provides a straightforward way to change, input or view all the relevant data associated with a location in the database without having to directly navigate through a large number of tables.  When in the SiteFX 'Location Editor' window, for example, all intervals that are associated with the location being edited are displayed.  This allows users to directly add temporal data (e.g. water levels, chemistry, etc...) specific to each interval at the location.  
