@@ -26,10 +26,10 @@ known as the 'look-up' tables; prepended with a 'R_') within the database
 Note that, for the second table (Table 2.2.2), any listed key in the second 'Key' column implies a change in the name of the field between the related tables.
 
 ![Table 2.2.1 Table relationships between the data (D_) and web (W_) tables
-using LOC_ID and INT_ID keys](t02_02_01.jpg)*Table 2.2.1 Table relationships
+using LOC_ID and INT_ID keys](t02_02_01_locns.jpg)*Table 2.2.1 Table relationships
 between the data (D_) and web (W_) tables using LOC_ID and INT_ID keys.*
 
 ![Table 2.2.2 Table relationships and associated keys for all other tables
-(excluding data and web tables)](t02_02_02.jpg)*Table 2.2.2 Table
+(excluding data and web tables)](t02_02_02_refs.jpg)*Table 2.2.2 Table
 relationships and associated keys for all other tables (excluding data and web
 tables)*
