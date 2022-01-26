@@ -115,13 +115,11 @@ select 'Files of Type - ODBC File DSNs (\*.dsn)'.  The user can then navigate to
 
 Both SiteFX and Viewlog use an ODBC file (containing the appropriate parameters and with an '.odbc' extension) to link into a SQL Server database.  They are generally of the following form (all the information should appear on a single line in the ODBC file):
 
-> ODBC;DRIVER={SQL Server};DATABASE=OAK_20160831_MASTER;SERVER=SQLSERVER2K16;
-> Trusted_Connection=yes;
+    ODBC;DRIVER={SQL Server};DATABASE=OAK_20160831_MASTER;SERVER=SQLSERVER2K16; Trusted_Connection=yes;
 
 OR
 
-> ODBC;DRIVER={SQL Server};DATABASE=OAK_20160831_MASTER;SERVER=SQLSERVER2K16;
-> UID=dbuser; pwd=12345678
+    ODBC;DRIVER={SQL Server};DATABASE=OAK_20160831_MASTER;SERVER=SQLSERVER2K16; UID=dbuser; pwd=12345678
 
 The first example is using a 'Trusted Connection' to connect to the partner database - usually a 'Windows Domain Account' (a single username/password combination to login to any computer on the partner's network).  The second example uses a 'SQL Server Account' which only allows access to the server/database combination specified.  In most cases, the first form (with the substitution of the appropriate database and server name) would be used.
 
