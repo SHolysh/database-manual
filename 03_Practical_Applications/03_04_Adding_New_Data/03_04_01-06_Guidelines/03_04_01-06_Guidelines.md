@@ -135,7 +135,9 @@ The table D_INTERVAL_PROPERTY is currently unused and should not house any hydra
 
 ## Section 3.4.4 Geophysical Logging
 
-The results of geophysical logging of boreholes can also be stored in the ORMGP database.  The data and associated information are found in a series of four tables prefixed with D_GEOPHYSICAL_LOG_*.  Available logging tool types are listed in R_GEOPHYSICAL_LOG_NAMELIST.  Actual data is stored in the table D_GEOPHYSICAL_LOG_DATABIN - this information had been originally compressed for the previous Microsoft Access versions of the database and has not been modified in the current database (version 20120615).  This is being re-evaluated and will likely change in subsequent versions.  As such, information should only be added to the database by ORMGP staff.
+The results of geophysical logging of boreholes can also be stored in the
+ORMGP database.  The data and associated information are found in a series of
+four tables prefixed with D_GEOPHYSICAL_LOG_\*.  Available logging tool types are listed in R_GEOPHYSICAL_LOG_NAMELIST.  Actual data is stored in the table D_GEOPHYSICAL_LOG_DATABIN - this information had been originally compressed for the previous Microsoft Access versions of the database and has not been modified in the current database (version 20120615).  This is being re-evaluated and will likely change in subsequent versions.  As such, information should only be added to the database by ORMGP staff.
 
 The data is currently stored in 'Binary Large Objects' (BLOBs) that contain the geophysical logging results in 4 byte IEEE single precision values.  The data can be visualized using the Viewlog software in either cross-section mode (to facilitate correlation between boreholes) or through the 'Source Browser' window.  
 
