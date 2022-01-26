@@ -36,24 +36,24 @@ Users are referred to the 'SiteFX Users Manual', the latest version of which is 
 In order to maintain data integrity, there are a number of fields (found in certain tables) that must be included when adding new locations to the database.  Below are listed fields (from the source data) that should be checked for (acceptable) values before records are input (i.e. before inclusion in the database).  The fields marked with an asterisk are not necessarily mandatory but users are strongly encouraged to populate them in order to assist with long term database maintenance.
 
 * D_DATA_SOURCE
-    + DATA_DESCRIPTION*
+    + DATA_DESCRIPTION\*
 
 * D_LOCATION
     + LOC_NAME
     + LOC_NAME_ALT1
     + LOC_TYPE_CODE
-    + LOC_ORIGINAL_NAME^\*
+    + LOC_ORIGINAL_NAME\*
     + LOC_STUDY
     + LOC_COORD_EASTING_OUOM
     + LOC_COORD_NORTHING_OUOM
     + LOC_COORD_OUOM_CODE
-    + LOC_STATUS_CODE^\*
-    + DATA_ID^\*
-    + LOC_NAME_MAP^\*
+    + LOC_STATUS_CODE\*
+    + DATA_ID\*
+    + LOC_NAME_MAP\*
 
 * D_LOCATION_PURPOSE
-    + PURPOSE_PRIMARY_CODE^\*
-    + PURPOSE_SECONDARY_CODE^\*
+    + PURPOSE_PRIMARY_CODE\*
+    + PURPOSE_SECONDARY_CODE\*
 
 * D_LOCATION_QA
     + QA_COORD_CONFIDENCE_CODE
@@ -62,9 +62,9 @@ In order to maintain data integrity, there are a number of fields (found in cert
 For boreholes (and similar), the following fields/tables should also be populated:
 
 * D_BOREHOLE
-    + BH_BOTTOM_DEPTH^\*
-    + BH_BOTTOM_UNIT_OUOM^\*
-    + BH_DRILL_END_DATE^\*
+    + BH_BOTTOM_DEPTH\*
+    + BH_BOTTOM_UNIT_OUOM\*
+    + BH_DRILL_END_DATE\*
 
 * D_GEOL_LAYER (for each layer in a borehole)
     + GEOL_TOP_OUOM
@@ -81,7 +81,7 @@ For intervals (e.g. screens or soil/rock), the following fields/tables should be
     + INT_NAME
     + INT_NAME_ALT1
     + INT_TYPE_CODE
-    + INT_START_DATE^\*
+    + INT_START_DATE\*
 
 * D_INTERVAL_MONITOR (i.e. screens)
     + MON_TOP_OUOM
@@ -89,17 +89,17 @@ For intervals (e.g. screens or soil/rock), the following fields/tables should be
     + MON_UNIT_OUOM
 
 * D_INTERVAL_REF_ELEV
-    + REF_POINT^\*
+    + REF_POINT\*
     + REF_ELEV_OUOM
     + REF_ELEV_UNIT_OUOM
-    + REF_ELEV_START_DATE^\*
+    + REF_ELEV_START_DATE\*
 
 * D_INTERVAL_SOIL (i.e. soil/rock samples)
     + SOIL_TOP_OUOM
     + SOIL_BOT_OUOM
     + SOIL_UNIT_OUOM
-    + SOIL_BLOW_COUNT^\*
-    + SOIL_RECOVERY^\*
+    + SOIL_BLOW_COUNT\*
+    + SOIL_RECOVERY\*
 
 ## Section 3.4.2 Geologic Information
 
