@@ -30,14 +30,14 @@ Connection to (or working with) the 'Microsoft SQL Server ORMGP Database' can be
 
 Access and Excel gain access to the SQL database through a DSN (Database Source Name) file.  The DSN file typically provides the data source name and directory, the server address, user ID and password, and other information. The DSN file can be created as a 'User DSN' or as a 'File DSN', the difference being that the latter will be stored as plain text in a separate accessible file while the former will store the connection information in the system registry.  Either can be used (in general, the 'User DSN' is used by Access while the 'File DSN' is used by Excel).   The DSN file has the following form and would have a '.dsn' extension:
 
- >[ODBC]
- >DRIVER=SQL Server Native Client 11.0
- >UID=sqlmirror
- >DATABASE=OAK_20160831_MASTER
- >WSID=MDM6500
- >APP=Microsoft? Windows? Operating System
- >Trusted_Connection=Yes
- >SERVER=SQLSERVER2K16
+    [ODBC]
+    DRIVER=SQL Server Native Client 11.0
+    UID=sqlmirror
+    DATABASE=OAK_20160831_MASTER
+    WSID=MDM6500
+    APP=Microsoft? Windows? Operating System
+    Trusted_Connection=Yes
+    SERVER=SQLSERVER2K16
 
 To create the necessary DSN files the following procedure can be followed.  Connection by these software packages is enabled through the 'ODBC Data Source Administrator' installed on most Windows operating system's (executable name is 'odbcad32' or 'odbcad32.exe', generally found under the 'C:\Windows\System32' path).  Note that, depending on the agency's IT policies, a user's permission to access and run this software may be restricted.  Where access is available or has been enabled by IT staff, running this program will result in the following dialog box opening:
 
