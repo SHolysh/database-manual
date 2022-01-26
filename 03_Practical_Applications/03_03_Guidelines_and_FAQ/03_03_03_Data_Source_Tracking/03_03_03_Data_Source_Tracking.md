@@ -48,7 +48,19 @@ WWIS.  Here, records may be added to a variety of tables for a location that
 already existed in the database.  In this case, these records would be tagged
 to the new DATA_ID.
 
-In addition, a second tracking mechanism is enabled within the database with regard to linking locations to document/report sources.  Where the information associated with a particular location (e.g. well) is tied to a report this linkage can be referenced by using the D_DOCUMENT_ASSOCIATION table (note that this is only for documents existing within the database; i.e. in the ORMGP Report Library).  Within the D_DOCUMENT_ASSOCIATION table, a document identifier (DOC_ID) can be linked with a location identifier (LOC_ID) indicating that information contained within the document/report is applicable to that location.  Multiple documents can be linked against the same location.  The DOC_ID links back to the D_DOCUMENT table containing information regarding the data contents (and possible inclusion of said data in the database) of any particular document/report (as indicated in the matching fields: DOC_YN_BH_LOG and DOC_YN_ENTERED_BH_LOG; DOC_YN_PUMP_TEST and DOC_TN_ENTERED_PUMP_TEST; etc ...).
+In addition, a second tracking mechanism is enabled within the database with
+regard to linking locations to document/report sources.  Where the information
+associated with a particular location (e.g. well) is tied to a report this
+linkage can be referenced by using the D_DOCUMENT_ASSOCIATION table (note that
+this is only for documents existing within the database; i.e. in the ORMGP
+Report Library).  Within the D_DOCUMENT_ASSOCIATION table, a document
+identifier (DOC_ID) can be linked with a location identifier (LOC_ID)
+indicating that information contained within the document/report is applicable
+to that location.  Multiple documents can be linked against the same location.
+The DOC_ID links back to the D_DOCUMENT table containing information regarding
+the data contents (and possible inclusion of said data in the database) of any
+particular document/report (as indicated in the matching fields: DOC_YN_BH_LOG
+and DOC_YN_ENTERED_BH_LOG; DOC_YN_PUMP_TEST and DOC_YN_ENTERED_PUMP_TEST; etc ...).
 
 Finally, to retain information found within the MOE WWIS database, the D_LOCATION table carries a LOC_DATA_SOURCE_CODE field.  This indicates from where the well record was derived (e.g. 'MOE staff', 'MNR staff', 'driller', etc. - see R_LOC_DATA_SOURCE for details).  The field is typically not populated for locations other than MOE wells. 
 
