@@ -1,7 +1,7 @@
 ---
 title:  "Section 3.1.2"
-author: "ORMGP"
-date:   "20220125"
+author: "ormgpmd"
+date:   "20220127"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -35,8 +35,7 @@ connection*
 followed by the selection of the appropriately named SQL Server instance (which will differ for each partner agency; here the selected name is 'MDM6500_OAK').  Select 'OK'.
 
 ![Figure 3.1.2.3 Microsoft Access Version 2003 select data
-source](f03_01_02_03_msa_odbc_name.jpg)*Figure 3.1.2.3 Microsoft Access Version 2003 select data
-source]*
+source](f03_01_02_03_msa_odbc_name.jpg)*Figure 3.1.2.3 Microsoft Access Version 2003 select data source*
 
 The user will then be prompted with a 'Select Data Source' dialog box.  A file (i.e. a '.DSN' source) would be accessed through the 'File Data Source' tab while a 'User DSN' (most likely to have been setup by your system administrator) will be found under 'Machine Data Source'.   Select the appropriate link for your database and then 'OK'.
 
@@ -74,7 +73,7 @@ tables*
 
 #### Table Keys for Access Import
 
-Refer to Figure 4.1.1 (in Section 4.1) or Sections 4.2 and 4.3 for detailed
+Refer to Figure 4.1.1 or Sections 4.2 and 4.3 for detailed
 relationships including the primary keys in each table.
 
 #### Microsoft Access - Pass-Through Queries
