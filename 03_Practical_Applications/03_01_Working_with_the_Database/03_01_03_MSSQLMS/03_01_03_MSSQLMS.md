@@ -40,8 +40,8 @@ The same can be done for 'Views' by selecting 'Databases - <partner database> - 
 The default working-mode in MSSQLMS is based upon 'Structured Query Language'
 (SQL) statements.  An SQL statement will be created which can then (if not already) be run using the 'Execute' button.  This record set will then be returned.
 
-![Figure 3.1.3.4 Record set returned from a success SQL execute](f03_01_03_04.jpg)
-*Figure 3.1.3.4 Record set returned from a success SQL execute*
+![Figure 3.1.3.4 Record set returned from a successful SQL execute](f03_01_03_04.jpg)
+*Figure 3.1.3.4 Record set returned from a successful SQL execute*
 
 This type of statement, once a familiarity with SQL is achieved, allows a basic query to be created which the user can then subsequently modify, thus allowing complete flexibility with regard to accessing the data from within the partner database.
 
