@@ -1,7 +1,7 @@
 ---
 title:  "Section 3.1.1"
-author: "ORMGP"
-date:   "20220126"
+author: "ormgpmd"
+date:   "20220127"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -41,42 +41,15 @@ Access and Excel gain access to the SQL database through a DSN (Database Source 
 
 To create the necessary DSN files the following procedure can be followed.  Connection by these software packages is enabled through the 'ODBC Data Source Administrator' installed on most Windows operating system's (executable name is 'odbcad32' or 'odbcad32.exe', generally found under the 'C:\Windows\System32' path).  Note that, depending on the agency's IT policies, a user's permission to access and run this software may be restricted.  Where access is available or has been enabled by IT staff, running this program will result in the following dialog box opening:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+![Figure 3.1.1.1 ODBC Data Source Administrator user dialog
+box.](f03_01_01_01_odbc.jpg)*Figure 3.1.1.1 ODBC Data Source Administrator user
+dialog box.*
 
 Under the 'User DSN' tab, select 'Add - SQL Server Native Client ... - Finish'.  This brings up a new dialog box:
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+![Figure 3.1.1.2 Create a New Data Source to SQL Server dialog
+box](f03_01_01_02_datasource.jpg)*Figure 3.1.1.2 Create a New Data Source to
+SQL Server dialog box*
 
 This box allows the user to specify the parameters for connection to the SQL Server running at the partner agency.  Specify:
 * a 'Name' (in the form OAK_20120615_PARTNER, where 'Partner' refers to your agency e.g. OAK_20160831_MASTER)
