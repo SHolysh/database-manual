@@ -137,6 +137,7 @@ Prefixed with 'D_', these tables are populated with data specific to the table (
 * D_PROJECT_USER_GROUP
 * D_PTTW
 * D_PTTW_RELATED
+* D_PTTW_RELATED_SRC
 * D_PUMPTEST
 * D_PUMPTEST_STEP
 * D_SITE
@@ -208,7 +209,7 @@ Similar to D_DOCUMENT_ASSOCIATION, this table allows a link to be specified betw
 
 This table is provided as support for geologic features which may not fit into D_GEOLOGY_LAYER (see below) due to size constraints (especially with regard to material descriptions) or for inclusion of hydrogeological features such as water found depth (and type) or the presence of fractures or other similarly planar features that do not necessarily have both a top and bottom elevation.  Note that this table is currently used almost exclusively for recording the water found depths reported by drillers within the MOE Water Well database.
 
-D_GEOLOGY_LAYER
+#### D_GEOLOGY_LAYER
 
 This is a key table that holds the geologic record (specified by from- and to-depths) related to a particular location (e.g. boreholes, outcrop, trenches, etc...) describing the sequential stratigraphic layers encountered.  Note that through SiteFX, the original depths (GEOL_TOP_OUOM and GEOL_BOT_OUOM, based on units specified in GEOL_UNIT_OUOM) are converted to elevations for visualization or comparison based on the ground elevation in BH_GND_ELEV from the D_BOREHOLE table.  Note that the BH_GND_ELEV value should match that in ASSIGNED_ELEV in the D_LOCATION_ELEV table.  The longer term intent is to remove the elevation fields from D_BOREHOLE.
 
@@ -220,28 +221,28 @@ Using the GEOL_SUBCLASS_CODE field, users can specify (as necessary) alternate g
 
 Refer to Section 3.3.4 for details-by-example regarding the assignment of geologic information to this table.
 
-D_GEOPHYSICAL_LOG_*
+#### D_GEOPHYSICAL_LOG_\*
 
 This includes each of
 
-    - D_GEOPHYSICAL_LOG_DATABIN
-    - D_GEOPHYSICAL_LOG_FIELD_DETAILS
-    - D_GEOPHYSICAL_LOG_LITHO_DESCRIPTIONS
-    - D_GEOPHYSICAL_LOG_LOCATION_DETAILS
+* D_GEOPHYSICAL_LOG_DATABIN
+* D_GEOPHYSICAL_LOG_FIELD_DETAILS
+* D_GEOPHYSICAL_LOG_LITHO_DESCRIPTIONS
+* D_GEOPHYSICAL_LOG_LOCATION_DETAILS
   
 These four tables are likely to be re-evaluated in the next version of the database in that much of the information contained in these four tables is already located elsewhere in the database.  Together the four tables contain the geophysical logging results from those wells that have been logged.  Viewlog currently links to these tables to display the geophysical logs in section.  Due to the considerable size of the information related to geophysical logging, the geophysical data is stored in the D_GEOPHYSICAL_LOG_DATABIN table as Binary-Large-Object (BLOB) files.  As such, specialty software (e.g. Viewlog) or queries are required to access the data.  These fields should reevaluated in a future database version.
 
 'HoleName' is the primary key relating all the geophysical tables and D_GEOPHYSICAL_LOG_LOCATION_DETAILS provides the link to D_LOCATION through LocID (i.e. LOC_ID).  
 
-D_GROUP_INTERVAL
+#### D_GROUP_INTERVAL
 
 This table allows intervals (based upon their INT_ID) to be associated together based upon a GROUP_INT_CODE.  For example, all of the screens (intervals) that have been sampled for isotopes form a group; intervals that are measured during a pumping test could also be grouped.  The current groups are described/listed/found in R_GROUP_INT_CODE.  
 
-D_GROUP_LOCATION
+#### D_GROUP_LOCATION
 
 Allows locations (based upon their LOC_ID) to be associated together based upon a GROUP_LOC_CODE.  As an example, all of the PGMN wells have been grouped together (GROUP_LOC_CODE '99').  The current groups are described/listed/found in R_GROUP_LOC_CODE.
 
-D_INTERVAL
+#### D_INTERVAL
 
 This is a key table that houses the main information related to intervals, where an interval is the base entity (representing real-word objects like, for example, a well screen) for linking temporal data within the database.  All temporal data (i.e. measured values relative to a particular date; whether it be a water level, pumping record, surface water flow measurement, precipitation data at a climate station, etc...) must tie to a particular interval which, in turn (in this table), is tied to a particular location (using the identifier fields LOC_ID and INT_ID).  Any particular location can have multiple intervals.  So, for example, one borehole could have many screens.  
 
@@ -249,11 +250,12 @@ This table does not contain much information other than the interval name (INT_N
 
 Some locations (many located in Durham) have multiple intervals tied to specific single screen.  In this case, the interval is recording information based upon either of the 'raw' water samples that are being collected or the 'treated' water samples that are being analyzed.  This difference should be captured by the INT_SAMPLE_TYPE_DESC field (a free form text field) with the former being specified as 'raw' and the latter being specified as 'treated'.
 
-D_INTERVAL_ALIAS
+#### D_INTERVAL_ALIAS
 
 This table allows additional names to be associated with intervals (through an INT_ID) as found in D_INTERVAL (note that three names INT_NAME, INT_NAME_ALT1 and INT_NAME_ALT2 are already available for naming intervals in the D_INTERVAL table).
 
-D_INTERVAL_FORM_ASSIGN
+#### D_INTERVAL_FORM_ASSIGN
+
 This table has been completely reevaluated (for the second time) in comparison with previous versions of the database.  This version allows for multiple model representations (as listed in R_FORM_MODEL_CODE) to be easily incorporated, tracking the associated information for each model-to-interval relationship.  
 
 Multiple geologic models (incorporated into the ORMGP program) have been interpreted for each interval present in this table.  Any particular interval can be found to be in a different geologic unit depending upon the geological interpretation at the time of the surface/model construction.  Note that these are updated automatically (refer to Appendix G for details) when any relevant information (e.g. coordinates or depths) are changed.
@@ -262,93 +264,93 @@ Further details and how the table is populated can be found in Sections 2.4.1 an
 
 Only intervals (i.e. INT_ID's) found in either of D_INTERVAL_MONITOR or D_INTERVAL_SOIL (with valid top- and bottom-elevations/depths) will be present in this table.  The fields in the table include:
 
-    - ASSIGNED_UNIT is the geologic unit, for this particular geologic model to which the interval is assigned (see FORM_MODEL_CODE)
-    - FORM_MODEL_CODE identifies the geologic model to which this record for this interval applies (where there will be one record for each interval for each geologic model being examined)
-    - SLAYER is the surficial geologic unit for this location/interval.
-    - TLAYER is the geologic unit in which the top of the interval lies
-    - BLAYER is the geologic unit in which the bottom of the interval lies
-    - PLAYER is the previous/upper geologic unit above the top of the interval
-    - PLAYER_VDIST is the distance from the top of the interval to the top of the previous geologic unit
-    - TNLAYER is the next geologic unit down from the top of the interval
-    - TNLAYER_VDIST is the distance from the top of the interval to the top of the next geologic unit (down from the top of the interval)
-    - NLAYER is the next geologic unit down from the bottom of the interval
-    - NLAYER_VDIST is the distance from the bottom of the interval to the top of the next geologic unit (from the bottom of the interval)
-    - BPLAYER is the previous geologic unit up from the bottom of the interval
-    - BPLAYER_VDIST is the distance from the bottom of the interval to the top of the previous geologic unit (from the bottom of the interval)
-    - THICKNESS_M is the thickness of the geologic unit (normally an aquifer) to which this interval has been assigned (as stored in ASSIGNED_UNIT)
-    - T is the Transmissivity (m2/s)
-    - K is the Hydraulic Conductivity (m/s)
-    - T_ITER is the number of iterations necessary to calculate T
-    - T_ERR is the final calculated error difference between this calculated T and the previously calculated T
-    - SC_LPMM is the calculated Specific Capacity incorporating Well Loss (liters-per-minute per metre)
+* ASSIGNED_UNIT is the geologic unit, for this particular geologic model to which the interval is assigned (see FORM_MODEL_CODE)
+* FORM_MODEL_CODE identifies the geologic model to which this record for this interval applies (where there will be one record for each interval for each geologic model being examined)
+* SLAYER is the surficial geologic unit for this location/interval.
+* TLAYER is the geologic unit in which the top of the interval lies
+* BLAYER is the geologic unit in which the bottom of the interval lies
+* PLAYER is the previous/upper geologic unit above the top of the interval
+* PLAYER_VDIST is the distance from the top of the interval to the top of the previous geologic unit
+* TNLAYER is the next geologic unit down from the top of the interval
+* TNLAYER_VDIST is the distance from the top of the interval to the top of the next geologic unit (down from the top of the interval)
+* NLAYER is the next geologic unit down from the bottom of the interval
+* NLAYER_VDIST is the distance from the bottom of the interval to the top of the next geologic unit (from the bottom of the interval)
+* BPLAYER is the previous geologic unit up from the bottom of the interval
+* BPLAYER_VDIST is the distance from the bottom of the interval to the top of the previous geologic unit (from the bottom of the interval)
+* THICKNESS_M is the thickness of the geologic unit (normally an aquifer) to which this interval has been assigned (as stored in ASSIGNED_UNIT)
+* T is the Transmissivity (m2/s)
+* K is the Hydraulic Conductivity (m/s)
+* T_ITER is the number of iterations necessary to calculate T
+* T_ERR is the final calculated error difference between this calculated T and the previously calculated T
+* SC_LPMM is the calculated Specific Capacity incorporating Well Loss (liters-per-minute per metre)
 
-D_INTERVAL_FORM_ASSIGN_FINAL
+#### D_INTERVAL_FORM_ASSIGN_FINAL
 
 The ASSIGNED_UNIT for the specific INT_ID in this table  is considered to be the 'best guess' allowing a complete geologic representation across the entire study area using the various available models.  Refer to Section 2.4.1 for details on how this field is populated and for a listing of the geologic models evaluated.
 
 The fields in the table include:
 
-    - ASSIGNED_UNIT is the appropriate 'final' (or 'best') geologic unit that should be associated with this interval based upon the geologic models represented in D_INTERVAL_FORM_ASSIGN (see OVERRIDE_UNIT for an exception)
-    - OVERRIDE_UNIT is the geologic unit which should be assigned to this interval; if populated, this field will take precedence over any geologic unit found in D_INTERVAL_FORM_ASSIGN; values should be assigned to this field only until an appropriate geologic model is representative for this interval at which point the field should be set to NULL
-    - MANUAL_UNIT is the geologic unit which has been defined for this interval by some trusted, external source (e.g. a high-quality consultant report) - either of the DATA_ID or FINAL_COMMENT fields should indicate this source; this is for reference or historical purposes only (and can be used to temporarily populate OVERRIDE_UNIT)
+* ASSIGNED_UNIT is the appropriate 'final' (or 'best') geologic unit that should be associated with this interval based upon the geologic models represented in D_INTERVAL_FORM_ASSIGN (see OVERRIDE_UNIT for an exception)
+* OVERRIDE_UNIT is the geologic unit which should be assigned to this interval; if populated, this field will take precedence over any geologic unit found in D_INTERVAL_FORM_ASSIGN; values should be assigned to this field only until an appropriate geologic model is representative for this interval at which point the field should be set to NULL
+* MANUAL_UNIT is the geologic unit which has been defined for this interval by some trusted, external source (e.g. a high-quality consultant report) - either of the DATA_ID or FINAL_COMMENT fields should indicate this source; this is for reference or historical purposes only (and can be used to temporarily populate OVERRIDE_UNIT)
 
-D_INTERVAL_MONITOR
+#### D_INTERVAL_MONITOR
 
 This table provides details of the (possibly assumed) screened interval for, in general, well or borehole locations.  In many cases, when reported, the screen top and bottom depth are provided - these are (subsequently) converted into elevations (usually by SiteFX).  For wells that have no reported screen, the database defaults to assigning a one foot long screen (or 0.3m for those wells whose OUOM units are metric) just above the bottom of the hole (this "Assumed Screen" type of interval is captured in the R_INT_TYPE_CODE table).  There can only be one interval monitor record for each interval. 
 
 The following interval types are currently found in this table
 
-    - Assumed Open Hole (Bot. of Casing to Bot. of Hole)
-    - Assumed Open Hole (Top of Bedrock to Bot. of Hole)
-    - Assumed Screen (Overburden Well, 1ft Screen assigned); this is assumed to be above the bottom of the borehole/well
-    - Assumed Screen (Top/Bot of info only); this is usually applied when only a single (top or bottom) depth value is present, usually from D_BOREHOLE_CONSTRUCTION; a 1 ft screen is assumed
-    - Pumping Station
-    - Reported Open Hole
-    - Reported Screen
-    - Screen Information Omitted
-    - Surface Water Spot Stage Elevation (this should be removed)
+* Assumed Open Hole (Bot. of Casing to Bot. of Hole)
+* Assumed Open Hole (Top of Bedrock to Bot. of Hole)
+* Assumed Screen (Overburden Well, 1ft Screen assigned); this is assumed to be above the bottom of the borehole/well
+* Assumed Screen (Top/Bot of info only); this is usually applied when only a single (top or bottom) depth value is present, usually from D_BOREHOLE_CONSTRUCTION; a 1 ft screen is assumed
+* Pumping Station
+* Reported Open Hole
+* Reported Screen
+* Screen Information Omitted
+* Surface Water Spot Stage Elevation (this should be removed)
 
-D_INTERVAL_PROPERTY
+#### D_INTERVAL_PROPERTY
 
 This table is currently underutilized and will be re-evaluated in the next version of the database.
 
-D_INTERVAL_REF_ELEV
+#### D_INTERVAL_REF_ELEV
 
 Water levels measured in a well are generally taken either from the 'Top of Pipe' (or reference point) or from ground surface.  In order to convert recorded water level depths to elevations, the elevation of this 'reference' point is recorded in this table.  Each REF_ELEV (reference elevation) value has a start and end date tied to it, bracketing the period at which any particular elevation is applied.  Multiple elevations resulting from, for example, damage to the monitoring pipe that modify the reference elevation are recorded in this way.  For locations where no reference elevation has been recorded, a default 0.75m stick-up is assumed and the ASSIGNED_ELEV from D_LOCATION_ELEV is used as a ground level (this information is stored in the REF_COMMENT field and is generally of the form 'ASSIGNED_ELEV + 0.75m').  A new field, REF_STICK_UP, is used to store the height of the reference point (above the ground surface) in meters.  New SiteFX fields (REF_OFFSET, REF_OFFSET_OUOM and REF_OFFSET_UNIT_OUOM) now perform the same function.  All the numeric values previously held (as a temporary measure) in REF_POINT have been copied into REF_STICK_UP.
 
 In the case that no valid date exists in REF_ELEV_START_DATE for a particular interval, the default non-null value '1867-07-01' will be assumed (as a marker) - a valid date must exist for comparison purposes.
 
-D_INTERVAL_SOIL
+#### D_INTERVAL_SOIL
 
 The top and bottom elevations (converted, generally, from depths) from which a soil sample is taken are recorded here, allowing temporal data to be associated with the sample (including laboratory and other physical/field measurements).  The table also directly houses three specific soil related measurements: the actual blow count necessary for penetrating a 6-inch depth when split-spoon sampling; the recovery percentage; and the estimated moisture percentage.  Note that each of these are 'field' measurements.
 
 For those soil intervals without a top- or bottom-depth (one of, not both), an assumed 0.1m depth is assigned.  An appropriate comment is also included in SOIL_COMMENT.
 
-D_INTERVAL_TEMPORAL_* Tables
+#### D_INTERVAL_TEMPORAL_\* Tables
 
 The volume of temporal data increases rapidly in comparison with the location data.  As such (especially with regard to D_INTERVAL_TEMPORAL_2), accessing these tables can be slow in comparison with other D_* tables.  Through the use of indexing (and etc...) efforts have been made to optimize these tables to reduce access times.  The use of D_INTERVAL_TEMPORAL_3 (previously unused) has now been implemented.
 
-D_INTERVAL_TEMPORAL_1A and D_INTERVAL_TEMPORAL_1B
+#### D_INTERVAL_TEMPORAL_1A and D_INTERVAL_TEMPORAL_1B
 
 These tables record the results from samples that have been taken from a specific interval (usually a well screen) and sent to a laboratory for analyses.  Laboratory (e.g. Lab ID, Lab sample #, etc.) and sample information (sample date, sample type - water vs soil, etc?) are recorded in table '1A' and the results of the sample analysis (individual parameters such as Mg, Na, etc.) are recorded in table '1B'.  The testing of one sample for many parameters (e.g. testing for Fe, Ca, Mg, etc...) results in multiple records (one row for each parameter) in '1B' but only a single record (one row for the sample) in '1A'.  Parameter names/codes are listed in the R_RD_NAME_CODE table.
 
 Note that a particular parameter may have multiple real-world names associated with it due to different laboratory reporting terms (e.g. Zinc (total); Zinc as Zn; Zn; Zinc by ICPMS; Zinc (ICPMS)); the R_RD_NAME_CODE table should have only one of these names available, the one most commonly used (or chosen as most applicable by the ORMGP).  The R_READING_NAME_ALIAS table contains those additional names tagged to a particular value RD_NAME_CODE - on import into the database, these 'aliases' are converted to the appropriate (single) reading name code.
 
-D_INTERVAL_TEMPORAL_2
+#### D_INTERVAL_TEMPORAL_2
 
 This table records any 'field' data for a particular interval for a particular date.  For these measurements there is no need to track a sample or laboratory, therefore the data need only be added to one table.  This results in one parameter per record/row.  Water levels (both logger and manual) and stream flow data would be prime examples of information stored herein. However, the table also holds some field measured pH, conductivity and other similar data.  Parameter names are listed in the R_RD_NAME_CODE table.  Additional information (where available) regarding the instrumentation used for collecting the particular value can be recorded in RD_TYPE_CODE - refer to the R_RD_TYPE_CODE look-up table for available types.
 
 Refer to the above discussion (under D_INTERVAL_TEMPORAL_1A) with regard to the reading name codes (RD_NAME_CODE) and the use of aliases in the database.
 
-D_INTERVAL_TEMPORAL_3
+#### D_INTERVAL_TEMPORAL_3
 
 A similar description applies here as to that of D_INTERVAL_TEMPORAL_2.  However, as of 'Database Version 6', this table contains information available from climate stations (which previously resided in the second temporal table).
 
-D_INTERVAL_TEMPORAL_5
+#### D_INTERVAL_TEMPORAL_5
 
 A similar description applies here as to that of D_INTERVAL_TEMPORAL_2.  However, as of 'Database Version 6', this table contains information available from surface water stations (which previously resided in the second temporal table).
 
-D_LOCATION
+#### D_LOCATION
 
 A location is a natural, constructed or artificial (i.e. a place-holder) object and is the primary means of representing real-world entities (e.g. a borehole, climate station, surface water gauge, documents, etc...) within the database.  Refer to R_LOC_TYPE_CODE for a list of available location types.  D_LOCATION should be considered the central table in all database queries by users where information is being sought on an object-by-object basis.
 
@@ -356,23 +358,23 @@ Locations should never be deleted from the database (an exception would be in th
 
 The key fields found within this table relate to two main features of a location:
 
-    - Naming; there are five naming fields available in this table - LOC_NAME, LOC_NAME_ALT1, LOC_NAME _ALT2, LOC_ORIGINAL NAME, LOC_NAME_MAP
-    - Spatial location (LOC_COORD_EASTING, LOC_COORD_NORTHING); all locations are re-projected (if necessary) to NAD83, UTM Zone 17 (the original coordinates are stored in the equivalent '_OUOM' fields); a coordinate tracking system has been implemented within the table D_LOCATION_COORD_HIST
-
-Other more minor attributes of a Location that are stored in this table include:
-    - the Lot and Concession (mainly from the MOE) 
-    - Ownership information (for owners of many wells; e.g. York Region);
-    - Location status (e.g. active, decommissioned, in-active, etc.)
-    - Address and Contact info
-    - Confidentiality code (not currently used but established to assist in screening locations that are not to be widely circulated (set by partner agencies)
-
-Regarding the naming of locations, the following general guidelines are provided: 
-
-    - LOC_NAME is intended to be relatively short for easy display purposes
-    - LOC_NAME_ALT1 is intended to convey information about consultants, geography and/or location ownership
-    - LOC_ORIGINAL_NAME is primarily used for the MOE identification number or as the original name of the well (also found in D_LOCATION_ALIAS); where the well is not a part of the MOE database, the original name can reflect the name assigned by the consultant/owner at the time of drilling; in some cases, this identifier is currently the same as the LOC_NAME
-    - LOC_NAME_ALT2 - this field is currently not used to any great extent; in the future we could add in the MOE's Tag Number or Audit Number (these are both currently found in the D_LOCATION_ALIAS table)
-    - LOC_NAME_MAP - this name is limited to 6 characters and is designed to show a very localized name that would show up easily when posted in a map 
+* Naming; there are five naming fields available in this table - LOC_NAME, LOC_NAME_ALT1, LOC_NAME _ALT2, LOC_ORIGINAL NAME, LOC_NAME_MAP
+* Spatial location (LOC_COORD_EASTING, LOC_COORD_NORTHING); all locations are re-projected (if necessary) to NAD83, UTM Zone 17 (the original coordinates are stored in the equivalent '_OUOM' fields); a coordinate tracking system has been implemented within the table D_LOCATION_COORD_HIST
+*
+* more minor attributes of a Location that are stored in this table include:
+* the Lot and Concession (mainly from the MOE) 
+* Ownership information (for owners of many wells; e.g. York Region);
+* Location status (e.g. active, decommissioned, in-active, etc.)
+* Address and Contact info
+* Confidentiality code (not currently used but established to assist in screening locations that are not to be widely circulated (set by partner agencies)
+*
+*ding the naming of locations, the following general guidelines are provided: 
+*
+* LOC_NAME is intended to be relatively short for easy display purposes
+* LOC_NAME_ALT1 is intended to convey information about consultants, geography and/or location ownership
+* LOC_ORIGINAL_NAME is primarily used for the MOE identification number or as the original name of the well (also found in D_LOCATION_ALIAS); where the well is not a part of the MOE database, the original name can reflect the name assigned by the consultant/owner at the time of drilling; in some cases, this identifier is currently the same as the LOC_NAME
+* LOC_NAME_ALT2 - this field is currently not used to any great extent; in the future we could add in the MOE's Tag Number or Audit Number (these are both currently found in the D_LOCATION_ALIAS table)
+* LOC_NAME_MAP - this name is limited to 6 characters and is designed to show a very localized name that would show up easily when posted in a map 
 
 When assigning a name to a new location, the user should think about key features of the name that might be used by someone in the future if they were querying to see if the location is in the database.  Due to the high incidence of duplicates over the past few years the naming of key wells has become much more explicit so that the chances of someone re-entering a well are minimized.
 
@@ -382,19 +384,19 @@ One method of associating locations is through the LOC_MASTER_ID field.  If the 
 
 Through the D_GROUP_LOCATION table, locations can also be grouped into families to reflect (for example) nested monitoring wells or an amalgamation of locations (such as a pump house).
 
-D_LOCATION_ACTIVITY
+#### D_LOCATION_ACTIVITY
 
 This table is, currently, not actively used and will be re-evaluated in the next version of the database.
 
 The original intent of the table was to track significant changes occurring within the database.  'S_' system tables have now replaced the need for this table's functionality.
 
-D_LOCATION_ALIAS
+#### D_LOCATION_ALIAS
 
 Where additional names (beyond the number currently available in D_LOCATION table) are required (or known) for a particular location, these names are stored here, tagged by their LOC_ID.  For the more recently drilled MOE wells, the Audit Number and the Tag Number are stored in this table.  As of 'Database Version 6', the MOE 'Well_ID' and 'Bore_Hole_ID' are stored here as well.
 
 SiteFX looks at this table (as well) when searching for a specified location name.
 
-D_LOCATION_COORD_HIST
+#### D_LOCATION_COORD_HIST
 
 This table tracks changes in the coordinates for a particular location.  All coordinates that have been assigned/used by a location should be stored here; the current coordinates (as found in D_LOCATION) will be tagged with a value of '1' in CURRENT_COORD (all others will be NULL).  The QA_COORD_CONFIDENCE_CODE is also tracked here (i.e. one for each coordinate record).
 
@@ -404,34 +406,38 @@ In addition, the LOC_ELEV_ID field can be used to reference a particular elevati
 
 Details concerning the coordinate source and method(s) are found in R_LOC_COORD_HIST_CODE (by LOC_COORD_HIST_CODE) supplemented by comments in COORD_HIST_LOC_METHOD and COORD_HIST_LOC_COMMENT.
 
-D_LOCATION_ELEV
+#### D_LOCATION_ELEV
+
+***The use of this table has been replaced by D_LOCATION_SPATIAL***
 
 This table is used to address the issue of the handling of multiple elevations for any given location (previously, elevations were stored in multiple tables by location type; e.g. climate stations, surface water stations, etc...)  The most up-to-date/reliable elevation for each location is found, here, in the ASSIGNED_ELEV field.  Multiple elevations have been recorded over time for any particular location.  As such, a particular logic is used when populating the ASSIGNED_ELEV field, in order of:
 
-    1. If a survey has been carried out at the location, the value in SURVEYED_ELEV is used (refer also to D_LOCATION_QA)
-    2. If the location lies within the ORMGP study area, the DEM_MNR_10m_v2 value is used (Ministry of Natural Resources, 10m resolution DEM, version 2)
-    3. If the location lies outside the ORMGP study area, the coarser DEM_SRTM_90m_v41 value is used (Shuttle Radar Topography Mission, 90m resolution DEM, version 4.1)
-    4. As of 'Database Version 6', only those locations with a QA_ELEV_CONFIDENCE_CODE of '1' will be considered a surveyed elevation; this has not been applied retroactively
+1. If a survey has been carried out at the location, the value in SURVEYED_ELEV is used (refer also to D_LOCATION_QA)
+2. If the location lies within the ORMGP study area, the DEM_MNR_10m_v2 value is used (Ministry of Natural Resources, 10m resolution DEM, version 2)
+3. If the location lies outside the ORMGP study area, the coarser DEM_SRTM_90m_v41 value is used (Shuttle Radar Topography Mission, 90m resolution DEM, version 4.1)
+4. As of 'Database Version 6', only those locations with a QA_ELEV_CONFIDENCE_CODE of '1' will be considered a surveyed elevation; this has not been applied retroactively
 
 Each of these (as well as any original or other elevation; this includes historical EarthFX specific elevations) is tracked in the D_LOCATION_ELEV_HIST table; the actual value is referenced using the LOC_ELEV_ID.  In the case of MOE wells, the MOE assigned elevation is stored as the 'original' elevation.
 
 It is important to note that SiteFX does not access this table directly.  Instead, elevation values in BH_GND_ELEV from D_BOREHOLE are used for calculation of elevations/depths.  Currently there is a routine check to ensure that the two values match (ASSIGNED_ELEV and BH_GND_ELEV) for any particular location.
 
-D_LOCATION_ELEV_HIST
+#### D_LOCATION_ELEV_HIST
+
+***The use of this table has been replaced by D_LOCATION_SPATIAL_HIST***
 
 This table holds all elevations associated with a specific location - each elevation will be tied to a particular source, as found in R_LOC_ELEV_CODE.  Refer to D_LOCATION_ELEV, above, for additional details.  Note that the QA_ELEV_CONFIDENCE_CODE is tracked here for 'each' elevation value.
 
-D_LOCATION_GEOM
+#### D_LOCATION_GEOM
 
 This table holds the spatial geometry of each location using both the Microsoft SQL Server geometry type (GEOM) as well as the 'Well-Known-Binary' format (GEOM_WKB).  Not all external software supports both formats.  These are calculated from the coordinates in D_LOCATION and are assigned the 'UTM Z17 NAD93' projection (EPSG code 26917).  For tracking of changes in the coordinate values (in D_LOCATION), the COORD_CHECK field is incremented (initially from a NULL value to '1') whenever the calculated geometry differs from that stored in this table.  This acts as a tag to indicate that the location should be checked.
 
-D_LOCATION_PURPOSE
+#### D_LOCATION_PURPOSE
 
 This table records the primary and secondary purpose codes for each location.  The available codes are an amalgamation of those from the original MOE Water Well database, but they have been supplemented, largely (but not exclusively) from the purposes used to track MOE issued Water Taking Permits (refer to R_PURPOSE_PRIMARY and R_PURPOSE_SECONDARY for details).  Note that, for the MOE wells, many of the purpose classifications were based upon the original well owner's name (e.g. wells drilled for a church could reasonably accurately be coded with a PURPOSE_PRIMARY_CODE of '1' - 'Water Supply' and a SECONDARY_PURPOSE_CODE of '53' - 'Church').  With the removal of this information after 2006 (due to privacy concerns), this coding ability has been lost and therefore, the purpose codes for more recently incorporated wells less accurately reflect their purpose.
 
 Note that the MOE still maintains a mix of purpose and status in the 'Status Field' within their database (e.g. Water Supply, Observation Wells, Abandoned-Supply, etc...).  This MOE code is currently stored in the BH_STATUS field of the D_BOREHOLE table.  The MOE also maintains the USE_1ST and USE_2ND fields, which are stored in the equivalent LOC_MOE_USE_1ST and LOC_MOE_USE_2ND fields in the D_LOCATION table (in the ORMGP database).  These fields are now used to translate a code into the LOC_PURPOSE table for the newly imported MOE wells (refer to Appendix G for the methodology). 
 
-D_LOCATION_QA
+#### D_LOCATION_QA
 
 This table provides two major fields for tracking uncertainty, both of which originated with the MOE water well record database:
     - the QA_COORD_CONFIDENCE_CODE tracks errors associated with the coordinates (e.g. horizontal error); refer to R_QA_COORD_CONFIDENCE_CODE for error values
@@ -447,45 +453,45 @@ Two fields, the QA_PUMPING_CODE, and QA_WL_STATIC are currently under evaluation
 
 Note that all Locations in the D_LOCATION table should have an associated record in this table.
 
-D_LOCATION_QC
+#### D_LOCATION_QC
 
 Records are added to this table in order to track checks or changes to locations (and associated intervals) within the database.  This is used to prevent unnecessary re-examination of data for possibly problematic data for locations that have already been checked or corrected.  The marked check/correction can be table-general (e.g. pumptest and pumping rates) through table-field specific (e.g. screen top and bottom depths).  This is indicated by the CHECK_CODE (indicating the actual check performed) and CHECK_PROCESS_CODE (indicating the success or failure, in various ways, of the check or correction).  These are referenced through R_CHECK_CODE and R_CHECK_PROCESS_CODE.  Note that there will (likely) be multiple records per location as each could describe a separate check undertaken (and possibly at another date, as indicated by PROCESS_DATE).  The INT_ID should only be populated when the check is performed against an interval (linked to a location).  An additional COMMENT can be included to more fully describe the information being evaluated.
 
-D_LOCATION_SUMMARY
+#### D_LOCATION_SUMMARY
 
 This table stores weekly-calculated or -updated information for each location in D_LOCATION; the main purpose of which is to speed up various general views available to users of the database (instead of calculating these values on-the-fly).  Some of the data here, normally tied to intervals, is summarized for all intervals found at the particular location.
 
-D_LOCATION_VULNERABILITY
+#### D_LOCATION_VULNERABILITY
 
 This is a legacy table from an exercise carried out in 2003 for the MOE to delineate areas on the Oak Ridges Moraine that were potentially vulnerable to contamination.  The values (0, 1, or 2) in the 'AVI_Feb2003_Final 3tier' field are directly tied to a Low/Med/High vulnerability based on the 2003 procedure as agreed to by the MOE at the time.  These values directly correlate to and are reflected in the vulnerability map that constitutes part of the ORM Conservation.  This table should be reevaluated in a future version of the database.
 
-D_LOGGER_CALIBRATION_READINGS
+#### D_LOGGER_CALIBRATION_READINGS
 
 This table is required by and is populated through SiteFX.  This table is used for the import of logger data.  Further details ???
 
-D_LOGGER_CORRECTION
+#### D_LOGGER_CORRECTION
 
 This table is required by and is populated through SiteFX.  This table is used for the import of logger data and identifies when logger data has been adjusted by a fixed amount to match a manual measurement.   Further details ???
 
-D_LOGGER_INVENTORY
+#### D_LOGGER_INVENTORY
 
 This table is required by and is populated through SiteFX.  This table is used for the import of logger data.  Further details ??? 
 
-D_LOGGER_NAME
+#### D_LOGGER_NAME
 
 This table is required by and is populated through SiteFX.  This table is used for the import of logger data and tracks the name of loggers and the interval that they are associated with.  
 
-D_OWNER
+#### D_OWNER
 
 This table was created prior to the MOE removing the OWN_NAME from their database for concerns of privacy.  At the time, the table was meant to provide a useful searching and/or grouping tool particularly for Municipal and Conservation Authority wells, but it also allowed wells drilled by larger companies (e.g. development companies) or other organizations (e.g. Ontario Hydro) to be grouped together.   The owners listed here are linked to D_LOCATION through OWN_ID.  With the onset of the D_GROUP_LOCATION table the need for the D_OWNER table has diminished and the role this table plays in future versions of the database will be re-evaluated.
 
-D_PICK
+#### D_PICK
 
 This table was previously referenced as PICKS.  The table contains the FORMATION name (e.g. 'Top of Thorncliffe Fm') and the elevation of the pick (TOP_ELEV) as well as the user who made the pick (SYS_USER_STAMP) and the time (SYS_TIME_STAMP) at which it was made.    The current ground elevation (GND_ELEV) for the location is also stored.  The field GEOL_UNIT_CODE is currently non-populated - in the future this should be used as an alternate to the text field FORMATION.  The SESSIONNUM field is mainly historical, originally used to identify distinct sessions when incorporating pick information from multiple Microsoft Access databases. 
 
 Each pick row is linked to D_LOCATION via its LOC_ID.
 
-D_PICK_EXTERNAL
+#### D_PICK_EXTERNAL
 
 Similar to D_PICK, the records in this table contain formation information (using both the FORMATION and GEOL_UNIT_CODE fields) tied to a specific coordinate (x,y) location as well as an elevation (z).  These do not correspond, however, to the database location schema but are instead self-referencing where all information concerning a record occurs either within this table or within the linked data source (through DATA_ID which must be populated).  This includes the various quality assurance information (normally found in D_LOCATION_QA) as well as supplementary elevation information (as found in D_LOCATION_SPATIAL_HIST).  In particular, the latter should reference the particular ground surface elevation (usually a DEM) used as a reference base while the RD_VALUE_OUOM should be populated using the depth of the 'pick'.  This latter value can be calculated if the original value was an elevation.
 
@@ -493,190 +499,201 @@ The date of the source (or the source data) should be included in the PDATE fiel
 
 This table was first used to capture outcrop locations (and their elevation) from the Gao et al (2006) dataset.
 
-D_PROJECT_LOCATION
+#### D_PROJECT_LOCATION
 
 Currently empty.  This table is part of the structure for a future release of SiteFX (version 6; some support in version 5) and is to be used to control access (by partner agencies) to locations within their areal extent.  This is part of the replacement for the original D_LOCATION_AGENCY table and relates to D_LOCATION using LOC_ID.
 
-D_PROJECT_USER_GROUP
+#### D_PROJECT_USER_GROUP
 
 Currently empty.  This table is part of the structure for a future release of SiteFX (version 6; some support in version 5) and is to be used to control access (by partner agencies) to locations within their areal extent.  This is part of the replacement for the original D_LOCATION_AGENCY table and relates to R_PROJECT_TIER2_CODE using PRJ_TIER2_CODE.
 
-D_PTTW
+#### D_PTTW
 
 This table incorporates information from the 'Permit to Take Water' spreadsheet available through the MOE.  The methodology for doing so is described in Appendix G.  Note that when possible, the particular permit (a location type) has been linked to a source location (e.g. a well) through the LOC_MASTER_LOC_ID in D_LOCATION.
 
 The interpreted source type (PTTW_SOURCEID_CODE) and water type (PTTW_WATER_SOURCE_CODE; either, or both, of ground or surface water) is identified.
 
-D_PTTW_RELATED
+#### D_PTTW_RELATED
 
 This table specifically links all permits tied together through subsequent permit numbers (PTTW_PERMIT_NUMBER in D_PTTW; e.g. renewed permits) as indicated by a PTTW_PERMIT_NUMBER having a PTTW_AMENDED_BY or PTTW_EXPIRED_BY in D_PTTW (where these new permits could, again, have been expired or amended; this is considered a left-to-right relationship).  The INVERSE_RELATED field (a true/false field) indicates where a PTTW_PERMIT_NUMBER is referenced by either PTTW_AMENDED_BY or PTTW_EXPIRED_BY (a right-to-left relationship; i.e. the inverse of the previous) only. 
 
-D_PUMPTEST
+#### D_PTTW_RELATED_SRC
+
+This table has been implemented as an alternative to the general relation
+between a PTTW record and a location based upon the LOC_MASTER_LOC_ID of the
+former.  Here, they are directly tracked using LOC_ID and LOC_ID_SRC; the
+latter will indicate the location of the water source.  In some cases, a
+single permit may reference more than a single source.
+
+#### D_PUMPTEST
 
 Most of the information in the table comes from the MOE database and contains the date and time of the pump test and the driller's recommended pump rates and depths deduced from the test properties of the overall pump test.  Note that the actual pumping values (and times) are found in the D_INTERVAL_TEMPORAL_2 table.  
 
-D_PUMPTEST_STEP
+#### D_PUMPTEST_STEP
 
 This table lists the pump rate (and units) of each step for each pump test (along with the duration).  Note that all pumping values (and times) are found in the D_INTERVAL_TEMPORAL_2 table.  
 
-D_SITE
+#### D_SITE
 
 This table is required by SiteFX and allows locations to be linked to a particular site or project.  This table contains a single record - indicative of the ORMGP 'site' (a value of '1') - this links to the SITE_ID column in D_LOCATION (which must be populated).
 
-D_SURFACEWATER
+#### D_SURFACEWATER
 
-Contains some minor information (e.g. drainage, elevation, and coordinates) concerning surface water stations including HYDAT and spot-flow locations.  Note that the information in the table is from the original source and that this table should only be used for historical purposes (e.g. for back-checking) as all information here would be present/updated in alternate tables (including D_LOCATION).
+Contains some minor information (e.g. drainage, elevation, and coordinates)
+concerning surface water stations including HYDAT and spot-flow locations.
+Surface water subtypes are indicated by the SW_SUBTYPE_CODE (linked to
+R_SW_SUBTYPE_CODE).
 
-D_VERSION
+#### D_VERSION
 
 This table is required by SiteFX and contains the 'Database_Version', used internally by that program.
 
-D_VERSION_CURRENT
+#### D_VERSION_CURRENT
 
 This table contains the current primary and secondary versions (i.e. the dated version) of the database.  The single row, here, is accessed when distributing a subset of the database to specify the PRIMARY_VERSION and SECONDARY_VERSION (as well as the CUT_VERSION which is populated in the output database) within the distributed database itself.
 
 The VERSION_COMMENT should be updated whenever the SECONDARY_VERSION is changed (it should provide an explanation for the change).  These changes should also be captured in the database timeline as found in Appendix E.
 
-D_VERSION_STATUS
+#### D_VERSION_STATUS
 
 This table captures the 'status' of the database at various stages, tied to the 'Dated Version' (both primary and secondary).  This includes the number of records for each available location type, each available interval type and each available reading group code type.
 
-Section 2.1.2 Look-Up/Reference Tables (R_*)
+## Section 2.1.2 Look-Up/Reference Tables (R_\*)
 
 Prefixed with an 'R_', these tables are populated with data that is used to code information within the 'D_' data tables (listed above).  Only those used by the ORMGP are included.  These are:
 
-    - R_ACTIVITY_CODE
-    - R_ADVERSE_COMMENT_CODE
-    - R_ADVERSE_TYPE_CODE
-    - R_BH_DRILL_METHOD_CODE
-    - R_BH_DRILLER_CODE
-    - R_BH_STATUS_CODE
-    - R_CHECK_CODE
-    - R_CHECK_PROCESS_CODE
-    - R_CHECK_TYPE_CODE
-    - R_CON_SUBTYPE_CODE
-    - R_CON_TYPE_CODE
-    - R_CONFIDENTIALITY_CODE
-    - R_CONFIGURATION_CODE
-    - R_CONV_CLASS_CODE
-    - R_CRIT_GROUP_CODE
-    - R_CRIT_TYPE_CODE
-    - R_DOC_AUTHOR_AGENCY_CODE
-    - R_DOC_CLIENT_AGENCY_CODE
-    - R_DOC_FORMAT_CODE
-    - R_DOC_JOURNAL_CODE
-    - R_DOC_LANGUAGE_CODE
-    - R_DOC_LOCATION_CODE
-    - R_DOC_TOPIC_CODE
-    - R_DOC_TYPE_CODE
-    - R_EQ_GROUP_CODE
-    - R_EQ_TYPE_CODE
-    - R_FEATURE_CODE
-    - R_FORM_MODEL_CODE
-    - R_GEOL_CLASS_CODE
-    - R_GEOL_CONSISTENCY_CODE
-    - R_GEOL_LAYERTYPE_CODE
-    - R_GEOL_MAT1_CODE
-    - R_GEOL_MAT2_CODE
-    - R_GEOL_MAT3_CODE
-    - R_GEOL_MAT4_CODE
-    - R_GEOL_MAT_COLOUR_CODE
-    - R_GEOL_MAT_GSC_CODE
-    - R_GEOL_MOISTURE_CODE
-    - R_GEOL_ORGANIC_CODE
-    - R_GEOL_SUBCLASS_CODE
-    - R_GEOL_TEXTURE_CODE
-    - R_GEOL_UNIT_CODE
-    - R_GROUP_INT_CODE
-    - R_GROUP_INT_TYPE_CODE
-    - R_GROUP_LOC_CODE
-    - R_GROUP_LOC_TYPE_CODE
-    - R_GROUP_READING_CODE
-    - R_GROUP_READING_TYPE_CODE
-    - R_INT_ALIAS_TYPE_CODE
-    - R_INT_REGULATORY_CODE
-    - R_INT_SAMPLE_MATRIX_DESC
-    - R_INT_SAMPLE_TYPE_DESC
-    - R_INT_SAMPLE_USER_FILTER_DESC
-    - R_INT_TYPE_CODE
-    - R_LI_BATTERY_CODE
-    - R_LMD_STATUS_CODE
-    - R_LMD_TYPE_CODE
-    - R_LMD_TYPE_CODE_ATTRIBUTE
-    - R_LOC_ALIAS_TYPE_CODE
-    - R_LOC_COORD_CODE
-    - R_LOC_COORD_HIST_CODE
-    - R_LOC_COORD_OUOM_ALIAS
-    - R_LOC_COORD_OUOM_CODE
-    - R_LOC_CORR_WATER_CODE
-    - R_LOC_COUNTY_CODE
-    - R_LOC_DATA_SOURCE_CODE
-    - R_LOC_ELEV_CODE
-    - R_LOC_INFO_CODE
-    - R_LOC_INFO_GROUP_CODE
-    - R_LOC_INFO_TYPE_CODE
-    - R_LOC_MOE_USE_PRIMARY_CODE
-    - R_LOC_MOE_USE_SECONDARY_CODE
-    - R_LOC_STATUS_CODE
-    - R_LOC_TIER1_CODE
-    - R_LOC_TIER2_CODE
-    - R_LOC_TIER3_CODE
-    - R_LOC_TOWNSHIP_CODE
-    - R_LOC_TYPE_CODE
-    - R_LOC_WATERSHED1_CODE
-    - R_LOC_WATERSHED2_CODE
-    - R_LOC_WATERSHED3_CODE
-    - R_LOGGER_TYPE_CODE
-    - R_LOGGER_TYPE_READING
-    - R_LSR_TYPE_CODE
-    - R_LSR_TYPE_READING
-    - R_OWN_TYPE_CODE
-    - R_PROJECT_AGENCY_CODE
-    - R_PROJECT_TIER1_CODE
-    - R_PROJECT_TIER2_CODE
-    - R_PROJECT_TYPE_CODE
-    - R_PTTW_SOURCEID_CODE
-    - R_PTTW_WATER_SOURCE_CODE
-    - R_PUMPTEST_METHOD_CODE
-    - R_PUMPTEST_TYPE_CODE
-    - R_PURPOSE_PRIMARY_CODE
-    - R_PURPOSE_SECONDARY_CODE
-    - R_QA_COORD_CONFIDENCE_CODE
-    - R_QA_ELEV_CONFIDENCE_CODE
-    - R_RD_FILTER_CODE
-    - R_RD_LOOKUP_CODE
-    - R_RD_NAME_CODE
-    - R_RD_NAME_LOOKUP
-    - R_RD_TYPE_CODE
-    - R_READING_GROUP_CODE
-    - R_READING_NAME_ALIAS
-    - R_REC_STATUS_CODE
-    - R_SAM_TYPE_CODE
-    - R_SAM_TYPE_KEYWORD
-    - R_SW_SUBTYPE_CODE
-    - R_SYS_GROUP_SEARCH_CODE
-    - R_SYS_GROUP_TYPE_CODE
-    - R_SYS_INT_DETAIL_CODE
-    - R_SYS_REF_TYPE_CODE
-    - R_SYS_VALUE_QUALIFIER
-    - R_UNIT_CODE
-    - R_UNIT_CONV
-    - R_USER_CODE
-    - R_USER_GROUP_CODE
-    - R_USER_GROUP_TYPE_CODE
-    - R_WATER_CLARITY_CODE
-    - R_WQ_STANDARD
-    - R_WQ_STANDARD_SOURCE
-    - S_CONSTANT
-    - S_DESC_FIELD
-    - S_DESC_TABLE
-    - S_DESC_VIEW
+* R_ACTIVITY_CODE
+* R_ADVERSE_COMMENT_CODE
+* R_ADVERSE_TYPE_CODE
+* R_BH_DRILL_METHOD_CODE
+* R_BH_DRILLER_CODE
+* R_BH_STATUS_CODE
+* R_CHECK_CODE
+* R_CHECK_PROCESS_CODE
+* R_CHECK_TYPE_CODE
+* R_CON_SUBTYPE_CODE
+* R_CON_TYPE_CODE
+* R_CONFIDENTIALITY_CODE
+* R_CONFIGURATION_CODE
+* R_CONV_CLASS_CODE
+* R_CRIT_GROUP_CODE
+* R_CRIT_TYPE_CODE
+* R_DOC_AUTHOR_AGENCY_CODE
+* R_DOC_CLIENT_AGENCY_CODE
+* R_DOC_FORMAT_CODE
+* R_DOC_JOURNAL_CODE
+* R_DOC_LANGUAGE_CODE
+* R_DOC_LOCATION_CODE
+* R_DOC_TOPIC_CODE
+* R_DOC_TYPE_CODE
+* R_EQ_GROUP_CODE
+* R_EQ_TYPE_CODE
+* R_FEATURE_CODE
+* R_FORM_MODEL_CODE
+* R_GEOL_CLASS_CODE
+* R_GEOL_CONSISTENCY_CODE
+* R_GEOL_LAYERTYPE_CODE
+* R_GEOL_MAT1_CODE
+* R_GEOL_MAT2_CODE
+* R_GEOL_MAT3_CODE
+* R_GEOL_MAT4_CODE
+* R_GEOL_MAT_COLOUR_CODE
+* R_GEOL_MAT_GSC_CODE
+* R_GEOL_MOISTURE_CODE
+* R_GEOL_ORGANIC_CODE
+* R_GEOL_SUBCLASS_CODE
+* R_GEOL_TEXTURE_CODE
+* R_GEOL_UNIT_CODE
+* R_GROUP_INT_CODE
+* R_GROUP_INT_TYPE_CODE
+* R_GROUP_LOC_CODE
+* R_GROUP_LOC_TYPE_CODE
+* R_GROUP_READING_CODE
+* R_GROUP_READING_TYPE_CODE
+* R_INT_ALIAS_TYPE_CODE
+* R_INT_REGULATORY_CODE
+* R_INT_SAMPLE_MATRIX_DESC
+* R_INT_SAMPLE_TYPE_DESC
+* R_INT_SAMPLE_USER_FILTER_DESC
+* R_INT_TYPE_CODE
+* R_LI_BATTERY_CODE
+* R_LMD_STATUS_CODE
+* R_LMD_TYPE_CODE
+* R_LMD_TYPE_CODE_ATTRIBUTE
+* R_LOC_ALIAS_TYPE_CODE
+* R_LOC_COORD_CODE
+* R_LOC_COORD_HIST_CODE
+* R_LOC_COORD_OUOM_ALIAS
+* R_LOC_COORD_OUOM_CODE
+* R_LOC_CORR_WATER_CODE
+* R_LOC_COUNTY_CODE
+* R_LOC_DATA_SOURCE_CODE
+* R_LOC_ELEV_CODE
+* R_LOC_INFO_CODE
+* R_LOC_INFO_GROUP_CODE
+* R_LOC_INFO_TYPE_CODE
+* R_LOC_MOE_USE_PRIMARY_CODE
+* R_LOC_MOE_USE_SECONDARY_CODE
+* R_LOC_STATUS_CODE
+* R_LOC_TIER1_CODE
+* R_LOC_TIER2_CODE
+* R_LOC_TIER3_CODE
+* R_LOC_TOWNSHIP_CODE
+* R_LOC_TYPE_CODE
+* R_LOC_WATERSHED1_CODE
+* R_LOC_WATERSHED2_CODE
+* R_LOC_WATERSHED3_CODE
+* R_LOGGER_TYPE_CODE
+* R_LOGGER_TYPE_READING
+* R_LSR_TYPE_CODE
+* R_LSR_TYPE_READING
+* R_OWN_TYPE_CODE
+* R_PROJECT_AGENCY_CODE
+* R_PROJECT_TIER1_CODE
+* R_PROJECT_TIER2_CODE
+* R_PROJECT_TYPE_CODE
+* R_PTTW_SOURCEID_CODE
+* R_PTTW_WATER_SOURCE_CODE
+* R_PUMPTEST_METHOD_CODE
+* R_PUMPTEST_TYPE_CODE
+* R_PURPOSE_PRIMARY_CODE
+* R_PURPOSE_SECONDARY_CODE
+* R_QA_COORD_CONFIDENCE_CODE
+* R_QA_ELEV_CONFIDENCE_CODE
+* R_RD_FILTER_CODE
+* R_RD_LOOKUP_CODE
+* R_RD_NAME_CODE
+* R_RD_NAME_LOOKUP
+* R_RD_TYPE_CODE
+* R_READING_GROUP_CODE
+* R_READING_NAME_ALIAS
+* R_REC_STATUS_CODE
+* R_SAM_TYPE_CODE
+* R_SAM_TYPE_KEYWORD
+* R_SW_SUBTYPE_CODE
+* R_SYS_GROUP_SEARCH_CODE
+* R_SYS_GROUP_TYPE_CODE
+* R_SYS_INT_DETAIL_CODE
+* R_SYS_REF_TYPE_CODE
+* R_SYS_VALUE_QUALIFIER
+* R_UNIT_CODE
+* R_UNIT_CONV
+* R_USER_CODE
+* R_USER_GROUP_CODE
+* R_USER_GROUP_TYPE_CODE
+* R_WATER_CLARITY_CODE
+* R_WQ_STANDARD
+* R_WQ_STANDARD_SOURCE
+* S_CONSTANT
+* S_DESC_FIELD
+* S_DESC_TABLE
+* S_DESC_VIEW
 
-R_ACTVITY_CODE
+#### R_ACTVITY_CODE
 
 The table is required by SiteFX and links to the D_LOCATION_ACTIVITY table.  It is presently not effectively used within the database.
 
-R_BH_DRILL_METHOD_CODE
+#### R_BH_DRILL_METHOD_CODE
 
 This table lists various drilling methods.  This is related through BH_DRILL_METHOD_CODE in the D_BOREHOLE table.
 
