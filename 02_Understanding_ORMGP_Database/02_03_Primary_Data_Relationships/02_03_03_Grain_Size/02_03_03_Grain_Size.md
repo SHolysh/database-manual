@@ -16,12 +16,12 @@ knit:   (
         )
 ---
 
-Section 2.3.3 Grain Size Data (Example)
+## Section 2.3.3 Grain Size Data (Example)
 
 A number of tables are utilized to store the results of a lab-based, soil-sample grain size analysis.
 
-![Figure 2.3.3.1 Grain Size Analysis](f02_03_03_01.jpg)
-*Figure 2.3.3.1 Grain Size Analysis*
+![Figure 2.3.3.1 Grain Size Analysis - data and table/field listing](f02_03_03_01.jpg)
+*Figure 2.3.3.1 Grain Size Analysis - data and table/field listing*
 
 The above example has a number of data points that can be entered into the database, namely:
 
