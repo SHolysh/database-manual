@@ -69,40 +69,39 @@ Upon import, the following tables/fields are populated:
     + the DATA_ADDED_USER and DATA_ADDED_DATE are populated automatically (generally determined through Windows Authentication) and provide additional information regarding who and when the information was uploaded
 
 * D_INTERVAL_TEMPORAL_1A
-
-![Figure 2.3.4.3 Chemistry Data - sample record](f02_03_04_03.jpg)
-*Figure 2.3.4.3 Chemistry Data - sample record*
-
     + INT_ID; is populated with the interval against which the sample was taken
     + SAM_ID; is automatically populated as part of the SiteFX import routine and is a random identifier assigned to each sample; this is used to link the D_INTERVAL_TEMPORAL_1A/1B tables
     + SAM_SAMPLE_NAME is the sample name as given in the import file; if the same sample name and date were used across all parameters, only a single sample - one row - will be listed in this table; if multiple records in this table are created for what was a single sample, an error has been made
     + SAM_SAMPLE_DATE (as provided from the import file)
     + DATA_ID; this field is automatically populated as part of the SiteFX import routine, linked to the D_DATA_SOURCE table (which tracks the import of datasets)
-
-The following additional (though optional) fields may also be useful and can be specified as additional fields in the import file
-
     + SAM_ANALYSIS_DATE; records the date on which the sample was actually analyzed (at the laboratory)
     + SAM_LAB_SAMPLE_ID; records the sample identifier used by the laboratory
     + SAM_LAB_JOB_NUMBER; records the job number for the sample analysis
     + SAM_TYPE_CODE and/or SAM_SAMPLE_NAME_OUOM can be used to identify additional information about the sample (refer to R_SAM_TYPE_CODE for details)
 
+![Figure 2.3.4.3 Chemistry Data - sample record](f02_03_04_03.jpg)
+*Figure 2.3.4.3 Chemistry Data - sample record*
+
+The SAM_ANALYSIS_DATE, SAM_LAB_SAMPLE_ID, SAM_LAB_JOB_NUMBER and SAM_TYPE_CODE
+(or SAM_SAMPLE_NAME_OUOM) are optional fields that may also be useful to
+include as part of the import file.
+
 * D_INTERVAL_TEMPORAL_1B
-
-![Figure 2.3.4.4 Chemistry Data - parameter records](f02_03_04_04.jpg)
-*Figure 2.3.4.4 Chemistry Data - parameter records*
-
     + SAM_ID; records the random identifier created for the link between the two temporal tables (i.e. D_INTERVAL_TEMPORAL_1A and _1B)
     + RD_NAME_CODE is populated from RD_NAME_OUOM (once the SiteFX conversion routine has been run); the latter should contain the ‘text’ describing the parameter and the former the translated code (refer to R_RD_NAME_CODE and R_READING_NAME_ALIAS)
     + RD_VALUE is populated from RD_VALUE_OUOM (once the SiteFX conversion routine has been run);the former contains the converted/translated numeric value from the latter (refer to R_UNIT_CONV for conversion details)
     + UNIT_CODE is populated from RD_UNIT_OUOM (once the SiteFX conversion routine has been run); they record the original units of measure and the applicable code (the former will be in system units; refer to R_UNIT_CODE and R_UNIT_CONV)
     + RD_VALUE_QUALIFER; is automatically populated as part of the SiteFX import routine - when any text characters are found in RD_VALUE_OUOM, they will be copied into this field (e.g. ‘<‘)
-
-The following (optional) fields may also be useful and can be specified as additional fields in the import file
-
     + RD_TYPE_CODE; records additional detail regarding the sample or the analysis of this particular parameter (e.g. details concerning the sampling method used, the analysis technique, etc...; refer to R_RD_TYPE_CODE)
     + RD_MDL_OUOM can be specified in the import routine (if available) and records the method-detection limits for the analysis; the RD_MDL field is populated from this once the SiteFX conversion routine has been run
     + RD_RDL_OUOM can be specified for each reading in the import routine and record the ‘reading detection limits’ (if different from the method detection limit or the method detection limit is unknown) for the analysis; the RD_RDL is populated from this once the SiteFX conversion routine has been run
     + RD_UNCERTAINTY_OUOM allows specification of uncertainty (i.e. +/- values) relative to the analysis technique (used, for example, when recording tritium values); RD_UNCERTAINTY is populated from this once the SiteFX conversion routine has been run
+
+The RD_TYPE_CODE, RD_MDL_OUOM, RD_RDL_OUOM and RD_UNCERTAINTY_OUOM are
+optional fields that may also be useful to include as part of the import file.
+
+![Figure 2.3.4.4 Chemistry Data - parameter records](f02_03_04_04.jpg)
+*Figure 2.3.4.4 Chemistry Data - parameter records*
 
 In general, for each sample D_INTERVAL_TEMPORAL_1B will generally have multiple records/rows, one for each parameter analyzed (as shown in the above table).  D_INTERVAL_TEMPORAL_1A, alternately, should only have a single record/row (for that sample).
 
