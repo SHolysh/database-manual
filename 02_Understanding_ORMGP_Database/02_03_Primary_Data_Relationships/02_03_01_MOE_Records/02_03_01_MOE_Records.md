@@ -225,7 +225,7 @@ Note that D_PUMPTEST is tied to D_INTERVAL using INT_ID.  D_PUMPTEST_STEP uses, 
 
 Note that there will be multiple recorded water levels, one for each 15 minute period and a final reading after 24 hours (making five records in total).  These are in addition to the Static Water level which is also reported.
 
-![Figure 2.3.1.1 Example MOE Water Well Record - 1954](f02_03_01_01_1054.jpg)
+![Figure 2.3.1.1 Example MOE Water Well Record - 1954](f02_03_01_01_1954.jpg)
 *Figure 2.3.1.1 Example MOE Water Well Record - 1954*
 
 ![Figure 2.3.1.2 Example MOE Water Well Record - 1967](f02_03_01_02_1967.jpg)
@@ -235,5 +235,5 @@ Note that there will be multiple recorded water levels, one for each 15 minute p
 *Figure 2.3.1.3 Example MOE Water Well Record - 1973*
 
 ![Figure 2.3.1.4 Example MOE Water Well Record - 1995](f02_03_01_04_1995.jpg)
-*[Figure 2.3.1.4 Example MOE Water Well Record - 1995*
+*Figure 2.3.1.4 Example MOE Water Well Record - 1995*
 
