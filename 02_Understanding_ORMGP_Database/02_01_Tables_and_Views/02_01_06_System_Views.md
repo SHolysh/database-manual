@@ -1568,21 +1568,23 @@ This view calculates the monthly pumping volume minimum, maximum, average, sum a
 
 This view is similar to V_SYS_PUMP_VOLUME_MONTHLY (above).  The field AVG_VOLUME_M3_D_YEAR is the AVG_VOLUME_M3_D divided by '365'.
 
-#### V_SYS_RANDOM_ID_<numeric>
+#### V_SYS_RANDOM_ID_\<numeric\>
 
-Each of these views returns a series of numeric, non-repeating numbers within the specified range of values assigned to various ORMGP personnel (make sure to specify 'TOP <number>' as part of your query code - up to ~1000000 rows can be returned).  The following figure specifies the ranges.
+Each of these views returns a series of numeric, non-repeating numbers within
+the specified range of values assigned to various ORMGP personnel (make sure
+to specify 'TOP \<number\>' as part of your query code - up to ~1000000 rows can be returned).  The following figure specifies the ranges.
 
-#### V_SYS_RANDOM_ID_BULK_<numeric>
+#### V_SYS_RANDOM_ID_BULK_\<numeric\>
 
-These views are similar to V_SYS_RANDOM_ID_<numeric> (above); they are used when a large number of records are to be input into the database. 
+These views are similar to V_SYS_RANDOM_ID_\<numeric\> (above); they are used when a large number of records are to be input into the database. 
 
-#### V_SYS_RANDOM_ID_<partner agency>
+#### V_SYS_RANDOM_ID_\<partner agency\>
 
-These views are similar to V_SYS_RANDOM_ID_<numeric> (above); they are used to assign ranges based upon a particular partner agency.
+These views are similar to V_SYS_RANDOM_ID_\<numeric\> (above); they are used to assign ranges based upon a particular partner agency.
 
 #### V_SYS_S_USER_ID_RANGES
 
-This view returns the user specified numeric ranges (see V_SYS_RANDOM_ID_*, above) as assigned within SiteFX.  These values are stored in S_USER where 'Name' matches 'uniqueIDranges'.
+This view returns the user specified numeric ranges (see V_SYS_RANDOM_ID_\*, above) as assigned within SiteFX.  These values are stored in S_USER where 'Name' matches 'uniqueIDranges'.
 
 #### V_SYS_SFLOW_YEARLY
 
