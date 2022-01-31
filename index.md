@@ -20,7 +20,7 @@ knit:   (
 
 ## Table of Contents
 
-### [Forward](./Forward/forward.html)
+### [Forward](./Forward/Forward.html)
 
 ### Section 1 - Introduction
 
