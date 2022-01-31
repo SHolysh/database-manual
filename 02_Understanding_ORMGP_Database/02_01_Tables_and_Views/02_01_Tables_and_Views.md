@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1"
 author: "ormgpmd"
-date:   "20220128"
+date:   "20220131"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -697,419 +697,425 @@ The table is required by SiteFX and links to the D_LOCATION_ACTIVITY table.  It 
 
 This table lists various drilling methods.  This is related through BH_DRILL_METHOD_CODE in the D_BOREHOLE table.
 
-R_BH_DRILLER_CODE
+#### R_BH_DRILLER_CODE
 
 Identifies the driller (or drilling company) of a particular borehole.  This is related through BH_DRILLER_CODE in the D_BOREHOLE table.  The codes are directly from the MOE database and, as much as possible, the BH_DRILLER_DESCRIPTION_LONG has been populated so that the MOE codes are related to a particular drilling company.  The BH_DRILLER_QA_CODE is largely unpopulated but does provide an opportunity to screen well locations based on the quality of the well driller (There should be an explanation for this ???).
 
-R_BH_STATUS_CODE
+#### R_BH_STATUS_CODE
 
 This table was adapted from the original MOE database codes and is related through BH_STATUS_CODE in the D_BOREHOLE table.  The codes are a mix of well use and status and are generally not used directly within the database.  As appropriate, the code has been translated to either the LOC_STATUS code in the D_LOCATION table or to the PURPOSE_PRIMARY_CODE and/or PURPOSE_SECONDARY_CODE in the D_LOCATION_PURPOSE table.
 
-R_CHECK_CODE
+#### R_CHECK_CODE
 
 Each record here indicates a specific check that can be performed against a location or interval.  This is related to a combination of a table and/or particular field within that table.  The type of check made (e.g. any of depth or elevation, missing values, etc ?) is determined by its CHECK_TYPE_CODE (as found in R_CHECK_TYPE_CODE).
 
-R_CHECK_PROCESS_CODE
+#### R_CHECK_PROCESS_CODE
 
 The final result of the check is indicated here.  This can include whether the check validated the current information or that the information needed to be modified.  The inability to locate source data can also be indicated (allowing for a later check of affected locations in the instance, for example of missing MOE PDF's).
 
-R_CHECK_TYPE_CODE
+#### R_CHECK_TYPE_CODE
 
 The specific type of check made is indicated here.  This can be one of elevations, depths, missing values, units, etc ?  This table is reference through R_CHECK_CODE.
 
-R_CON_SUBTYPE_CODE
+#### R_CON_SUBTYPE_CODE
 
 Related through CON_SUBTYPE_CODE to the D_BOREHOLE_CONSTRUCTION table, this table contains descriptions for borehole casings, seals and sandpacks. 
 
-R_CON_TYPE_CODE
+#### R_CON_TYPE_CODE
 
 Related through CON_TYPE_CODE to the R_CON_SUBTYPE_CODE table (as the construction types - i.e. the CON_TYPE's -  are generally repeated within the construction subtype - i.e. the CON_SUBTYPE's -  descriptions, they are not directly related to any data table).
 
-R_CONFIDENTIALITY_CODE
+#### R_CONFIDENTIALITY_CODE
 
 Allows tagging of individual locations and/or intervals as confidential to a particular partner (but could be expanded beyond partner agencies if needed).  Currently the partner agencies have not made use of the confidentiality coding within the database.  If a specific location is flagged with a confidentiality code then no information will be distributed regarding the location.  Where a particular interval is flagged, information at the location/borehole level will be made available (e.g. name, geology, etc.), but no information related to the interval (e.g. screen details, chemistry or water level data, etc...) would be distributed.  Such information would not be made available through the consultant V_CON_* views.
 
 This is related through CONFIDENTIALITY_CODE in the D_LOCATION and D_INTERVAL tables.
 
-R_CONV_CLASS_CODE
+#### R_CONV_CLASS_CODE
 
 These codes are used internally within SiteFX to specify conversion details (for example, with regard to calculation of elevations from depths).  This is related through CONV_CLASS_CODE in D_INTERVAL and R_UNIT_CONV.
 
-R_CRIT_GROUP_CODE
+#### R_CRIT_GROUP_CODE
 
 Originally established to provide a means of comparing, within SiteFX, chemistry data held in the database to a specified, published criteria (e.g. compare this sample to the Ontario Drinking Water Standards).  The table is not currently used in the database (and is only partially populated) but is required by SiteFX.
 
-R_CRIT_TYPE_CODE
+#### R_CRIT_TYPE_CODE
 
 Originally established to provide a means of comparing, within SiteFX, chemistry data held in the database to a specified, published criteria (e.g. compare this sample to the Ontario Drinking Water Standards).  The table is not currently used in the database (and is only partially populated) but is required by SiteFX.
 
-R_DOC_AUTHOR_AGENCY_CODE
+#### R_DOC_AUTHOR_AGENCY_CODE
 
 Author agencies (as found in DOC_AUTHOR_AGENCY_DESCRIPTION) are the employer or associated agency of the author (as specified through DOC_AUTHOR in D_DOCUMENT).  Related through DOC_AUTHOR_AGENCY_CODE in D_DOCUMENT (note that to account for multiple authors for a document, and therefore multiple author agencies, the D_DOCUMENT table has two available fields containing author agency code details and a third allowing a free-form text description).  In some instances an author may not be associated with any particular agency and this field, in D_DOCUMENT, would remain blank.
 
-R_DOC_CLIENT_AGENCY_CODE
+#### R_DOC_CLIENT_AGENCY_CODE
 
 Client agencies (as found in DOC_CLIENT_AGENCY_DESCRIPTION) reflect the agency for which particular document in the library has been prepared (e.g. a water supply study undertaken for the community of 'Ballantrae' would have 'York Region' as the client agency).  Related through DOC_CLIENT_AGENCY_CODE in D_DOCUMENT (note that the D_DOCUMENT table has a single available field for client agency code details and a second field allowing a free-form text description for those cases where a document has been prepared for more than one client agency).
 
-R_DOC_FORMAT_CODE
+#### R_DOC_FORMAT_CODE
 
 The table is used to reflect whether a hard copy of a particular document is available at the ORMGP office.  The DOC_FORMAT_DESCRIPTION is generally limited to one (or both) of 'Electronic' or 'Hard Copy'.  Note that all reports listed in D_DOCUMENT should be available as digital files in the ORMGP report library (refer to Section 2.6).  As most documents are made available in digital form only, the 'Hard Copy' availability will eventually become invalid.
 
-R_DOC_JOURNAL_CODE
+#### R_DOC_JOURNAL_CODE
 
 Source journal names for papers present in the report library.  This is related through DOC_JOURNAL_CODE in D_DOCUMENT.
 
-R_DOC_LOCATION_CODE
+#### R_DOC_LOCATION_CODE
 
 This table is used mostly to flag: 
 
-    - Documents that are located outside of the ORMGP study area and therefore have no (valid, local) UTM coordinates (e.g. a report on Ohio tills would be flagged as 'USA' or 'Ohio' in this field)
-    - Documents that cover a broad region within the ORMGP study area (e.g. a report that covered groundwater within the Region of Peel would be flagged as DOC_LOCATION_CODE '3' ('Regional') even though the document would be assigned coordinates in the centroid of Peel Region.
+* Documents that are located outside of the ORMGP study area and therefore have no (valid, local) UTM coordinates (e.g. a report on Ohio tills would be flagged as 'USA' or 'Ohio' in this field)
+* Documents that cover a broad region within the ORMGP study area (e.g. a report that covered groundwater within the Region of Peel would be flagged as DOC_LOCATION_CODE '3' ('Regional') even though the document would be assigned coordinates in the centroid of Peel Region.
 
 These codes (as described in DOC_LOCATION) allow further details regarding the location and/or spatial extent covered by the document and should be used as supporting information when performing a report library search based upon location.  Note that the use of this table (and associated field) is optional when valid coordinates are available.  This is related through DOC_LOCATION_CODE in D_DOCUMENT.
 
-R_DOC_TOPIC_CODE
+#### R_DOC_TOPIC_CODE
 
 Topics attributed to a particular report.  This is related through DOC_TOPIC_CODE in D_DOCUMENT (note that D_DOCUMENT has three available fields to capture topic details).
 
-R_DOC_TYPE_CODE
+#### R_DOC_TYPE_CODE
 
 The original type of the document or report (e.g. Consultant Report, USGS Report, Journal Paper, etc...).  This is related through DOC_TYPE_CODE in D_DOCUMENT.
 
-R_EQ_GROUP_CODE
+#### R_EQ_GROUP_CODE
 
 This table was established to track equipment that might be used at any location and is required by SiteFX.  The table is not currently used and the table will be re-evaluated in the next version of the database.
 
-R_EQ_TYPE_CODE
+#### R_EQ_TYPE_CODE
 
 This table was established to track equipment that might be used at any location and is required by SiteFX.  The table is not currently used and the table will be re-evaluated in the next version of the database.
 
-R_FEATURE_CODE
+#### R_FEATURE_CODE
 
 The information contained here were adapted from the original MOE database codes describing the type of 'Water Found' (e.g. fresh, mineralized, iron, etc.).  This is related through FEATURE_CODE in D_GEOLOGY_FEATURE.
 
-R_FORM_ASSIGN_CODE
+#### R_FORM_ASSIGN_CODE
 
 The codes here relate to data found in the D_INTERVAL_FORMATION_ASSIGNMENT (DIFA) table detailing, namely, the attributes that each interval can have with regard to a particular geologic model (see R_FORM_MODEL_CODE).  
 
-R_FORM_MODEL_CODE
+#### R_FORM_MODEL_CODE
 
 The codes here relate to data found in the D_INTERVAL_FORM_ASSIGN (DIFA) table.  Any number of geologic or hydrogeologic models can be specified.  Note that the specialty model, 'YPDT-CAMC Final' is no longer used (it was used to indicate the interpreted geologic unit that should be assigned to a particular interval; this was part of a previously defined methodology for populating DIFA).  Refer to R_GEOL_UNIT_CODE and DIFA for details.
 
-R_GEOL_CLASS_CODE
+#### R_GEOL_CLASS_CODE
 
 This table specifies the type of classification code available to the geologic subclasses - the latter allow different geological interpretations to be stored for the same geologic layer.  Only two options are available - either a 'lithologic' layer or a geologic 'pick'.  This is related through GEOL_CLASS_CODE in R_GEOL_SUBCLASS_CODE.
 
-R_GEOL_CONSISTENCY_CODE
+#### R_GEOL_CONSISTENCY_CODE
 
 The table is used to track the standard geotechnical consistency codes for each sample/layer encountered in a borehole (e.g. compact, firm, dense, soft, stiff, etc?).  Data is generally only provided for the geotechnical boreholes in the database (either City of Toronto, UGAIS, or other consultant boreholes; refer to Appendix D).  This is related through GEOL_CONSISTENCY_CODE in D_GEOLOGY_LAYER.
 
-R_GEOL_MAT_COLOUR_CODE
+#### R_GEOL_MAT_COLOUR_CODE
 
 These codes are adapted from the original MOE database codes, assigning a colour to a geologic layer.  This is related through GEOL_MAT_COLOUR_CODE in D_GEOLOGY_LAYER.
 
-R_GEOL_MAT_GSC_CODE
+#### R_GEOL_MAT_GSC_CODE
 
 The codes used by the GSC as interpreted from the original MOE material codes.  This is related through GEOL_MAT_GSC_CODE in D_GEOLOGY_LAYER (note that the latter has been only incompletely populated).
 
-R_GEOL_MAT1_CODE (Includes MAT2, MAT3 and MAT4 descriptions)
+#### R_GEOL_MAT1_CODE (Includes MAT2, MAT3 and MAT4 descriptions)
 
 These are the available descriptions (found in GEOL_MAT1_DESCRIPTION) for geologic layers.  Note that there are four tables of these descriptions
 
-    - R_GEOL_MAT1_CODE
-    - R_GEOL_MAT2_CODE
-    - R_GEOL_MAT3_CODE
-    - R_GEOL_MAT4_CODE
+* R_GEOL_MAT1_CODE
+* R_GEOL_MAT2_CODE
+* R_GEOL_MAT3_CODE
+* R_GEOL_MAT4_CODE
 
 All four tables are consistent (i.e. containing the same coded information) - these multiple tables are necessary for internal use when writing queries.  The codes are largely taken from the MOE database, though several additional geologic type/descriptions have been added.  These are related through GEOL_MAT1_CODE in D_GEOLOGY_LAYER (this also includes each of GEOL_MAT2_CODE, GEOL_MAT3_CODE and GEOL_MAT4_CODE).  Note that the ROCK field designates (if true) whether the unit can be considered bedrock.
 
-R_GEOL_MOISTURE_CODE
+#### R_GEOL_MOISTURE_CODE
 
 This table is used to track the standard geotechnical moisture codes for each sample/layer encountered in a borehole (e.g. wet, moist, damp, dry).  Data is generally only provided for the geotechnical boreholes in the database (e.g. City of Toronto, UGAIS, or other consultant boreholes; refer to Appendix D).  This is related through GEOL_MOISTURE_CODE in D_GEOLOGY_LAYER.
 
-R_GEOL_ORGANIC_CODE
+#### R_GEOL_ORGANIC_CODE
 
 This table is used to provide additional detail regarding the organic materials within geologic layers.  Data is generally only available for the geotechnical boreholes in the database (e.g. City of Toronto, UGAIS, or other consultant boreholes; refer to Appendix D).  This is related through GEOL_ORGANIC_CODE in D_GEOLOGY_LAYER.
 
-R_GEOL_SUBCLASS_CODE
+#### R_GEOL_SUBCLASS_CODE
 
 This table allows different geological interpretations to be stored for the same geologic layer.  This is related through GEOL_SUBCLASS_CODE in D_GEOLOGY_LAYER.  In D_GEOLOGY_LAYER, a blank (i.e. NULL) GEOL_SUBCLASS_CODE generally indicates that the geologic coding is the 'original'; a value of '5' indicates that geologic coding has been checked against the original source and found to be valid OR has been corrected.  The other common code used is '7' (i.e. 'Invalid'), used to remove layers from consideration.
 
-R_GEOL_TEXTURE_CODE
+#### R_GEOL_TEXTURE_CODE
 
 The table is used to track the standard geotechnical texture codes for each sample/layer encountered in a borehole (e.g. amorphous, fibrous, coarse, etc?).  Data is generally only provided for the geotechnical boreholes in the database (e.g. City of Toronto, UGAIS, or other consultant boreholes; refer to Appendix D).  This is related through GEOL_TEXTURE_CODE in D_GEOLOGY_LAYER.
 
-R_GEOL_UNIT_CODE
+#### R_GEOL_UNIT_CODE
 
 This table contains the various geologic units as encountered, generally, in the ORMGP Study Area.  These unit descriptions have been derived from various sources (mainly from the OGS and the GSC).  Formations that are not formally recognized and that are used informally in the ORMGP are pre-pended with a 'YPDT' description.  This is related through GEOL_UNIT_CODE in D_GEOLOGY_LAYER and D_INTERVAL_FORM_ASSIGN.  The AQUIFER field, usually only for the ORMGP layers, is used to indicate (when populated by a non-null value, generally a '1') that the unit is considered an aquifer.  This is used as part of the logic when determining the 'Assigned Unit' in D_INTERVAL_FORM_ASSIGN.
 
-R_GROUP_INT_CODE
+#### R_GROUP_INT_CODE
 
 This table contains user-specified group codes allowing the grouping of intervals (by INT_ID) by a common category or attribute.  This is related through GROUP_INT_CODE in D_GROUP_INTERVAL.
 
-R_GROUP_INT_TYPE_CODE
+#### R_GROUP_INT_TYPE_CODE
 
 This table provides the capability to categorize the different groups of intervals created (i.e. in R_GROUP_CODE).  The table is used by SiteFX when importing logger data (for barometric correction).  This is related through GROUP_INT_TYPE_CODE in R_GROUP_INT_CODE.
 
-R_GROUP_LOC_CODE
+#### R_GROUP_LOC_CODE
 
 This table contains user-specified group codes allowing the grouping of locations (by LOC_ID) by a common category or attribute.  This is related through GROUP_LOC_CODE in D_GROUP_LOCATION.
 
-R_GROUP_LOC_TYPE_CODE
+#### R_GROUP_LOC_TYPE_CODE
 
 This table provides the capability to categorize the different groups of locations created.  This is related through GROUP_LOC_TYPE_CODE in R_GROUP_LOC_CODE.
 
-R_INT_TYPE_CODE
+#### R_INT_TYPE_CODE
 
 The table holds the various interval types (found under INT_TYPE_DESCRIPTION) within the database.  Note that the interval types largely pertain to the wells/boreholes in the database.  For both the stream and climate station locations the INT_TYPE has not been broken down into specific equipment components (e.g. temperature recorder, rain gauge recorder, etc?).  This is related through INT_TYPE_CODE in D_INTERVAL.  The INT_TYPE_ALT_CODE field is used here to 'group' similar interval types.    Currently, all 'screen' interval types are tagged with the text 'Screen' in this field.
 
-R_LOC_ALIAS_TYPE_CODE
+#### R_LOC_ALIAS_TYPE_CODE
 
 The table provides a means to specify to what group an 'aliased' name applies.  Currently the table is being used to track the supplementary MOE database identifiers as found in D_LOCATION_ALIAS: Tag Number; Audit Number; WELL ID; and the Borehole ID Field.  This is related through LOC_ALIAS_TYPE_CODE in D_LOCATION_ALIAS.
 
-R_LOC_COORD_HIST_CODE
+#### R_LOC_COORD_HIST_CODE
 
 This table is implemented as part of the tracking mechanism for changes in location coordinates.  This is related through LOC_COORD_HIST_CODE in D_LOCATION_COORD_HIST. Any 'new' coordinates should be stored with an explanation for the change - as described in LOC_COORD_HIST_DESCRIPTION and LOC_COORD_HIST_DESCRIPTION_LONG (or COORD_HIST_COMMENT in the referenced table).
 
-R_LOC_COORD_OUOM_CODE
+#### R_LOC_COORD_OUOM_CODE
 
 This table allows the specification of the projection (and datum) of the original coordinates for locations as found in D_LOCATION (and, optionally, in D_LOCATION_COORD_HIST).  Used by SiteFX when converting to system units (i.e. UTM Zone 17, NAD 83).  This is related through LOC_COORD_OUOM_CODE in D_LOCATION and D_LOCATION_COORD_HIST.
 
-R_LOC_COUNTY_CODE
+#### R_LOC_COUNTY_CODE
 
 Adapted from the MOE database and allows linking to a (province of) Ontario county (as found in LOC_COUNTY_DESCRIPTION) for a particular location (note that this is currently used only for those wells from the MOE database given that county boundaries have changed over time and that GIS systems can better be used to track the particular county in which a location is found).  This is related through LOC_COUNTY_CODE in D_LOCATION.
 
-R_LOC_DATA_SOURCE_CODE
+#### R_LOC_DATA_SOURCE_CODE
 
 The table has been incorporated from the MOE database and slightly adapted.  In general the table is not extensively used.  The MOE used the table to coarsely identify whether a particular well record was submitted from a driller (most commonly) versus any other source (e.g. Consultant, MOE or MNR Staff, Industry, etc?).  This is related through LOC_DATA_SOURCE_CODE in D_LOCATION.
 
-R_LOC_ELEV_CODE
+#### R_LOC_ELEV_CODE
 
 This table is implemented as part of the tracking mechanism for changes in elevation for a location.  This is related through LOC_ELEV_CODE in D_LOCATION_ELEV_HIST. Any 'new' elevations should be stored with an explanation for the change - as described in LOC_ELEV_DESCRIPTION and LOC_ELEV_DESCRIPTION_LONG (or ELEV_HIST_COMMENT in the referenced table).  LOC_ELEV_SURVEY and LOC_ELEV_DEM, when the values are non-null, indicate that the particular code can be considered to be 'surveyed' or a 'digital elevation model' (respectively). 
 
-R_LOC_MOE_USE_PRIMARY_CODE
+#### R_LOC_MOE_USE_PRIMARY_CODE
 
 Adapted from the MOE database and holds the original MOE primary use descriptions (as found in LOC_USE_PRIMARY_DESCRIPTION).  This is related through LOC_USE_PRIMARY_CODE in D_LOCATION (using the field LOC_MOE_USE_1ST_CODE in the latter table).
 
-R_LOC_MOE_USE_SECONDARY_CODE
+#### R_LOC_MOE_USE_SECONDARY_CODE
 
 Adapted from the MOE database and holds the original MOE secondary use descriptions (as found in LOC_USE_SECONDARY_DESCRIPTION).  This is related through LOC_USE_SECONDARY_CODE in D_LOCATION (using the field LOC_MOE_USE_2ND_CODE in the latter table).
 
-R_LOC_STATUS_CODE
+#### R_LOC_STATUS_CODE
 
 This table allows specification of a location's current status.  The codes are somewhat related to the MOE's status codes but additional categories have been incorporated to clarify the location's status (e.g. categories such as destroyed, decommissioned, etc? have been added).  This is related through LOC_STATUS_CODE in D_LOCATION.
 
-R_LOC_TOWNSHIP_CODE
+#### R_LOC_TOWNSHIP_CODE
 
 Adapted from the MOE database and allows linking to a (province of) Ontario township (as found in LOC_TOWNSHIP_DESCRIPTION) for a particular location (note that this is generally used only for those wells from the MOE database given that the township boundaries have changed over time and that GIS systems can better be used to track the particular county in which a location is found).  This is related through LOC_TOWNSHIP_CODE in D_LOCATION.
 
-R_LOC_TYPE_CODE
+#### R_LOC_TYPE_CODE
 
 This table allows specification of a location type and is related through LOC_TYPE_CODE in D_LOCATION.  Note that not all of the location types listed in this table can be found in the database but they allow for incorporation of additional, varying location types into the future.  
 
-R_LOC_WATERSHED1_CODE (includes WATERSHED2 and WATERSHED3 codes)
+#### R_LOC_WATERSHED1_CODE (includes WATERSHED2 and WATERSHED3 codes)
 
 These tables originated from the MOE database and were designed to record the watershed (at different scales) in which a location is found.  The tables list all of the primary watersheds that drain from the Oak Ridges Moraine.  Using GIS, two of the three fields (LOC_WATERSHED1_CODE and LOC_WATERSHED2_CODE) in the D_LOCATION table were populated several years ago.  However, the fields are not frequently used and are not regularly updated.
 
 This is related through LOC_WATERSHED1_CODE (as well as LOC_WATERSHED2_CODE and LOC_WATERSHED3_CODE) in D_LOCATION.
 
-R_OWN_TYPE_CODE
+#### R_OWN_TYPE_CODE
 
 This table was originally populated by grouping and counting the number of wells that were listed by a particular 'owner' in the MOE database.  All owners that had more than 5 to 10 locations associated with them were added as an OWN_TYPE_DESCRIPTION (with associated code) to this table.  With the removal of the owner information from the MOE database, this table and its related D_OWNER table are no longer updated.  This is related through OWN_TYPE_CODE in D_OWNER.
 
-R_PROJECT_AGENCY_CODE
+#### R_PROJECT_AGENCY_CODE
 
 Currently empty.  This table is part of the structure for a future release of SiteFX (version 6; some support in version 5) and is to be used to control access (by partner agencies) to locations within their areal extent.  This is part of the replacement for the original D_LOCATION_AGENCY table.  This relates to R_PROJECT_TIER1_CODE using PRJ_AG_CODE
 
-R_PROJECT_TIER1_CODE
+#### R_PROJECT_TIER1_CODE
 
 Currently empty.  This table is part of the structure for a future release of SiteFX (version 6; some support in version 5) and is to be used to control access (by partner agencies) to locations within their areal extent.  This is part of the replacement for the original D_LOCATION_AGENCY table and relates to D_PROJECT_LOCATION using PRJ_TIER1_CODE.
 
-R_PROJECT_TIER2_CODE
+#### R_PROJECT_TIER2_CODE
 
 Currently empty.  This table is part of the structure for a future release of SiteFX (version 6; some support in version 5) and is to be used to control access (by partner agencies) to locations within their areal extent.  This is part of the replacement for the original D_LOCATION_AGENCY table and relates to R_PROJECT_TIER1_CODE using PRJ_TIER1_CODE.
 
-R_PROJECT_TYPE_CODE
+#### R_PROJECT_TYPE_CODE
 
 Currently empty.  This table is part of the structure for a future release of SiteFX (version 6; some support in version 5) and is to be used to control access (by partner agencies) to locations within their areal extent.  This is part of the replacement for the original D_LOCATION_AGENCY table and relates to R_PROJECT_TIER1_CODE using PRJ_TYPE_CODE.
 
-R_PTTW_SOURCEID_CODE
+#### R_PTTW_SOURCEID_CODE
 
 This table was originally populated from the sources found in the MOE 'Permit to Take Water' database.  These include a list of structures from which are being used as a water source (e.g. Well, Reservoir, Quarry, etc?).  This relates to D_PTTW through PTTW_SOURCEID_CODE.
 
-R_PTTW_WATER_SOURCE_CODE
+#### R_PTTW_WATER_SOURCE_CODE
 
 This table is based upon the type of structure or description in the original MOE 'Permit to Take Water' database; a PTTW location source is classified as one or both of 'Groundwater' or 'Surfacewater'.  This relates to D_PTTW through PTTW_WATER_SOURCE_CODE.
 
-R_PUMPTEST_METHOD_CODE
+#### R_PUMPTEST_METHOD_CODE
 
 Original information was incorporated from the MOE WWDB database but has been supplemented with additional categories allowing specification of a pumptest method (e.g. Air, Bailor, Pump, etc...; as found in PUMPTEST_METHOD_DESCRIPTION).  This is related through PUMPTEST_METHOD_CODE in D_PUMPTEST.
 
-R_PUMPTEST_TYPE_CODE
+#### R_PUMPTEST_TYPE_CODE
 
 This table allows specification of a pumptest type (e.g. Constant Rate, Variable Rate, etc...; as found in PUMPTEST_TYPE_DESCRIPTION).  This is related through PUMPTEST_TYPE_CODE in D_PUMPTEST.
 
-R_PURPOSE_PRIMARY_CODE
+#### R_PURPOSE_PRIMARY_CODE
 
 This table allows specification of a primary purpose to a particular location and is populated through a combination of uses found within any of 
 
-    - The MOE water well database 
-    - The MOE Permit to Take Water database 
-    - Other uses not utilized by the MOE  
+* The MOE water well database 
+* The MOE Permit to Take Water database 
+* Other uses not utilized by the MOE  
 
 This is related through PURPOSE_PRIMARY_CODE in D_LOCATION_PURPOSE.
 
-R_PURPOSE_SECONDARY_CODE
+#### R_PURPOSE_SECONDARY_CODE
 
 This table allows specification of a secondary purpose to a particular location.  See R_PURPOSE_PRIMARY_CODE (above) for population details.  This is related through PURPOSE_SECONDARY_CODE in D_LOCATION_PURPOSE.
 
-R_QA_COORD_CONFIDENCE_CODE
+#### R_QA_COORD_CONFIDENCE_CODE
 
 This table is adapted from the MOE water well database table and allows specification of the inherent horizontal error (found in QA_COORD_CONFIDENCE_DESCRIPTION) for any particular location.  Note that in general, users (and most views) should only rely upon information with a QA_COORD_CONFIDENCE_CODE of less than '6' (i.e. '5' - 'Margin of Error: 100 m - 300 m' - or less).  Codes that have added over the years by the MOE in their 'Code_Location_Method' table are also found in this table with a re-interpretation as to how they have been redefined to fit within the original MOE reliability coding of '1' through '9'.  The special code '117' ('YPDT - Coordinate Invalid OR Outside Ontario (10km Buffer)') is used when the coordinates are invalid - this should correspond to NULL values in both LOC_COORD_EASTING and LOC_COORD_NORTHING (as found in D_LOCATION).  The special code '118' ('YPDT - Assigned Township Centroid') is used when no (valid) coordinates were available but the LOC_TOWNSHIP_CODE (in D_LOCATION) was populated.  The centroid coordinates of the latter were then used to populated LOC_COORD_EASTING and LOC_COORD_NORTHING as a temporary measure (i.e. these are used as a review indicator).  Note that a code of '1' is used to indicate a 'surveyed' location (but this does not translate into surveyed elevation; see R_QA_ELEV_CONFIDENCE_CODE, below).
 
 This is related through QA_COORD_CONFIDENCE_CODE in D_LOCATION_QA.
 
-R_QA_ELEV_CONFIDENCE_CODE
+#### R_QA_ELEV_CONFIDENCE_CODE
 
 This table is adapted from the MOE water well database table and allows specification of the inherent vertical error (found in QA_ELEV_CONFIDENCE_DESCRIPTION) for any particular location.  Note that a code of '1' ('1 ft - Surveyed in field from known Bench Mark') is used to indicate that a location has been 'surveyed' for elevation.  In general the elevation coding is no longer used as the elevations now are no longer assigned by the MOE and are, instead, populated from a MNR DEM.  Within the database the codes are now only used to differentiate 'surveyed' locations ('1'; these will never have their elevation over-written by a DEM elevation) versus 'non-surveyed' locations ('10'; these elevation values would be over-written by a DEM value).  This is related through QA_ELEV_CONFIDENCE_CODE in D_LOCATION_QA.
 
 Refer to Section 2.4.2 for additional details regarding location elevation assignment.
 
-R_RD_NAME_CODE
+#### R_RD_NAME_CODE
 
 The table contains standardized names used in the D_INTERVAL_TEMPORAL_* tables (and related through the RD_NAME_CODE field).  A single name has been chosen to represent a parameter out of all possible names available (e.g. 'Na' instead of 'Sodium').  The table R_READING_NAME_ALIAS (described below) is used to associate the various possible names with the single name, stored here.
 
-R_RD_TYPE_CODE
+#### R_RD_TYPE_CODE
 
 Allows additional information to be included for any particular reading in the D_INTERVAL_TEMPORAL_* tables (using the RD_TYPE_CODE field).  For example a water level reading with a code of '628' ('Water Level - Manual - Static') can be further tagged with a RD_TYPE_CODE of '0' ('WL - MOE Well Record - Static') indicating that the static reading came from the MOE water well database.  Data loggers of varying make can also be identified using the RD_TYPE_CODE (e.g. code '59' is used to identify 'Troll - Logger').  Additional codes refer to specific data loggers by type and serial number; this can be applied against any type of recording or measuring equipment.  Climate data recording notes (e.g. 'Climate - estimated, with snow cover') and surface water notes also have specific RD_TYPE_CODE's.  This lookup table is currently underused in the database.
 
-R_READING_GROUP_CODE
+#### R_READING_GROUP_CODE
 
 This table associates related RD_NAME_CODE's (as found in R_RD_NAME_CODE) allowing them to be grouped as necessary.  For example, a READING_GROUP_CODE of '23' is used to indicate all RD_NAME_CODE's that are associated with water level measurements.  This is related through READING_GROUP_CODE in the R_RD_NAME_CODE table.
 
-R_READING_NAME_ALIAS
+#### R_READING_NAME_ALIAS
 
 As chemistry data (in particular) can come from many different laboratories (each using a differing but equivalent name for any particular parameter) a single parameter can be known by multiple names.  A single name, only, should be used within the 'primary' database table (i.e. R_RD_NAME_CODE) to reduce the chances for excluding (temporal) data from a query or search.  Alternate parameter names have been stored within this table linked to the 'chosen-representative' name (found in R_RD_NAME_CODE) that is to be used for the particular parameter in the database.  This table is referenced by SiteFX when converting from the OUOM specified parameter.
 
-R_REC_STATUS_CODE
+#### R_REC_STATUS_CODE
 
 Allows any reading in the D_INTERVAL_TEMPORAL_1B and _2 tables to be tagged with additional information, currently pertaining to a QA check (e.g. '1' indicates an 'unreviewed data  record', '2' a 'reviewed - record is valid').  This table and the associated fields are not extensively used and should be re-evaluated or updated in the next database release.  This is related through REC_STATUS_CODE (found in both of these tables) in D_INTERVAL_TEMPORAL_1B and D_INTERVAL_TEMPORAL_2.
 
-R_SAM_TYPE_CODE
+#### R_SAM_TYPE_CODE
 
 This table allows samples in D_INTERVAL_TEMPORAL_1A to be flagged with designations such as 'Duplicate', 'Field Blank', etc...  This is related through SAM_TYPE_CODE in the D_INTERVAL_TEMPORAL 1A table.
 
-R_SAM_TYPE_KEYWORD
+#### R_SAM_TYPE_KEYWORD
 
 The table is not currently used in the database but is required by SiteFX.  It appears to act as an alias table for the SAM_TYPE_CODE table.  This is related through SAM_TYPE_CODE in the D_INTERVAL_TEMPORAL_1A table. 
 
-R_SYS_GROUP_SEARCH
+#### R_SYS_GROUP_SEARCH
 
 This table is used and populated by SiteFX.
 
-R_SYS_GROUP_TYPE_CODE
+#### R_SYS_GROUP_TYPE_CODE
 
 This table is used and populated by SiteFX.
 
-R_SYS_INT_DETAIL_CODE
+#### R_SYS_INT_DETAIL_CODE
 
 This table is used and populated by SiteFX.
 
-R_SYS_VALUE_QUALIFIER
+#### R_SYS_VALUE_QUALIFIER
 
 This table is used and populated by SiteFX.
 
-R_UNIT_CODE
+#### R_UNIT_CODE
 
 This table allows specification of all allowed 'system' unit codes within the database.  The values, here, are paired with R_UNIT_CONV to allow SiteFX (or other software) to convert values to specified system units.  Note that if the OUOM units are not found within this table when importing data, SiteFX can add them (to both R_UNIT_CODE and R_UNIT_CONV) rather than returning a 'not found' message (though it will write the results of an import to an external log, if desired).  This capability is user (and system-wide) selectable.  This is related through UNIT_CODE in D_INTERVAL_TEMPORAL_1B and D_INTERVAL_TEMPORAL_2.
 
-R_UNIT_CONV
+#### R_UNIT_CONV
 
 This table allows specification of the conversion of various unit codes to specified system units.  Paired with R_UNIT_CODE (described above) and, also, related to R_CONV_CLASS_CODE (also described above) through CONV_CLASS_CODE.  The CONV_UNIT_OUOM unit is specified (in text) along with the related output UNIT_CODE (as found in R_RD_NAME_CODE) and with a (possible) multiplier in CONV_UNIT_OUOM_MULTIPLIER (as necessary; this defaults to a '1' - i.e. no change).  This allows for parameters to be defaulted to one set of 'system' units for all parameters imported into the database.  Where CONV_CLASS_CODE has a
 
-    - Value of '1' ('class1') - no change save by multiplier
-    - Value of '2' ('soil') - ?????
-    - Value of '3' ('elevation') - no change save by multiplier
-    - Value of '4' ('depth') - no change save by multiplier
-    - Value of '5' ('property')
+* Value of '1' ('class1') - no change save by multiplier
+* Value of '2' ('soil') - ?????
+* Value of '3' ('elevation') - no change save by multiplier
+* Value of '4' ('depth') - no change save by multiplier
+* Value of '5' ('property')
 
 For example readings imported (i.e. reported/recorded) as 'mg/kg' would be converted to 'ug/g' for soil samples (a CONV_CLASS_CODE of '2') and to 'mg/L' for water samples (a code of '1').
 
 With regard to conversion of depths to elevations, SiteFX does not use the above table.  Instead, any of the following units (as found in D_INTERVAL_TEMPORAL_2) are automatically converted (to 'masl') if a 'reference' elevation (as found in D_INTERVAL_REF_ELEV) is specified for the interval.
 
-    - ftbref
-    - fbref
-    - fbtop
-    - fbtoc
-    - f
-    - ft
-    - feet
-    - fbgs
-    - mbref
-    - mbtop
-    - mbtoc
-    - m
-    - metres
-    - meters
-    - meter
-    - metre
-    - mbgs
+* ftbref
+* fbref
+* fbtop
+* fbtoc
+* f
+* ft
+* feet
+* fbgs
+* mbref
+* mbtop
+* mbtoc
+* m
+* metres
+* meters
+* meter
+* metre
+* mbgs
 
-R_WATER_CLARITY_CODE
+#### R_WATER_CLARITY_CODE
 
 This is adapted from the MOE water well database and is related through WATER_CLARITY_CODE in D_PUMPTEST.
 
-Section 2.1.3 Other Tables
+## Section 2.1.3 Other Tables
 
-Other table prefixes are used within the database, mainly S_*.  These tables are used for a variety of purposes but are not generally accessed directly by a user (outside of specific software).  Those tables not described in Section 2.1.1 or 2.1.2 (or this section) are unused in this version of the database (and are empty) or are SiteFX specific.  Many of these will be related to SiteFX's sample or history tracking/management capability.  
+Other table prefixes are used within the database, mainly S_\*.  These tables are used for a variety of purposes but are not generally accessed directly by a user (outside of specific software).  Those tables not described in Section 2.1.1 or 2.1.2 (or this section) are unused in this version of the database (and are empty) or are SiteFX specific.  Many of these will be related to SiteFX's sample or history tracking/management capability.  
 
 Other tables that are important with regard to the ORMGP include:
 
-    - S_USER
-    - W_GENERAL
-    - W_GENERAL_DOCUMENT
-    - W_GENERAL_GW_LEVEL
-    - W_GENERAL_OTHER
-    - W_GENERAL_SCREEN
-    - W_GEOLOGY_LAYER
+* S_USER
+* W_GENERAL
+* W_GENERAL_DOCUMENT
+* W_GENERAL_GW_LEVEL
+* W_GENERAL_OTHER
+* W_GENERAL_SCREEN
+* W_GEOLOGY_LAYER
 
-S_USER
+#### S_USER
 
 This table is exclusively used by SiteFX for user tracking.
 
 Though also mentioned in Section 2.1.3 (Other; below), this table also contains the 'range' of numeric identifiers available to each partner agency (refer also to V_SYS_S_USER_ID_RANGES).  This allows data to be input at each partner agency without the possibility of primary key conflicts when synchronizing between partner agencies.  Note that the changeover from a database replication sharing to a remote (and web) database access has reduced the importance of this feature.
 
-Users/partners using SiteFX will automatically be limited to their own range (note that these are keyed by the user-login which should be specific to the partner agency; all logins for a particular agency will be given the same range of values).  The users of alternative software must take care that any keys used created for the import of data correspond to their particular partner agency range (refer to the views V_SYS_RANDOM_ID_* for this purpose).  
+Users/partners using SiteFX will automatically be limited to their own range
+(note that these are keyed by the user-login which should be specific to the
+partner agency; all logins for a particular agency will be given the same
+range of values).  The users of alternative software must take care that any
+keys used created for the import of data correspond to their particular
+partner agency range (refer to the views V_SYS_RANDOM_ID_\* for this purpose).  
 
 The ranges of values are shown in the following table.
 
+![Table 2.1.3.1 Range of identifiers assigned to partner agencies and users](t02_01_03_01.jpg)
+*Table 2.1.3.1 Range of identifiers assigned to partner agencies and users.*
 
+#### W_GENERAL
 
-W_GENERAL
-
-Each of the 'W_' data tables contain summaries of information used specifically for 'web' access, especially with regard to online mapping (almost all contain a GEOM field for coordinates as well as each of a CA_ID, REG_ID and SWP_ID relating to the contained area in which the location lies).  Each of the tables includes a GIS_ID field with values greater than zero - such a key is required by the mapping backend software (Geocortex - Latitude Geographics, 2017; and ArcGIS - ESRI, 2017).
+Each of the W_\* data tables contain summaries of information used specifically for 'web' access, especially with regard to online mapping (almost all contain a GEOM field for coordinates as well as each of a CA_ID, REG_ID and SWP_ID relating to the contained area in which the location lies).  Each of the tables includes a GIS_ID field with values greater than zero - such a key is required by the mapping backend software (Geocortex - Latitude Geographics, 2017; and ArcGIS - ESRI, 2017).
 
 This table contains 'general' location information, mainly focused on boreholes.  Temporal data availability and ranges is also listed.  This is related to D_LOCATION using LOC_ID.
 
 Note that all 'W_*' tables are automatically re-populated weekly and rely upon information present in the D_LOCATION_SUMMARY and D_INTERVAL_SUMMARY tables (though not exclusively).
 
-W_GENERAL_DOCUMENT
+#### W_GENERAL_DOCUMENT
 
 This table contains information from the D_LOCATION and D_DOCUMENT tables and includes a formatted bibliographic reference field (BIBLIO).  This is related to D_LOCATION using LOC_ID.  Refer to W_GENERAL, above, for information concerning the 'W_' tables.
 
-W_GENERAL_GW_LEVEL
+#### W_GENERAL_GW_LEVEL
 
 This table contains daily averages of water levels as well as (if available) manual water levels for any interval with more than 25 records.  This table is used in conjunction with W_GENERAL_SCREEN for plotting purposes.   This is related to D_LOCATION using LOC_ID and D_INTERVAL using INT_ID.  Refer to W_GENERAL, above, for information concerning the 'W_' tables.
 
-W_GENERAL_OTHER
+#### W_GENERAL_OTHER
 
 This table contains summary information for non-borehole locations as specified in the field TYPE (e.g. Climate Stations and Surface Water Stations).  It is related to D_LOCATION using LOC_ID and D_INTERVAL using INT_ID.  Refer to W_GENERAL, above, for information concerning the 'W_' tables.
 
-W_GENERAL_SCREEN
+#### W_GENERAL_SCREEN
 
 This table contains summary information for screened intervals (i.e. screened well intervals) as described in R_INT_TYPE_CODE (above).  It is related to D_LOCATION using LOC_ID and D_INTERVAL using INT_ID.  This table is used as a locational reference for information in W_GENERAL_GW_LEVEL.  Refer to W_GENERAL, above, for information concerning the 'W_' tables.
 
-Section 2.1.4 View Outline
+## Section 2.1.4 View Outline
 
 A series of views have been developed within the database to provide easier access to information (by removing the complexity of creating joined tables when querying the database).  In most cases, look-up values have been removed and replaced with their equivalent descriptions allowing direct perusal by the user.  Also, the location and/or interval name(s) (as appropriate) are found in almost all the views so that they may be filtered to obtain specific results.
 
@@ -1117,528 +1123,541 @@ Note that many of the field names carried in these views will be of a simplified
 
 The views are broken into categories defined by a 3-letter code (in general) following the 'V_'.  These include:
 
-    - V_CON_*
-        ? Consultant views. These results are meant to be used for submittal of information for consultants either through, for example, Excel spreadsheets or Access databases.  The rows returned are limited by the location and interval confidentiality codes.
-    - V_GEN_*
-        ? General views.  These are meant to be used directly by the partner agencies; an effort has been made to identify data searches and formats required. 
-    - V_GROUP_*
-        ? Group views.  These are meant to be used to identify and manage 'groups' within the database; that is, linked locations and intervals with common attributes (e.g. all PGMN wells by CA; nested wells; etc?).
-    - V_QA_*
-        ? Quality Assurance views.  These are meant to be used to review 'new' locations and intervals as a quality check (this is considered to be any location or interval added in the last 60 days).
-    - V_SUM_*
-        ? Summary Data views.  These calculate summary data for locations and intervals on-the-fly.  Some are used for tracking purposes (see D_VERSION_STATUS, above).
-    - V_SYS_*
-        ? System views.  Many of these are used in combination with the above groups and should not, in the main, be used directly (there will be exceptions).  These views tend to honour the source field names and preferentially use lookup codes rather than the equivalent text descriptions.
-        ? A subset of these, V_SYS_CHK_* are used for various data checks within the database.
-        ? Another subset, V_SYS_ORMGP_* deals directly with locations and intervals associated with the ORMGP
-    - V_VL_*
-        ? Viewlog views.  These views are directly tied to certain capabilities in the Viewlog software.
+#### V_CON_\*
+
+* Consultant views. These results are meant to be used for submittal of information for consultants either through, for example, Excel spreadsheets or Access databases.  The rows returned are limited by the location and interval confidentiality codes.
+
+#### V_GEN_\*
+
+* General views.  These are meant to be used directly by the partner agencies; an effort has been made to identify data searches and formats required. 
+
+#### V_GROUP_\*
+
+* Group views.  These are meant to be used to identify and manage 'groups' within the database; that is, linked locations and intervals with common attributes (e.g. all PGMN wells by CA; nested wells; etc?).
+
+#### V_QA_\*
+
+* Quality Assurance views.  These are meant to be used to review 'new' locations and intervals as a quality check (this is considered to be any location or interval added in the last 60 days).
+
+#### V_SUM_\*
+
+* Summary Data views.  These calculate summary data for locations and intervals on-the-fly.  Some are used for tracking purposes (see D_VERSION_STATUS, above).
+
+#### V_SYS_\*
+
+* System views.  Many of these are used in combination with the above groups and should not, in the main, be used directly (there will be exceptions).  These views tend to honour the source field names and preferentially use lookup codes rather than the equivalent text descriptions.
+* A subset of these, V_SYS_CHK_* are used for various data checks within the database.
+* Another subset, V_SYS_ORMGP_* deals directly with locations and intervals associated with the ORMGP
+
+#### V_VL_\*
+
+* Viewlog views.  These views are directly tied to certain capabilities in the Viewlog software.
 
 Note that additional views can be added at any time.  Partner agencies should request additions or modifications to existing views as well as the creation of new views that meet their requirements.
 
-Section 2.1.5 Main Views
+## Section 2.1.5 Main Views
 
 These views were created specifically for general users to allows 'snapshots' of information to be extracted from the database without having to manipulate the underlying tables directly.  Any look-up (i.e. reference) values should include their text descriptions.
 
 These include:
 
-    - V_CON_DOCUMENT
-    - V_CON_GENERAL
-    - V_CON_GEOLOGY
-    - V_CON_HYDROGEOLOGY
-    - V_CON_HYDROGEOLOGY_FULL
-    - V_CON_PICK
-    - V_CON_PTTW
-    - V_CON_WATER_LEVEL_AVG_DAILY
-    - V_GEN
-    - V_GEN_BOREHOLE
-    - V_GEN_BOREHOLE_BEDROCK
-    - V_GEN_BOREHOLE_OUTCROP
-    - V_GEN_DOCUMENT
-    - V_GEN_DOCUMENT_ASSOCIATION
-    - V_GEN_DOCUMENT_BIBLIOGRAPHY
-    - V_GEN_FIELD
-    - V_GEN_FIELD_CLIMATE
-    - V_GEN_FIELD_CLIMATE_SUMMARY
-    - V_GEN_FIELD_METEOROLOGICAL
-    - V_GEN_FIELD_PUMPING_PRODUCTION
-    - V_GEN_FIELD_STREAM_FLOW
-    - V_GEN_FIELD_STREAM_FLOW_SUMMARY
-    - V_GEN_FIELD_SUMMARY
-    - V_GEN_GEOLOGY
-    - V_GEN_GEOLOGY_DEEPEST_NONROCK
-    - V_GEN_GEOLOGY_OUTCROP
-    - V_GEN_HYDROGEOLOGY
-    - V_GEN_HYDROGEOLOGY_BEDROCK
-    - V_GEN_HYDROGEOLOGY_FULL
-    - V_GEN_INTERVAL_FORMATION
-    - V_GEN_INTERVAL_INFO_DURHAM
-    - V_GEN_LAB
-    - V_GEN_LAB_BACTERIOLOGICALS
-    - V_GEN_LAB_EXTRACTABLES
-    - V_GEN_LAB_GENERAL
-    - V_GEN_LAB_HERBICIDES_PESTICIDES
-    - V_GEN_LAB_IONS
-    - V_GEN_LAB_ISOTOPES
-    - V_GEN_LAB_METALS
-    - V_GEN_LAB_ORGANICS
-    - V_GEN_LAB_SOIL
-    - V_GEN_LAB_SUMMARY
-    - V_GEN_LAB_SUMMARY_GROUP
-    - V_GEN_LAB_SUMMARY_SAMPLE_COUNT
-    - V_GEN_LAB_SUMMARY_SAMPLE_COUNT_DETAIL
-    - V_GEN_LAB_SUMMARY_SAMPLE_COUNT_YEARLY
-    - V_GEN_LAB_SUMMARY_SAMPLE_COUNT_YEARLY_SOIL
-    - V_GEN_LAB_SUMMARY_SAMPLE_GROUP
-    - V_GEN_LAB_SVOCS
-    - V_GEN_LAB_VOCS
-    - V_GEN_MOE_REPORT
-    - V_GEN_MOE_WELL
-    - V_GEN_PICK
-    - V_GEN_PTTW
-    - V_GEN_PTTW_RELATED
-    - V_GEN_PTTW_SOURCE
-    - V_GEN_PUMPING_MUNICIPAL_PTTW_VOLUME_YEARLY
-    - V_GEN_PUMPING_MUNICIPAL_VOLUME_MONTHLY
-    - V_GEN_PUMPING_MUNICIPAL_VOLUME_YEARLY
-    - V_GEN_PUMPING_VOLUME_MONTHLY
-    - V_GEN_PUMPING_VOLUME_YEARLY
-    - V_GEN_STATION_CLIMATE
-    - V_GEN_STATION_CLIMATE_PRECIP_ANNUAL
-    - V_GEN_STATION_SURFACEWATER
-    - V_GEN_STATION_SURFACEWATER_ANNUAL
-    - V_GEN_WATER_FOUND
-    - V_GEN_WATER_LEVEL
-    - V_GEN_WATER_LEVEL_AVG
-    - V_GEN_WATER_LEVEL_AVG_DAILY
-    - V_GEN_WATER_LEVEL_AVG_DAILY_LOGGER
-    - V_GEN_WATER_LEVEL_MANUAL
-    - V_GEN_WATER_LEVEL_OTHER
-    - V_GEN_WATERLEVEL_BARO_YEARLY
-    - V_GEN_WATERLEVEL_LOGGER_YEARLY
-    - V_GEN_WATERLEVEL_MANUAL_YEARLY
-    - V_GEN_WATERLEVEL_YEARLY
-    - V_GROUP_INTERVAL
-    - V_GROUP_LOCATION
-    - V_QA_NEW_D_BOREHOLE
-    - V_QA_NEW_D_INTERVAL
-    - V_QA_NEW_D_LOCATION
-    - V_SUM_FIELD_LAB_VALUES
-    - V_SUM_FIELD_VALUES
-    - V_SUM_INT_TYPE_COUNTS
-    - V_SUM_LAB_PARAMETER_COUNT
-    - V_SUM_LAB_SAMPLES
-    - V_SUM_LOC_TYPE_COUNTS
-    - V_SUM_READING_GROUP_COUNTS
-    - V_SUM_SAMPLE_NUM_SAMPLE_COUNT
-    - V_SUM_SCREEN_COUNTS
-    - V_SUM_STATION_BARO_WL
-    - V_SUM_STATION_CLIMATE_PRECIP
-    - V_SUM_STATION_CLIMATE_RAINFALL
-    - V_SUM_STATION_CLIMATE_SNOWFALL
-    - V_SUM_STATION_CLIMATE_TEMP
-    - V_SUM_SURFACE_WATER_FIELD
-    - V_SUM_SW_SUBTYPE_COUNTS
-    - V_SUM_TABLE_CHANGES
-    - V_SUM_TOTAL_CHANGES
-    - V_VL_BOREHOLES
-    - V_VL_GEO_GSC
-    - V_VL_GEO_MAT123
-    - V_VL_GEOLOGY
-    - V_VL_HEADER_LOG
-    - V_VL_HEADER_SCREEN
+* V_CON_DOCUMENT
+* V_CON_GENERAL
+* V_CON_GEOLOGY
+* V_CON_HYDROGEOLOGY
+* V_CON_HYDROGEOLOGY_FULL
+* V_CON_PICK
+* V_CON_PTTW
+* V_CON_WATER_LEVEL_AVG_DAILY
+* V_GEN
+* V_GEN_BOREHOLE
+* V_GEN_BOREHOLE_BEDROCK
+* V_GEN_BOREHOLE_OUTCROP
+* V_GEN_DOCUMENT
+* V_GEN_DOCUMENT_ASSOCIATION
+* V_GEN_DOCUMENT_BIBLIOGRAPHY
+* V_GEN_FIELD
+* V_GEN_FIELD_CLIMATE
+* V_GEN_FIELD_CLIMATE_SUMMARY
+* V_GEN_FIELD_METEOROLOGICAL
+* V_GEN_FIELD_PUMPING_PRODUCTION
+* V_GEN_FIELD_STREAM_FLOW
+* V_GEN_FIELD_STREAM_FLOW_SUMMARY
+* V_GEN_FIELD_SUMMARY
+* V_GEN_GEOLOGY
+* V_GEN_GEOLOGY_DEEPEST_NONROCK
+* V_GEN_GEOLOGY_OUTCROP
+* V_GEN_HYDROGEOLOGY
+* V_GEN_HYDROGEOLOGY_BEDROCK
+* V_GEN_HYDROGEOLOGY_FULL
+* V_GEN_INTERVAL_FORMATION
+* V_GEN_INTERVAL_INFO_DURHAM
+* V_GEN_LAB
+* V_GEN_LAB_BACTERIOLOGICALS
+* V_GEN_LAB_EXTRACTABLES
+* V_GEN_LAB_GENERAL
+* V_GEN_LAB_HERBICIDES_PESTICIDES
+* V_GEN_LAB_IONS
+* V_GEN_LAB_ISOTOPES
+* V_GEN_LAB_METALS
+* V_GEN_LAB_ORGANICS
+* V_GEN_LAB_SOIL
+* V_GEN_LAB_SUMMARY
+* V_GEN_LAB_SUMMARY_GROUP
+* V_GEN_LAB_SUMMARY_SAMPLE_COUNT
+* V_GEN_LAB_SUMMARY_SAMPLE_COUNT_DETAIL
+* V_GEN_LAB_SUMMARY_SAMPLE_COUNT_YEARLY
+* V_GEN_LAB_SUMMARY_SAMPLE_COUNT_YEARLY_SOIL
+* V_GEN_LAB_SUMMARY_SAMPLE_GROUP
+* V_GEN_LAB_SVOCS
+* V_GEN_LAB_VOCS
+* V_GEN_MOE_REPORT
+* V_GEN_MOE_WELL
+* V_GEN_PICK
+* V_GEN_PTTW
+* V_GEN_PTTW_RELATED
+* V_GEN_PTTW_SOURCE
+* V_GEN_PUMPING_MUNICIPAL_PTTW_VOLUME_YEARLY
+* V_GEN_PUMPING_MUNICIPAL_VOLUME_MONTHLY
+* V_GEN_PUMPING_MUNICIPAL_VOLUME_YEARLY
+* V_GEN_PUMPING_VOLUME_MONTHLY
+* V_GEN_PUMPING_VOLUME_YEARLY
+* V_GEN_STATION_CLIMATE
+* V_GEN_STATION_CLIMATE_PRECIP_ANNUAL
+* V_GEN_STATION_SURFACEWATER
+* V_GEN_STATION_SURFACEWATER_ANNUAL
+* V_GEN_WATER_FOUND
+* V_GEN_WATER_LEVEL
+* V_GEN_WATER_LEVEL_AVG
+* V_GEN_WATER_LEVEL_AVG_DAILY
+* V_GEN_WATER_LEVEL_AVG_DAILY_LOGGER
+* V_GEN_WATER_LEVEL_MANUAL
+* V_GEN_WATER_LEVEL_OTHER
+* V_GEN_WATERLEVEL_BARO_YEARLY
+* V_GEN_WATERLEVEL_LOGGER_YEARLY
+* V_GEN_WATERLEVEL_MANUAL_YEARLY
+* V_GEN_WATERLEVEL_YEARLY
+* V_GROUP_INTERVAL
+* V_GROUP_LOCATION
+* V_QA_NEW_D_BOREHOLE
+* V_QA_NEW_D_INTERVAL
+* V_QA_NEW_D_LOCATION
+* V_SUM_FIELD_LAB_VALUES
+* V_SUM_FIELD_VALUES
+* V_SUM_INT_TYPE_COUNTS
+* V_SUM_LAB_PARAMETER_COUNT
+* V_SUM_LAB_SAMPLES
+* V_SUM_LOC_TYPE_COUNTS
+* V_SUM_READING_GROUP_COUNTS
+* V_SUM_SAMPLE_NUM_SAMPLE_COUNT
+* V_SUM_SCREEN_COUNTS
+* V_SUM_STATION_BARO_WL
+* V_SUM_STATION_CLIMATE_PRECIP
+* V_SUM_STATION_CLIMATE_RAINFALL
+* V_SUM_STATION_CLIMATE_SNOWFALL
+* V_SUM_STATION_CLIMATE_TEMP
+* V_SUM_SURFACE_WATER_FIELD
+* V_SUM_SW_SUBTYPE_COUNTS
+* V_SUM_TABLE_CHANGES
+* V_SUM_TOTAL_CHANGES
+* V_VL_BOREHOLES
+* V_VL_GEO_GSC
+* V_VL_GEO_MAT123
+* V_VL_GEOLOGY
+* V_VL_HEADER_LOG
+* V_VL_HEADER_SCREEN
 
-V_CON_* (Consultant Views)
+#### V_CON_\* (Consultant Views)
 
 These views were prepared to provide a 'cutout' of information from the database that can be provided to consultants working in a specific geographic area of a partner agencies jurisdiction.  Rather than providing the entire database to a consultant, specific locations in the project area can be flagged by making use, for example, of the SYS_TEMP_1 or SYS_TEMP_2 fields (though there are alternative methods).  Once the locations have been flagged using a specific, searchable, value (possibly created spatially through, for example, Viewlog or a GIS) then the V_CON_* views can be filtered to extract the locations (and their information) required by the consultant.  See also Appendix J.3 for an (internal) Microsoft SQL Server solution.  Note that these views honour the settings in LOC_CONFIDENTIALITY_CODE and INT_CONFIENTIALITY_CODE.
 
 The views contain a subset of available data fields as well as introducing summary fields (especially with regard to temporal data) of available information found at each location.  All look-up codes have been translated to their named equivalents.  
 
-V_CON_DOCUMENT
+#### V_CON_DOCUMENT
 
 This view simplifies the listing of the documents residing within the ORMGP report library.  Only a certain number of fields from the D_LOCATION and D_DOCUMENT tables are included here.  Consultants may then wish to request specific report files as a follow up action.  The data returned here is meant to be a subset of V_GEN_DOCUMENT.
 
-V_CON_GENERAL
+#### V_CON_GENERAL
 
 This view summarizes the main location information from a number of tables including location names, coordinates, borehole depth, ground surface elevation, etc?  It also includes
 
-    - The number of water level readings associated with the/any screens
-    - The number of soil samples from the borehole
-    - The number of pumping measurements taken
-    - The number of water quality readings taken
-    - The number of geologic layers present
-    - The number of screens present
+* The number of water level readings associated with the/any screens
+* The number of soil samples from the borehole
+* The number of pumping measurements taken
+* The number of water quality readings taken
+* The number of geologic layers present
+* The number of screens present
 
-V_CON_GEOLOGY
+#### V_CON_GEOLOGY
 
 This view includes the top- and bottom-elevations of the geologic units associated with a location.  In addition, the material codes have converted to their text descriptions.  The data returned here is meant to be a subset of V_GEN_GEOLOGY.
 
-V_CON_HYDROGEOLOGY
+#### V_CON_HYDROGEOLOGY
 
 This view includes the screen information by location (multiple screens at a location would be represented across multiple records).  Any associated pumping and water level data (including the date for the former and the date range for the latter) are indicated.  The formation assigned to the screen (if identified) is shown.  A well flowing tag (FLOWING) is also returned.  The data returned here is meant to be a subset of V_GEN_HYDROGEOLOGY.
 
-V_CON_PICK
+#### V_CON_PICK
 
 This view returns information from the PICKS table - additions including the location name and study as well as the borehole depth.  The data returned here is meant to be a subset of V_GEN_PICK.
 
-V_CON_PTTW
+#### V_CON_PTTW
 
 This view returns information from the D_LOCATION and D_PTTW tables.  The data returned here is meant to be a subset of V_GEN_PTTW.
 
-V_CON_WATER_LEVEL_AVG_DAILY
+#### V_CON_WATER_LEVEL_AVG_DAILY
 
 This view returns the daily calculated average water level as well as associated information (e.g. reference point, ground elevation, screen depths, etc?).
 
-V_GEN_* (General Views)
+#### V_GEN_\* (General Views)
 
 The base views provided in the database, and discussed here, are for the partner agencies to readily access information from the multitude of tables that have been described, above.  The purpose of the views is to pull or query out key information from the database and present it in an easy to understand manner.  The V_GEN_* views are preferentially to be used when accessing the database (by non-expert users).  Each view contains basic information from a particular location (e.g. LOC_ID, LOC_NAME, LOC_NAME_ALT1, LOC_COORD_EASTING, LOC_COORD_NORTHING, etc...) as well as information related to the particular view name (e.g. in addition to the previously mentioned fields, the V_GEN_GEOLOGY view contains BH_GND_ELEV, BH_TOP_ELEV, BH_BOTTOM_ELEV, etc...).  In many cases, the original field names have been modified to for ease of use or to more adequately describe the data contained within.
 
-V_GEN
+#### V_GEN
 
 This is the base view used by many other V_GEN_* views.  Only basic information is available here (e.g. name, coordinates, purpose, etc?).
 
-V_GEN_BOREHOLE
+#### V_GEN_BOREHOLE
 
 This view contains basic borehole information, combining data from D_LOCATION and D_BOREHOLE (in which the location must be present) as well as some screen information (if available).
 
-V_GEN_BOREHOLE_BEDROCK
+#### V_GEN_BOREHOLE_BEDROCK
 
 This view uses V_GEN_BOREHOLE as a base only extracting those locations that encounter bedrock.  This is dependent upon the BH_BEDROCK_ELEV being populated (in D_BOREHOLE; refer to Appendix G with regards to how this is accomplished).
 
-V_GEN_BOREHOLE_OUTCROP
+#### V_GEN_BOREHOLE_OUTCROP
 
 This view uses V_GEN_BOREHOLE as a base only extracting those locations that are identified as outcrop (i.e. LOC_TYPE_CODE '11').
 
-V_GEN_DOCUMENT
+#### V_GEN_DOCUMENT
 
 This view extracts document (i.e. LOC_TYPE_CODE '25') information from the D_LOCATION and D_DOCUMENT tables.  Only basic information such as the title and folder number (as found within the ORMGP report library) and the author and client agencies are included.
 
-V_GEN_DOCUMENT_ASSOCIATION
+#### V_GEN_DOCUMENT_ASSOCIATION
 
 This view extracts all locations (usually boreholes) associated with a particular document.  This information is accessed from the D_DOCUMENT_ASSOCIATION table.
 
-V_GEN_DOCUMENT_BIBLIOGRAPHY
+#### V_GEN_DOCUMENT_BIBLIOGRAPHY
 
 This view assembles a bibliographic reference for each document in D_DOCUMENT.  The format handles reports, journal articles and texts appropriately.
 
-V_GEN_FIELD
+#### V_GEN_FIELD
 
 This view extracts all field data (i.e. from D_INTERVAL_TEMPORAL_2) by interval and location.  Parameter codes are converted to their text description.
 
-V_GEN_FIELD_CLIMATE
+#### V_GEN_FIELD_CLIMATE
 
 This view extracts all climate data stored in D_INTERVAL_TEMPORAL_3 - this information is tied to an actual climate station.  The query only applies to data with a READING_GROUP_CODE of '22' (i.e. 'Meteorological').
 
-V_GEN_FIELD_CLIMATE_SUMMARY
+#### V_GEN_FIELD_CLIMATE_SUMMARY
 
 This view extracts summaries of climate data stored in D_INTERVAL_TEMPORAL_3.  Intervals are not checked with regard to being climate stations.
 
- V_GEN_FIELD_METEOROLOGICAL
+####  V_GEN_FIELD_METEOROLOGICAL
 
 This view extracts all climate data stored in D_INTERVAL_TEMPORAL_2.  The query only applies to data with a READING_GROUP_CODE of '22' (i.e. 'Meteorological').  This is a subset of the V_GEN_FIELD view.
 
-V_GEN_FIELD_PUMPING_PRODUCTION
+#### V_GEN_FIELD_PUMPING_PRODUCTION
 
 This view extracts all pumping data stored in D_INTERVAL_TEMPORAL_2.  The query only applies to data with a READING_GROUP_CODE of '35' (i.e. 'Discharge/Production - From Wells?').
 
-V_GEN_FIELD_STREAM_FLOW
+#### V_GEN_FIELD_STREAM_FLOW
 
 This view extracts all stream flow data stored in D_INTERVAL_TEMPORAL_5.  The query only applies to data with a READING_GROUP_CODE of '25' (i.e. 'Stream Flow Related').  
 
-V_GEN_FIELD_STREAM_FLOW_SUMMARY
+#### V_GEN_FIELD_STREAM_FLOW_SUMMARY
 
 This view extracts summaries of data stored in D_INTERVAL_TEMPORAL_5.  Intervals are not checked for being streamflow stations.
 
-V_GEN_FIELD_SUMMARY
+#### V_GEN_FIELD_SUMMARY
 
 This view summarizes the data in D_INTERVAL_TEMPORAL_2 grouped by interval, parameter and parameter units (the latter should be used as a quality check).  This returns the start and end dates, count and average for each parameter.
 
-V_GEN_GEOLOGY
+#### V_GEN_GEOLOGY
 
 This view extracts the information from D_GEOLOGY_LAYER by location.  Parameters are converted to their text descriptions.
 
-V_GEN_GEOLOGY_DEEPEST_NONROCK
+#### V_GEN_GEOLOGY_DEEPEST_NONROCK
 
 This view extracts the lowest geologic layer from D_GEOLOGY_LAYER for locations that do not intercept the bedrock surface.  Note that this relies upon BH_BEDROCK_ELEV being populated in D_BOREHOLE.
 
-V_GEN_GEOLOGY_OUTCROP
+#### V_GEN_GEOLOGY_OUTCROP
 
 This view extracts information from D_GEOLOGY_LAYER where the location has a LOC_TYPE_CODE of '7' (i.e. 'Testpit'), '11' (i.e. 'Outcrop') or '19' (i.e. 'Bedrock Outcrop').  This is a subset of V_GEN_GEOLOGY.
 
-V_GEN_HYDROGEOLOGY
+#### V_GEN_HYDROGEOLOGY
 
 This view extracts hydrogeologic information by screened interval (based upon the presence of the interval in D_INTERVAL_MONITOR) and includes data on: screens; water levels; water quality; and pumping.  Note that D_INTERVAL_SUMMARY is used as a source for all summary data.  This view combines all intervals with the same INT_ID in D_INTERVAL_MONITOR (see V_GEN_HYDROGEOLOGY_FULL, below, if this is not desired).
 
-V_GEN_HYDROGEOLOGY_BEDROCK
+#### V_GEN_HYDROGEOLOGY_BEDROCK
 
 This view extracts hydrogeologic information by screened interval using V_GEN_HYDROGEOLOGY as the source.  All intervals here must have the bottom screen elevation below that of the bedrock surface (as found in D_BOREHOLE).
 
-V_GEN_HYDROGEOLOGY_FULL
+#### V_GEN_HYDROGEOLOGY_FULL
 
 This view extracts information in a similar manner to V_GEN_HYDROGEOLOGY.  However, this view does not combine interval information in D_INTERVAL_MONITOR (where multiple records exist with the same INT_ID but differing top- and bottom-elevations).
 
-V_GEN_INTERVAL_FORMATION
+#### V_GEN_INTERVAL_FORMATION
 
 This view mimics the original format of the D_INTERVAL_FORMATION_ASSIGNMENT table extracting, for each screen or soil interval: the assigned geologic unit; the next and previous geologic unit; and the vertical distance to the next and previous geologic units.
 
-V_GEN_LAB
+#### V_GEN_LAB
 
 This view extracts all laboratory data (i.e. from D_INTERVAL_TEMPORAL_1A and D_INTERVAL_TEMPORAL_1B) by interval and location.  Parameter codes are converted to their text description.
 
-V_GEN_LAB_BACTERIOLOGICALS
+#### V_GEN_LAB_BACTERIOLOGICALS
 
 This view returns a subset of V_GEN_LAB extracting only those parameters having a READING GROUP_CODE of '36' (i.e. 'Water - Bacteriological Related').
 
-V_GEN_LAB_EXTRACTABLES
+#### V_GEN_LAB_EXTRACTABLES
 
 This view returns a subset of V_GEN_LAB extracting only those parameters having a READING GROUP_CODE of '5' (i.e. 'Water - Extractables').
 
-V_GEN_LAB_GENERAL
+#### V_GEN_LAB_GENERAL
 
 This view returns a subset of V_GEN_LAB extracting only those parameters having a READING GROUP_CODE of '26' (i.e. 'Chemistry - General).
 
-V_GEN_LAB_HERBICIDES_PESTICIDES
+#### V_GEN_LAB_HERBICIDES_PESTICIDES
 
 This view returns a subset of V_GEN_LAB extracting only those parameters having a READING GROUP_CODE of '4' (i.e. 'Water - Pesticides and Herbicides').
 
-V_GEN_LAB_IONS
+#### V_GEN_LAB_IONS
 
 This view returns a subset of V_GEN_LAB extracting only those parameters having a READING GROUP_CODE of '1' (i.e. 'Water - Major Ions').
 
-V_GEN_LAB_ISOTOPES
+#### V_GEN_LAB_ISOTOPES
 
 This view returns a subset of V_GEN_LAB extracting only those parameters having a READING GROUP_CODE of '15' (i.e. 'Water - Isotopes').
 
-V_GEN_LAB_METALS
+#### V_GEN_LAB_METALS
 
 This view returns a subset of V_GEN_LAB extracting only those parameters having a READING GROUP_CODE of '2' (i.e. 'Chemistry - Metals').
 
-V_GEN_LAB_ORGANICS
+#### V_GEN_LAB_ORGANICS
 
 This view returns a subset of V_GEN_LAB extracting only those parameters having a READING GROUP_CODE of '28' (i.e. 'Water - Miscellaneous Organics').
 
-V_GEN_LAB_SOIL
+#### V_GEN_LAB_SOIL
 
 This view returns a subset of V_GEN_LAB extracting only those intervals that are soil samples.
 
-V_GEN_LAB_SUMMARY
+#### V_GEN_LAB_SUMMARY
 
 This view summarizes the contents of D_INTERVAL_TEMPORAL_1A and D_INTERVAL_TEMPORAL_1B grouped by interval, parameter and parameter units (note that the latter should be used as a QA check).  This returns the start and end dates, count and average for each parameter.
 
-V_GEN_LAB_SUMMARY_GROUP
+#### V_GEN_LAB_SUMMARY_GROUP
 
 This view summarizes each of the V_GEN_LAB_* views, returning the start and end dates as well as the number of records associated with a particular reading group.
 
-V_GEN_LAB_SUMMARY_SAMPLE_COUNT
+#### V_GEN_LAB_SUMMARY_SAMPLE_COUNT
 
-This view summarizes the V_GEN_LAB_* views, returning the minimum and maximum dates of all samples as well as the count of each reading group.
+This view summarizes the V_GEN_LAB_\* views, returning the minimum and maximum dates of all samples as well as the count of each reading group.
 
-V_GEN_LAB_SUMMARY_SAMPLE_COUNT_DETAIL
+#### V_GEN_LAB_SUMMARY_SAMPLE_COUNT_DETAIL
 
-This view summarizes the V_GEN_LAB_* views, returning the minimum and maximum dates and a count for each reading group.
+This view summarizes the V_GEN_LAB_\* views, returning the minimum and maximum dates and a count for each reading group.
 
-V_GEN_LAB_SUMMARY_SAMPLE_COUNT_YEARLY
+#### V_GEN_LAB_SUMMARY_SAMPLE_COUNT_YEARLY
 
 This view returns a count of samples by year for each interval in D_INTERVAL_TEMPORAL_1A.
 
-V_GEN_LAB_SUMMARY_SAMPLE_COUNT_YEARLY_SOIL
+#### V_GEN_LAB_SUMMARY_SAMPLE_COUNT_YEARLY_SOIL
 
 This view returns a count of samples by year for each soil interval in D_INTERVAL_TEMPORAL_1A.  A subset of V_GEN_LAB_SUMMARY_SAMPLE_COUNT_YEARLY, using the INT_TYPE_CODE '29' (i.e. 'Soil or Rock'), is the source of this view.
 
-V_GEN_LAB_SUMMARY_SAMPLE_GROUP
+#### V_GEN_LAB_SUMMARY_SAMPLE_GROUP
 
 This view returns a number of readings count (by group) for a particular sample for a particular interval.
 
-V_GEN_LAB_SVOCS
+#### V_GEN_LAB_SVOCS
 
 This view returns a subset of V_GEN_LAB extracting only those parameters having a READING GROUP_CODE of '29' (i.e. 'SVOCs').
 
-V_GEN_LAB_VOCS
+#### V_GEN_LAB_VOCS
 
 This view returns a subset of V_GEN_LAB extracting only those parameters having a READING GROUP_CODE of '3' (i.e. 'Water - VOCs').
 
-V_GEN_MOE_REPORT
+#### V_GEN_MOE_REPORT
 
 This view returns each MOE well in the old 'green book' format.  A value of 'ND' indicates 'not defined' (i.e. no value) for the particular column.
 
-V_GEN_MOE_WELL
+#### V_GEN_MOE_WELL
 
 This view returns all the MOE wells (as tagged by DATA_ID in D_DATA_SOURCE) as a subset of V_GEN.  As of 20170614, these DATA_IDs are: -1809069713, 517, 156458478, 1229103552, 1257268550, 1285616179, 1350796350 and 1846079169.
 
-V_GEN_PICK
+#### V_GEN_PICK
 
 This view returns the information from D_PICK in addition to location information from D_LOCATION.
 
-V_GEN_PTTW
+#### V_GEN_PTTW
 
 This view extracts all 'Permit to Take Water' records (i.e. LOC_TYPE_CODE '22') and associated location details.  All look-up codes are converted to their text descriptions.
 
-V_GEN_PTTW_RELATED
+#### V_GEN_PTTW_RELATED
 
 This view returns all 'Permit to Take Water' (PTTW) records related to a particular PTTW record; the latter LOC_ID will be available in LOC_ID_RELATED.
 
-V_GEN_PTTW_SOURCE
+#### V_GEN_PTTW_SOURCE
 
 This view extracts all 'Permit to Take Water' (PTTW) records for which their source has been identified within the Master database.  In this case, the LOC_MASTER_LOC_ID for the PTTW record will contain the source LOC_ID.  The PERMIT_LOC_ID is the identifier for the PTTW; LOC_ID will be the source identifier.  Note that not all the PTTW records have been successfully linked to a source (these will have their LOC_ID present in LOC_MASTER_LOC_ID in D_LOCATION).
 
-V_GEN_PUMPING_MUNICIPAL_PTTW_VOLUME_YEARLY
+#### V_GEN_PUMPING_MUNICIPAL_PTTW_VOLUME_YEARLY
 
 This view uses V_GEN_PUMPING_MUNICIPAL_VOLUME_YEARLY (below) as a source, including 'Permit to Take Water' (PTTW) data from V_SYS_PTTW_SOURCE_VOLUME where the source for the PTTW has been determined (refer to V_GEN_PTTW_SOURCE, above, for details).
 
-V_GEN_PUMPING_MUNICIPAL_VOLUME_MONTHLY
+#### V_GEN_PUMPING_MUNICIPAL_VOLUME_MONTHLY
 
 This view is similar to V_GEN_PUMPING_VOLUME_MONTHLY (below) with the exception that only intervals with an LOC_STATUS_CODE of '8' (i.e. 'Standby Municipal Pumping Well'), '11' (i.e. 'Active Municipal Pumping Well'), '12' (i.e. 'In-active Municipal Pumping Well') or '13' (i.e. 'Decommissioned Municipal Pumping Well') will have data returned.  Note that these locations must not have a QA_COORD_CONFIDENCE_CODE of '117' (i.e. 'YPDT - Coordinate Invalid ?').
 
-V_GEN_PUMPING_MUNICIPAL_VOLUME_YEARLY
+#### V_GEN_PUMPING_MUNICIPAL_VOLUME_YEARLY
 
 This view is similar to V_GEN_PUMPING_VOLUME_YEARLY (below) with the exception that only municipal pumping well data will be returned, as V_GEN_PUMPING_MUNICIPAL_VOLUME_MONTHLY (above).
 
-V_GEN_PUMPING_VOLUME_MONTHLY
+#### V_GEN_PUMPING_VOLUME_MONTHLY
 
 This view extracts pumping data from D_INTERVAL_TEMPORAL_2 (using RD_NAME_CODE '447' - 'Production - Pumped Volume (Total Daily)' - and UNIT_CODE '74' - 'm3/d') calculating the minimum, maximum, average and total volume as well as the total number of records by interval for each month (for which data exists).  
 
-V_GEN_PUMPING_VOLUME_YEARLY
+#### V_GEN_PUMPING_VOLUME_YEARLY
 
 This view is similar to V_GEN_PUMPING_VOLUME_YEARLY (above) with the exception that data is calculated for each interval for each year for which data exists.  In addition, the total volume is divided by '365' to calculate AVG_VOLUME_M3_D_YEAR.
 
-V_GEN_STATION_BASEFLOW_ANNUAL
+#### V_GEN_STATION_BASEFLOW_ANNUAL
 
 This view returns the minimum, maximum and average (as well as the total number of records) baseflow values from D_INTERVAL_TEMPORAL_2 (using RD_NAME_CODES '1002', '1003', '1004', '1005', '1006', '1007', '1008', '1009', '1010', '1011', '1012', '1013' and '70980') for each interval and year of data.
 
-V_GEN_STATION_CLIMATE
+#### V_GEN_STATION_CLIMATE
 
 This view extracts summary precipitation and temperature data (from D_LOCATION_SUMMARY) for all climate stations (i.e. LOC_TYPE_CODE '9') within the database.
 
-V_GEN_STATION_CLIMATE_PRECIP_ANNUAL
+#### V_GEN_STATION_CLIMATE_PRECIP_ANNUAL
 
 This view determines the yearly maximum, average and number of precipitation records (having a RD_NAME_CODE of '551' - 'Precipitation - Daily Total') from D_INTERVAL_TEMPORAL_3 for the climate stations found in V_GEN_STATION_CLIMATE (above).
 
-V_GEN_STATION_SURFACEWATER
+#### V_GEN_STATION_SURFACEWATER
 
 For those locations of LOC_TYPE_CODE '6' (i.e. 'Surface Water'), this view extracts the various streamflow values present in D_LOCATION_SUMMARY.
 
-V_GEN_STATION_SURFACEWATER_ANNUAL
+#### V_GEN_STATION_SURFACEWATER_ANNUAL
 
 This view calculates the yearly average, minimum, maximum and total number of records with RD_NAME_CODE '1001' (i.e. 'Stream Flow - Daily Discharge ?') and '70870' (i.e. 'Stream Flow - Spot Flow') for all intervals in D_INTERVAL_TEMPORAL_2.  Note that those values with UNIT_CODE '30' (i.e. 'L/s') are converted to 'm3/s' on-the-fly.
 
-V_GEN_WATERLEVEL_BARO_YEARLY
+#### V_GEN_WATERLEVEL_BARO_YEARLY
 
 This view returns the minimum, maximum and number of records for each interval for each year of record (from D_INTERVAL_TEMPORAL_2); V_SYS_WATERLEVELS_BARO_YEARLY is used as the source of the calculations.  Note that only those rows with an INT_TYPE_CODE of '122' ('Barometric Logger Interval'), an RD_NAME_CODE of '629' ('Water Level - Logger (Compensated & Corrected)') and UNIT_CODE of '128' ('cmap baro') will be included.
 
-V_GEN_WATERLEVEL_LOGGER_YEARLY
+#### V_GEN_WATERLEVEL_LOGGER_YEARLY
 
 This view returns the minimum, maximum, average and number of records for each interval for each year of record (from D_INTERVAL_TEMPORAL_2); V_SYS_WATERLEVELS_LOGGER_YEARLY is used as the source of the calculations.  Note that only those rows with a RD_NAME_CODE of '629' (i.e. 'Water Level - Logger (Compensated & Corrected)') and UNIT_CODE of '6' (i.e. 'masl') will be included.
 
-V_GEN_WATERLEVEL_MANUAL_YEARLY
+#### V_GEN_WATERLEVEL_MANUAL_YEARLY
 
 This view returns the minimum, maximum, average and number of records for each interval for each year of record (from D_INTERVAL_TEMPORAL_2); V_SYS_WATERLEVELS_MANUAL_YEARLY is used as the source of the calculations.  Note that only those rows with a RD_NAMECODE of '628' (i.e. 'Water Level - Manual - Static') and UNIT_CODE of '6' (i.e. 'masl') will be included.
 
-V_GEN_WATERLEVEL_YEARLY
+#### V_GEN_WATERLEVEL_YEARLY
 
 This view returns a combination of the data from V_GEN_WATERLEVEL_LOGGER_YEARLY and V_GEN_WATERLEVEL_MANUAL_YEARLY (as described above).  Note that the source of calculations, here, is V_SYS_WATERLEVELS_YEARLY_BOTH.
 
-V_GEN_WATER_FOUND
+#### V_GEN_WATER_FOUND
 
 This view returns the records from D_GEOLOGY_FEATURE where the top elevation is not null and the FEATURE_CODE is any of:
 
-    - WATER FOUND - FRESH (i.e. '1')
-    - WATER FOUND - SALTY (i.e. '2')
-    - WATER FOUND - SULPHUR (i.e. '3')
-    - WATER FOUND - MINERIAL (i.e. '4')
-    - WATER FOUND - NOT STATED (i.e. '5')
-    - WATER FOUND - GAS (i.e. '6')
-    - WATER FOUND - IRON (i.e. '7')
-    - WATER FOUND - Untested (i.e. '8')
+* WATER FOUND - FRESH (i.e. '1')
+* WATER FOUND - SALTY (i.e. '2')
+* WATER FOUND - SULPHUR (i.e. '3')
+* WATER FOUND - MINERIAL (i.e. '4')
+* WATER FOUND - NOT STATED (i.e. '5')
+* WATER FOUND - GAS (i.e. '6')
+* WATER FOUND - IRON (i.e. '7')
+* WATER FOUND - Untested (i.e. '8')
 
 Note that these, in general, relate to the original MOE records.
 
-V_GEN_WATER_LEVEL
+#### V_GEN_WATER_LEVEL
 
 This view extracts all records from D_INTERVAL_TEMPORAL_2 that have a RD_NAME_CODE of '628' (i.e. 'Water Level - Manual - Static') or '629' (i.e. 'Water Level - Logger (Compensated & Corrected)').
 
-V_GEN_WATER_LEVEL_AVG
+#### V_GEN_WATER_LEVEL_AVG
 
 This view returns the calculated average water level and number of records for each interval; note that V_GEN_WATER_LEVEL (above) is used as the source.
 
-V_GEN_WATER_LEVEL_AVG_DAILY
+#### V_GEN_WATER_LEVEL_AVG_DAILY
 
 This view returns the calculated daily average water level and number of records from D_INTERVAL_TEMPORAL_2 for each interval and day of record; similar to V_GEN_WATERLEVEL_YEARLY_BOTH (above) it uses manual and logger water level data as the source.  The lowest SYS_RECORD_ID value is also included.  Note that the RD_NAME_CODE of '645' (i.e. 'Water Level - Logger - Calc - Average Daily') is substituted instead of the original codes.
 
-V_GEN_WATER_LEVEL_AVG_DAILY_LOGGER
+#### V_GEN_WATER_LEVEL_AVG_DAILY_LOGGER
 
 This view returns the calculated daily average water level and number of records from D_INTERVAL_TEMPORAL_2 for each interval and day of record; similar to V_GEN_WATERLEVEL_LOGGER_YEARLY (above) it uses only logger water level data as the source.  Refer to V_GEN_WATER_LEVEL_AVG_DAILY (above) for additional details.
 
-V_GEN_WATER_LEVEL_OTHER
+#### V_GEN_WATER_LEVEL_OTHER
 
 This view extracts all water level records from D_INTERVAL_TEMPORAL_2 whose RD_NAME_CODE is associated with READING_GROUP_CODE '23' (i.e. 'Water Level') with the exception of RD_NAME_CODE's '628 (i.e. 'Water Level - Manual - Static') and '629' (i.e. 'Water Level - Logger (Compensated & Corrected)').
 
-V_GROUP_INTERVAL
+#### V_GROUP_INTERVAL
 
 This view returns the number of intervals associated with a particular interval group.  The descriptive text for the interval groups and interval group types are included.  Note that empty (i.e. non-assigned) groups will also be included.
 
-V_GROUP_LOCATION
+#### V_GROUP_LOCATION
 
 This view returns the number of locations associated with a particular location group.  The descriptive text for the location groups and location group types are included.  Note that empty (i.e. non-assigned) groups will also be included.
 
-V_QA_NEW_BOREHOLE
+#### V_QA_NEW_BOREHOLE
 
 This view returns all 'new' records from the D_BOREHOLE table; this corresponds to any record entered into the database within the last 60 days.  The SYS_TIME_STAMP field is used as the date reference.
 
-V_QA_NEW_D_INTERVAL
+#### V_QA_NEW_D_INTERVAL
 
 This view returns all 'new' records from the D_INTERVAL table.  Refer to V_QA_NEW_BOREHOLE (above) for additional details.
 
-V_QA_NEW_D_LOCATION
+#### V_QA_NEW_D_LOCATION
 
 This view returns all 'new' records from the D_LOCATION table.  Refer to V_QA_NEW_D_BOREHOLE (above) for additional details.
 
-V_SUM_FIELD_LAB_VALUES
+#### V_SUM_FIELD_LAB_VALUES
 
 This view returns the summary of laboratory records (from D_INTERVAL_TEMPORAL_1A/1B) and field records (from D_INTERVAL_TEMPORAL_2) for all intervals.  The range of dates for each is indicated as well as the number of records.  Each of V_SUM_FIELD_VALUES and V_SUM_LAB_SAMPLES (see below) are used as a source.
 
-V_SUM_FIELD_VALUES
+#### V_SUM_FIELD_VALUES
 
 This view returns the summary of field records (from D_INTERVAL_TEMPORAL_2) for all intervals.  The range of dates is indicated as well as the number of records.
 
-V_SUM_INT_TYPE_COUNTS
+#### V_SUM_INT_TYPE_COUNTS
 
 This view returns the total number of intervals by interval type (see R_INT_TYPE_CODE) as found in D_INTERVAL.  Note that empty interval types will be indicated.  This view is used to (partially) populate D_VERSION_STATUS on a semi-regular basis.
 
-V_SUM_LAB_SAMPLES
+#### V_SUM_LAB_SAMPLES
 
 This view returns the summary of laboratory records (From D_INTERVAL_TEMPORAL_1A/1B) for all intervals.  The range of dates is indicated as is the number of samples as well as the number of individual values.
 
-V_SUM_LOC_TYPE_COUNTS
+#### V_SUM_LOC_TYPE_COUNTS
 
 This view returns the total number of locations by location type (see R_LOC_TYPE_CODE) as found in D_LOCATION.  Note that empty location types will be indicated.  This view is used to (partially) populate D_VERSION_STATUS on a semi-regular basis.
 
-V_SUM_READING_GROUP_COUNTS
+#### V_SUM_READING_GROUP_COUNTS
 
 This view returns the total number of readings by reading group code (see R_RD_NAME_CODE and R_READING_GROUP_CODE) as found in D_INTERVAL_TEMPORAL_1B and D_INTERVAL_TEMPORAL_2.  The source for the particular record (i.e. from which of the temporal tables) is indicated by a '(DIT1)' or '(DIT2)' being appended to the reading group name.  Note that empty reading groups will not be indicated.  This view is used to (partially) populate D_VERSION_STATUS on a semi-regular basis.
 
 This view should also be used as a quality check with regard to the appropriateness of data records residing in a particular temporal table (e.g. water level records should not occur in D_INTERVAL_TEMPORAL_1A/1B).
 
-V_SUM_SCREEN_COUNTS
+#### V_SUM_SCREEN_COUNTS
 
 This view returns the number of screens by screen type present in the database.  Note that D_INTERVAL_MONITOR is used to delimit the intervals instead of reliance upon the INT_TYPE_CODE.
 
-V_SUM_STATION_CLIMATE_PRECIP
+#### V_SUM_STATION_CLIMATE_PRECIP
 
 This view returns the total precipitation (and record count) by year for each interval.  Note that only those records with an RD_NAME_CODE of '551' (i.e. 'Precipitation - Daily Total') will be included.  The source data is found in D_INTERVAL_TEMPORAL_3.
 
-V_SUM_STATION_CLIMATE_RAINFALL
+#### V_SUM_STATION_CLIMATE_RAINFALL
 
 This view returns the total rainfall (and record count) by year for each interval.  Note that only those records with an RD_NAME_CODE of '549' (i.e. 'Rainfall (Daily Total)') will be included.  The source data is found in D_INTERVAL_TEMPORAL_3.
 
-V_SUM_STATION_CLIMATE_SNOWFALL
+#### V_SUM_STATION_CLIMATE_SNOWFALL
 
 This view returns the total snowfall (and record count) by year for each interval.  Note that only those records with an RD_NAME_CODE of '550' (i.e. 'Snowfall (Daily Total)') will be included.  The source data is found in D_INTERVAL_TEMPORAL_3.
 
-V_SUM_STATION_CLIMATE_TEMP
+#### V_SUM_STATION_CLIMATE_TEMP
 
 This returns the minimum, maximum and average temperature (as well as the record count) by year for each interval.  Note that only those records with an RD_NAME_CODE of '548' (i.e. 'Temperature (Air) - Daily Mean') will be included.  The source data is found in D_INTERVAL_TEMPORAL_3.
 
-V_SUM_SURFACE_WATER_FIELD
+#### V_SUM_SURFACE_WATER_FIELD
 
 This view returns the yearly minimum, maximum and record count values for LOC_TYPE_CODE '6' (i.e. 'Surface Water') and the interval types (INT_TYPE_CODE)
 
