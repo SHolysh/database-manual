@@ -654,13 +654,13 @@ These include:
 
 Each partner agency and region (as well as the ORMGP study area and the 'Source Water Protection' - SWP - areas) have three views associated with them:
 
-* V_SYS_AGENCY_<partner agency>
+* V_SYS_AGENCY_\<partner agency\>
     + This view extracts all locations (i.e. the LOC_ID) that lie within the areal extent of the agency (plus a defined buffer); these locations must have valid coordinates (as defined by QA_COORD_CONFIDENCE_CODE) and are present in D_LOCATION_GEOM.   The ORMGP 'Viewlog Header Well' is included by default in this list.
 
-* V_SYS_AGENCY_<partner agency>_ALL
+* V_SYS_AGENCY_\<partner agency\>_ALL
     + This view includes all locations from V_SYS_AGENCY_<name> and adds all locations from D_DOCUMENT regardless of valid coordinates.
 
-* V_SYS_AGENCY_<partner agency>_NOBUF
+* V_SYS_AGENCY_\<partner agency\>_NOBUF
     + This view is similar to V_SYS_AGENCY_<name> but no buffer is added to the areal extent.
 
 All of these views use the built-in spatial support of Microsoft SQL Server
