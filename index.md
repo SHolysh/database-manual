@@ -24,13 +24,13 @@ knit:   (
 
 ### Section 1 - Introduction
 
-* **[1.1 Overview](./01_Introduction/01_01-02_Overview_and_Background.html)**
-* **[1.2 Background](./01_Introduction/01_01-02_Overview_and_Background.html)**
-* **[1.3 Database Versions](./01_Introduction/01_03_Database_Versions.html)**
+* **[1.1 Overview](https://owrc.github.io/database-manual/01_Introduction/01_01-02_Overview_and_Background.html)**
+* **[1.2 Background](https://owrc.github.io/database-manual/01_Introduction/01_01-02_Overview_and_Background.html)**
+* **[1.3 Database Versions](https://owrc.github.io/database-manual/01_Introduction/01_03_Database_Versions.html)**
 
 ### Section 2 - Understanding the OMGP Database
 
-* **[2.1 Tables and * Views](./02_Understanding_ORMGP_Database/02_01_Tables_and_Views/02_01_Tables_and_Views.html)**
+* **[2.1 Tables and * Views](https://owrc.github.io/database-manual/02_Understanding_ORMGP_Database/02_01_Tables_and_Views/02_01_Tables_and_Views.html)**
 
     + 2.1.1 Data Tables (D_\*)
     + 2.1.2 Reference Tables (R_\*)
