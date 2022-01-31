@@ -30,7 +30,14 @@ knit:   (
 
 ### Section 2 - Understanding the OMGP Database
 
-* 2.1 Tables and * Views
+* **[2.1 Tables and * Views](./02_Understanding_ORMGP_Database/02_01_Tables_and_Views/02_01_Tables_and_Views.html)**
+
+    + 2.1.1 Data Tables (D_\*)
+    + 2.1.2 Reference Tables (R_\*)
+    + 2.1.3 Other Tables
+    + 2.1.4 Views Outline
+    + 2.1.5 Main Views (V_\*)
+    + 2.1.6 System Views (V_SYS_\*)
 
 * 2.2 General Overview of Relationships
 
