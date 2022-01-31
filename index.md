@@ -20,7 +20,7 @@ knit:   (
 
 ## Table of Contents
 
-### [Forward](./Forward/forward.html)
+### [Forward](https://owrc.github.io/database-manual/index.html/Forward/forward.html)
 
 ### Section 1 - Introduction
 
