@@ -320,17 +320,21 @@ Locations should never be deleted from the database (an exception would be in th
 The key fields found within this table relate to two main features of a location:
 
 * Naming; there are five naming fields available in this table - LOC_NAME, LOC_NAME_ALT1, LOC_NAME _ALT2, LOC_ORIGINAL NAME, LOC_NAME_MAP
-* Spatial location (LOC_COORD_EASTING, LOC_COORD_NORTHING); all locations are re-projected (if necessary) to NAD83, UTM Zone 17 (the original coordinates are stored in the equivalent '_OUOM' fields); a coordinate tracking system has been implemented within the table D_LOCATION_COORD_HIST
-*
-* more minor attributes of a Location that are stored in this table include:
+* Spatial location (LOC_COORD_EASTING, LOC_COORD_NORTHING); all locations are
+* re-projected (if necessary) to NAD83, UTM Zone 17 (the original coordinates
+* are stored in the equivalent '_OUOM' fields); a coordinate tracking system
+* has been implemented within the table D_LOCATION_SPATIAL_HIST
+
+Other more minor attributes of a Location that are stored in this table include:
+
 * the Lot and Concession (mainly from the MOE) 
 * Ownership information (for owners of many wells; e.g. York Region);
 * Location status (e.g. active, decommissioned, in-active, etc.)
 * Address and Contact info
 * Confidentiality code (not currently used but established to assist in screening locations that are not to be widely circulated (set by partner agencies)
-*
-*ding the naming of locations, the following general guidelines are provided: 
-*
+
+Regarding the naming of locations, the following general guidelines are provided: 
+
 * LOC_NAME is intended to be relatively short for easy display purposes
 * LOC_NAME_ALT1 is intended to convey information about consultants, geography and/or location ownership
 * LOC_ORIGINAL_NAME is primarily used for the MOE identification number or as the original name of the well (also found in D_LOCATION_ALIAS); where the well is not a part of the MOE database, the original name can reflect the name assigned by the consultant/owner at the time of drilling; in some cases, this identifier is currently the same as the LOC_NAME
@@ -356,37 +360,6 @@ The original intent of the table was to track significant changes occurring with
 Where additional names (beyond the number currently available in D_LOCATION table) are required (or known) for a particular location, these names are stored here, tagged by their LOC_ID.  For the more recently drilled MOE wells, the Audit Number and the Tag Number are stored in this table.  As of 'Database Version 6', the MOE 'Well_ID' and 'Bore_Hole_ID' are stored here as well.
 
 SiteFX looks at this table (as well) when searching for a specified location name.
-
-#### D_LOCATION_COORD_HIST
-
-This table tracks changes in the coordinates for a particular location.  All coordinates that have been assigned/used by a location should be stored here; the current coordinates (as found in D_LOCATION) will be tagged with a value of '1' in CURRENT_COORD (all others will be NULL).  The QA_COORD_CONFIDENCE_CODE is also tracked here (i.e. one for each coordinate record).
-
-The X_UTMZ17NAD83 and Y_UTMZ17NAD83 fields are the default coordinates for the program and should match LOC_COORD_EASTING and LOC_COORD_NORTHING (respectively) in D_LOCATION (i.e. they are all UTM Zone 17, NAD83 datum coordinates).  Their equivalent latitude and longitude values (also with a datum of NAD83) are also stored here (and accessed by applications whose default coordinates are latitude/longitude).  The LOC_COORD_OUOM_CODE will only be populated if the value was/is present in D_LOCATION.
-
-In addition, the LOC_ELEV_ID field can be used to reference a particular elevation (as found in D_LOCATION_ELEV_HIST) with a particular coordinate.
-
-Details concerning the coordinate source and method(s) are found in R_LOC_COORD_HIST_CODE (by LOC_COORD_HIST_CODE) supplemented by comments in COORD_HIST_LOC_METHOD and COORD_HIST_LOC_COMMENT.
-
-#### D_LOCATION_ELEV
-
-***The use of this table has been replaced by D_LOCATION_SPATIAL***
-
-This table is used to address the issue of the handling of multiple elevations for any given location (previously, elevations were stored in multiple tables by location type; e.g. climate stations, surface water stations, etc...)  The most up-to-date/reliable elevation for each location is found, here, in the ASSIGNED_ELEV field.  Multiple elevations have been recorded over time for any particular location.  As such, a particular logic is used when populating the ASSIGNED_ELEV field, in order of:
-
-1. If a survey has been carried out at the location, the value in SURVEYED_ELEV is used (refer also to D_LOCATION_QA)
-2. If the location lies within the ORMGP study area, the DEM_MNR_10m_v2 value is used (Ministry of Natural Resources, 10m resolution DEM, version 2)
-3. If the location lies outside the ORMGP study area, the coarser DEM_SRTM_90m_v41 value is used (Shuttle Radar Topography Mission, 90m resolution DEM, version 4.1)
-4. As of 'Database Version 6', only those locations with a QA_ELEV_CONFIDENCE_CODE of '1' will be considered a surveyed elevation; this has not been applied retroactively
-
-Each of these (as well as any original or other elevation; this includes historical EarthFX specific elevations) is tracked in the D_LOCATION_ELEV_HIST table; the actual value is referenced using the LOC_ELEV_ID.  In the case of MOE wells, the MOE assigned elevation is stored as the 'original' elevation.
-
-It is important to note that SiteFX does not access this table directly.  Instead, elevation values in BH_GND_ELEV from D_BOREHOLE are used for calculation of elevations/depths.  Currently there is a routine check to ensure that the two values match (ASSIGNED_ELEV and BH_GND_ELEV) for any particular location.
-
-#### D_LOCATION_ELEV_HIST
-
-***The use of this table has been replaced by D_LOCATION_SPATIAL_HIST***
-
-This table holds all elevations associated with a specific location - each elevation will be tied to a particular source, as found in R_LOC_ELEV_CODE.  Refer to D_LOCATION_ELEV, above, for additional details.  Note that the QA_ELEV_CONFIDENCE_CODE is tracked here for 'each' elevation value.
 
 #### D_LOCATION_GEOM
 
@@ -417,6 +390,38 @@ Note that all Locations in the D_LOCATION table should have an associated record
 #### D_LOCATION_QC
 
 Records are added to this table in order to track checks or changes to locations (and associated intervals) within the database.  This is used to prevent unnecessary re-examination of data for possibly problematic data for locations that have already been checked or corrected.  The marked check/correction can be table-general (e.g. pumptest and pumping rates) through table-field specific (e.g. screen top and bottom depths).  This is indicated by the CHECK_CODE (indicating the actual check performed) and CHECK_PROCESS_CODE (indicating the success or failure, in various ways, of the check or correction).  These are referenced through R_CHECK_CODE and R_CHECK_PROCESS_CODE.  Note that there will (likely) be multiple records per location as each could describe a separate check undertaken (and possibly at another date, as indicated by PROCESS_DATE).  The INT_ID should only be populated when the check is performed against an interval (linked to a location).  An additional COMMENT can be included to more fully describe the information being evaluated.
+
+#### D_LOCATION_SPATIAL
+
+This table holds the SPAT_ID (linked to D_LOCATION_SPATIAL_HIST) which is
+considered current to the location.  The view V_SYS_LOC_COORDS will use this
+relationship to return these coordinates and elevation for this location.
+
+#### D_LOCATION_SPATIAL_HIST
+
+This table tracks changes in the coordinates for a particular location.  All
+coordinates that have been assigned/used by a location should be stored here;
+the current coordinates will be indicated through the
+LOC_ID/SPAT_ID values in D_LOCATION_SPATIAL.  The QA codes for both coordinate
+and elevation data will also be represented here.
+
+The X and Y fields are the default coordinates for the program and should
+match LOC_COORD_EASTING and LOC_COORD_NORTHING (respectively) in D_LOCATION
+(i.e. they are all UTM Zone 17, NAD83 datum coordinates; this will be matched
+with a '26917' value in EPSG_CODE).  Their equivalent latitude and longitude
+values (also with a datum of NAD83) are also stored here (and accessed by
+applications whose default coordinates are latitude/longitude).  Additional
+EPSG codes may be specifed for the LAT and LONG fields as well as the _OUOM
+fields.
+
+The LOC_COORD_HIST_CODE and LOC_ELEV_CODE field are used to track the source
+of the possible changes in the coordinate and elevation values.  
+Comments concerning the coordinate source and method(s) used can be found in
+LOC_COORD_METHOD, LOC_ELEV_METHOD, LOC_COORD_COMMENT and LOC_ELEV_COMMENT.
+The LOC_COORD_DATE and LOC_ELEV_DATE will match if the source of each set of
+values was the same; they will otherwise pertain to their souce data (for
+example in the case where an elevation is from a specified DEM - the
+LOC_ELEV_DATE should match the this data source).
 
 #### D_LOCATION_SUMMARY
 
