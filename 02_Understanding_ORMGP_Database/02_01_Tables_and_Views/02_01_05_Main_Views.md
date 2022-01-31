@@ -522,33 +522,33 @@ This returns the minimum, maximum and average temperature (as well as the record
 
 This view returns the yearly minimum, maximum and record count values for LOC_TYPE_CODE '6' (i.e. 'Surface Water') and the interval types (INT_TYPE_CODE)
 
-    - Surface Water Flow Gauge ('4')
-    - Surface Water Spot Flow ('10')
-    - Surface Water Spot Stage Elevation ('14')
+* Surface Water Flow Gauge ('4')
+* Surface Water Spot Flow ('10')
+* Surface Water Spot Stage Elevation ('14')
 
 Note that this does not include the any of the calculated baseflow RD_NAME_CODE's (i.e. codes '1002' through '1013').  If multiple UNIT_CODE's occur in the database, these will appear as multiple rows.
 
-V_VL_BOREHOLES
+#### V_VL_BOREHOLES
 
 This view returns the information necessary for Viewlog to plot and interact with boreholes when working with cross-sections.
 
-V_VL_GEO_GSC
+#### V_VL_GEO_GSC
 
 This view returns the information necessary or Viewlog to plot and interact with boreholes when working with cross-sections.  In particular, the GSC interpreted description of the geologic layer material (as well as its top and bottom elevations) are returned.  This description is converted to uppercase.
 
-V_VL_GEO_MAT123
+#### V_VL_GEO_MAT123
 
 This view returns the information necessary for Viewlog to plot and interact with boreholes when working with cross-sections.  This is similar to V_VL_GEOLOGY with the exception that the GSC description is included (if available).  Additional fields are included from D_GEOLOGY_LAYER.
 
-V_VL_GEOLOGY
+#### V_VL_GEOLOGY
 
 This view returns the information necessary for Viewlog to plot and interact with boreholes when working with cross-sections.  In particular, the three possible materials for each geologic layer as well as their top and bottom elevations are returned.  The descriptive text is converted to uppercase.  
 
-V_VL_HEADER_LOG
+#### V_VL_HEADER_LOG
 
 This view returns the information necessary for Viewlog to plot and interact with boreholes.  In particular, this view is used to populate a single borehole page for inclusion in reports.
 
-V_VL_HEADER_SCREEN
+#### V_VL_HEADER_SCREEN
 
 This view returns the information necessary for Viewlog to plot and interact with boreholes when working with cross-sections.  In particular, top and bottom elevations for screens are returned for applicable locations; the TEXT field (name) must be populated with 'SCREEN'.
 
