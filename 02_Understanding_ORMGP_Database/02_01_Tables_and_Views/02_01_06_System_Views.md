@@ -1802,6 +1802,9 @@ This view returns all LOC_ID's and associated INT_ID's identified as a UGAIS sou
 
 #### V_SYS_UGAIS_LOCATION
 
+Returns those LOC_IDs that were an original UGAIS location and the number of
+intervals associated with it.  This uses V_SYS_UGAIS_ALL as a base.
+
 #### V_SYS_UGAIS_SCREEN
 
 Similar to V_SYS_GEN_UGAIS_ALL, this view returns all LOC_ID's and INT_ID's with an identified screen type (using V_SYS_INT_TYPE_CODE_SCREEN).  No INT_ID values will be NULL.
