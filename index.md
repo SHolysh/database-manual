@@ -20,7 +20,7 @@ knit:   (
 
 ## Table of Contents
 
-### [Forward](https://owrc.github.io/database-manual/index.html/Forward/forward.html)
+### [Forward](./Forward/forward.html)
 
 ### Section 1 - Introduction
 
@@ -30,7 +30,7 @@ knit:   (
 
 ### Section 2 - Understanding the OMGP Database
 
-* **[2.1 Tables and * Views](https://owrc.github.io/database-manual/02_Understanding_ORMGP_Database/02_01_Tables_and_Views/02_01_Tables_and_Views.html)**
+* **[2.1 Tables and Views](https://owrc.github.io/database-manual/02_Understanding_ORMGP_Database/02_01_Tables_and_Views/02_01_01_Tables_and_Views.html)**
 
     + 2.1.1 Data Tables (D_\*)
     + 2.1.2 Reference Tables (R_\*)
