@@ -24,9 +24,9 @@ knit:   (
 
 ### Section 1 - Introduction
 
-* [1.1 Overview](./01_Introduction/01_01-02_Overview_and_Background.html)
-* [1.2 Background](./01_Introduction/01_01-02_Overview_and_Background.html)
-* [1.3 Database Versions](./01_Introduction/01_03_Database_Versions.html)
+* **[1.1 Overview](./01_Introduction/01_01-02_Overview_and_Background.html)**
+* **[1.2 Background](./01_Introduction/01_01-02_Overview_and_Background.html)**
+* **[1.3 Database Versions](./01_Introduction/01_03_Database_Versions.html)**
 
 ### Section 2 - Understanding the OMGP Database
 
