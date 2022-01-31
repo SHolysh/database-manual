@@ -1,7 +1,7 @@
 ---
 title:  "Section 1.0 to 1.2"
 author: "ORMGP"
-date:   "20220125"
+date:   "20220131"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -9,7 +9,8 @@ knit:   (
                 rmarkdown::render(
                     input_file,
                     encoding=encoding,
-                    output_file=file.path(dirname(input_file), out_dir, '01_01-02_Overview_and_Background.html')
+                    output_file=file.path(dirname(input_file), out_dir, 
+                    '01_01-02_Overview_and_Background.html')
                 )
             }
         )

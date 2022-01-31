@@ -20,17 +20,17 @@ knit:   (
 
 ## Table of Contents
 
-#### [Forward](./Forward/forward.html)
+### [Forward](./Forward/forward.html)
 
 ### Section 1 - Introduction
 
-* 1.1 Overview
-* 1.2 Background
-* 1.3 Database Versions
+* [1.1 Overview](./01_Introduction/01_01-02_Overview_and_Background.html)
+* [1.2 Background](./01_Introduction/01_01-02_Overview_and_Background.html)
+* [1.3 Database Versions](./01_Introduction/01_03_Database_Versions.html)
 
 ### Section 2 - Understanding the OMGP Database
 
-* 2.1 Tables and Views
+* 2.1 Tables and * Views
 
 * 2.2 General Overview of Relationships
 
@@ -70,7 +70,7 @@ knit:   (
 
 * 4.5 Background Processing and Updates
 
-### [References](references.html)
+### [References](./References/References.html)
 
 ### Appendices
 
