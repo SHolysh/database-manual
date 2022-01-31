@@ -414,14 +414,7 @@ applications whose default coordinates are latitude/longitude).  Additional
 EPSG codes may be specifed for the LAT and LONG fields as well as the _OUOM
 fields.
 
-The LOC_COORD_HIST_CODE and LOC_ELEV_CODE field are used to track the source
-of the possible changes in the coordinate and elevation values.  
-Comments concerning the coordinate source and method(s) used can be found in
-LOC_COORD_METHOD, LOC_ELEV_METHOD, LOC_COORD_COMMENT and LOC_ELEV_COMMENT.
-The LOC_COORD_DATE and LOC_ELEV_DATE will match if the source of each set of
-values was the same; they will otherwise pertain to their souce data (for
-example in the case where an elevation is from a specified DEM - the
-LOC_ELEV_DATE should match the this data source).
+The LOC_COORD_HIST_CODE and LOC_ELEV_CODE field are used to track the source of the possible changes in the coordinate and elevation values.  Comments concerning the coordinate source and method(s) used can be found in LOC_COORD_METHOD, LOC_ELEV_METHOD, LOC_COORD_COMMENT and LOC_ELEV_COMMENT.  The LOC_COORD_DATE and LOC_ELEV_DATE will match if the source of each set of values was the same; they will otherwise pertain to their souce data (for example in the case where an elevation is from a specified DEM - the LOC_ELEV_DATE should match the this data source).
 
 #### D_LOCATION_SUMMARY
 
