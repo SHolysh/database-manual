@@ -25,11 +25,8 @@ additions are indicated.
 
 ## Appendix D.1 - Database Locations Summary Page
 
-![Figure D.1.1 Summary page of moderately sized datasets (greater than 50 locations) used as a data source](t_d_01_01.jpg)
-*Figure D.1.1 Summary page of moderately sized datasets (greater than 50
-locations*
-
-[This is also available as a separate PDF.](./DDS_Locations.pdf)
+[Summary page of moderately sized datasets (greater than 50 locations) used as
+a data source (a PDF).](./DDS_Locations.pdf)
 
 ## Appendix D.2 - Specific Sources of Database Locations
 
