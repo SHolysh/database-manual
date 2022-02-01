@@ -25,47 +25,47 @@ additions are indicated.
 
 For the summary tables, the following fields are populated:
 
-#### DATA_ID
+#### *DATA_ID*
 
 The numeric identifier used to link datasets to data records within the
 database.
 
-#### RCOUNT
+#### *RCOUNT*
 
 The number of records attributable to the specific data source for the
 particular source table (e.g. number of locations, number of records of
 chemistry data, etc...).
 
-#### DATA_TYPE
+#### *DATA_TYPE*
 
 A text description of the base type of information loaded.
 
-#### DATA_DESCRIPTION
+#### *DATA_DESCRIPTION*
 
 A description of the data source (dataset) loaded into the database.  This
 should generally indicate the primary source.
 
-#### DATA_COMMENT
+#### *DATA_COMMENT*
 
 Additional information concering the data source or dataset loaded ino the
 database.  
 
-#### DATA_FILENAME
+#### *DATA_FILENAME*
 
 The original file name of the data source or dataset previously to be loaded
 into the database.
 
-#### DATA_ADDED_DATE
+#### *DATA_ADDED_DATE*
 
 The added date of the data source or dataset.  If this does not match (or is
 close to) the date in SYS_TIME_STAMP it may indicate the dataset date.
 
-#### SYS_TIME_STAMP
+#### *SYS_TIME_STAMP*
 
 The date of the addition of the DATA_ID to the D_DATA_SOURCE table.  This may
 have been added subsequent to the incorporation of the original data.
 
-#### SYS_USER_STAMP
+#### *SYS_USER_STAMP*
 
 The user who added the DATA_ID to the D_DATA_SOURCE table.  This is usually
 the same user who loaded the dataset.
