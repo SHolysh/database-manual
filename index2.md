@@ -10,7 +10,7 @@ knit:   (
                     input_file,
                     encoding=encoding,
                     output_file=file.path(dirname(input_file), out_dir,
-                    'index.html')
+                    'index2.html')
                 )
             }
         )
