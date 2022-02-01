@@ -21,5 +21,5 @@ knit:   (
 ![Figure 4.1.1 Detailed Table Relationships; this 11x17 inch figure is a representation of the poster-sized PDf made available below](f04_01_01.jpg)
 *Figure 4.1.1 Detailed Table Relationships; this 11x17 inch figure is a representation of the poster-sized pdf made available below*
 
-[Download poster sized figure of detailed table relationships.](./ORMGPDB_Detailed_Relationships.pdf)
+[Download poster sized (60x34 inches) figure of detailed table relationships.](./ORMGPDB_Detailed_Relationships.pdf)
 
