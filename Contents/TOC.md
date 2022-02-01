@@ -104,7 +104,10 @@ knit:   (
 
 * H - Current Problems (to be Corrected)
 
-* I - Training Setup
+* I - Training Setup and Access
+
+    + I.1 Citrix XenDesktop
+    + I.2 Geocortex
 
 * J - Training Exercises
 
