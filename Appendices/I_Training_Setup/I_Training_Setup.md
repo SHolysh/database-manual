@@ -24,7 +24,7 @@ based upon Citrix XenDesktop, is used to access a pool of partner machines
 (generally up to a ten computers at-a-time) through a web browser (see
 Appendix I.1).  In
 addition, a web-based application is available through the [ORMGP
-website](www.oakridgeswater.ca) which allows the user to access a subset of
+website](https://www.oakridgeswater.ca) which allows the user to access a subset of
 the database along with a variety of spatial data sources through Geocortex (see Appendix I.2).
 
 ### Appendix I.1 - Citrix Xendesktop
