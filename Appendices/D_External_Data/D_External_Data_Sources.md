@@ -23,12 +23,59 @@ the database.  This is not to be taken as an exhaustive list as it generally
 only includes moderately large datasets.  Both locations and temporal data
 additions are indicated.
 
-## Appendix D.1 - Database Locations Summary Page
+For the summary tables, the following fields are populated:
 
-[Summary page of moderately sized datasets (greater than 50 locations) used as
+#### DATA_ID
+
+The numeric identifier used to link datasets to data records within the
+database.
+
+#### RCOUNT
+
+The number of records attributable to the specific data source for the
+particular source table (e.g. number of locations, number of records of
+chemistry data, etc...).
+
+#### DATA_TYPE
+
+A text description of the base type of information loaded.
+
+#### DATA_DESCRIPTION
+
+A description of the data source (dataset) loaded into the database.  This
+should generally indicate the primary source.
+
+#### DATA_COMMENT
+
+Additional information concering the data source or dataset loaded ino the
+database.  
+
+#### DATA_FILENAME
+
+The original file name of the data source or dataset previously to be loaded
+into the database.
+
+#### DATA_ADDED_DATE
+
+The added date of the data source or dataset.  If this does not match (or is
+close to) the date in SYS_TIME_STAMP it may indicate the dataset date.
+
+#### SYS_TIME_STAMP
+
+The date of the addition of the DATA_ID to the D_DATA_SOURCE table.  This may
+have been added subsequent to the incorporation of the original data.
+
+#### SYS_USER_STAMP
+
+The user who added the DATA_ID to the D_DATA_SOURCE table.  This is usually
+the same user who loaded the dataset.
+
+## Appendix D.1 - Datasets Summary Page (Locations)
+
+[Summary table of moderately sized datasets (greater than 50 locations) used as
 a data source (a PDF).](./DDS_Locations.pdf)
 
-## Appendix D.2 - Specific Sources of Database Locations
+## Appendix D.2 - Specific Sources of Datasets (Locations)
 
 ### Environment Canada
 
@@ -146,5 +193,24 @@ UGAIS (Urban Geology Automated Information System) is a compilation of largely u
 ##### Details	
 
 Approximately 33,200 geotechnical boreholes, with depths ranging from 0.1 m (soil sample) to in excess of 100 m were converted from ASCII format and appended to the database  These boreholes are identified in the database using a LOC_TYPE_CODE of 1 and DATA_SOURCE = 'ugais' in the D_LOCATION table.  A standard ORMGP query is provided in the database called ORMGP - Wells UGAIS.  The wells have been assigned as position certainly code of 3 (10 to 30 m), although as geotechnical borings, it is expected the accuracy may be greater, but this cannot be confirmed.  Only about 7,040 of the 33,200 include water level information.
+
+## Appendix D.3 - Datasets Summary Page - Chemistry Records 
+
+[Summary table of moderately sized datasets (greater than 500 records) used as a data source (a PDF).](./DDS_Chemistry.pdf)
+
+## Appendex D.4 - Datasets Summary Page - Climate Records
+
+[Summary table of datasets used as a data source (a PDF).](./DDS_Climate.pdf)
+
+## Appendix D.5 - Datasets Summary Page - Field Records
+
+[Summary table of moderately sized datasets (greater than 50000 records) used as a data source (a PDF).](./DDS_Field.pdf)
+
+## Appendix D.6 - Datasets Summary Page - Surface Water Records
+
+[Summary table of datasets used as a data source (a PDF).](./DDS_SW.pdf)
+
+
+
 
 
