@@ -59,9 +59,9 @@ Please test the environment, noting and reporting any problems or errors that ar
 
 ### Appendix I.2 - Geocortex Mapping Portal(s)
 
-Examining the [ORMGP webpage](www.oakridgeswater.ca), users will note that
+Examining the [ORMGP webpage](https://www.oakridgeswater.ca), users will note that
 there is a 'MAPS' and 'SIGN IN' link.  The former is publicly accessible and
-contains only a small portion of the information available through the latter.
+contains only a small portion of the information available to the latter.
 The **SIGN IN**, however, requires an ORMGP provided user login and password.
 
 
