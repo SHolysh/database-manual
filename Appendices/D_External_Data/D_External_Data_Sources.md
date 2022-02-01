@@ -22,11 +22,11 @@ The following sources have been used for adding of information into the database
 
 ### Environment Canada
 
-* Date: February 2004
-* Name: Climate Data
-* Source: Sandy Radecki - Burlington
+***Date:*** February 2004
+***Name:*** Climate Data
+***Source:*** Sandy Radecki - Burlington
 
-* Description: Climate data up to the end of 2003 has been added to the database.  Included is the following data, provided on a daily average basis.
+***Description:*** Climate data up to the end of 2003 has been added to the database.  Included is the following data, provided on a daily average basis.
 
 1.	Precipitation
 2.	Rain
