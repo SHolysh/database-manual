@@ -26,7 +26,7 @@ concern the population of the W_\* tables for web access, the database backup sy
 Two Maintenance Plans have been implemented withing the SQL Server itself:
 
 * Backup_OAK_20160831_MASTER
-    + This backs up the MASTER database on a weekly basis; from this a 'weekly' database is created to general user access
+    + This backs up the MASTER database on a weekly basis; from this a 'weekly' database is created for general user access
 * Reindex_OAK_20160831_MASTER
     + The following tasks are applied against the MASTER database on a weekly basis: Shrink database (leaving 10% free space); Rebuild indexes in all tables; Clean up history; Maintenance cleanup (e.g. remove old .bak files).
 
