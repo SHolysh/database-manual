@@ -18,7 +18,20 @@ knit:   (
 
 ## Appendix D - External Data Sources
 
-The following sources have been used for adding of information into the database.  This is not to be taken as an exhaustive list.  Approximate dates are indicated (multiple dates are possible).
+The following sources have been used for adding a variety of information into
+the database.  This is not to be taken as an exhaustive list as it generally
+only includes moderately large datasets.  Both locations and temporal data
+additions are indicated.
+
+## Appendix D.1 - Database Locations Summary Page
+
+![Figure D.1.1 Summary page of moderately sized datasets (greater than 50 locations) used as a data source](t_d_01_01.jpg)
+*Figure D.1.1 Summary page of moderately sized datasets (greater than 50
+locations*
+
+[This is also available as a separate PDF.](./DDS_Locations.pdf)
+
+## Appendix D.2 - Specific Sources of Database Locations
 
 ### Environment Canada
 
@@ -39,11 +52,7 @@ is the following data, provided on a daily average basis:
 
 ##### Details	
 
-Approximately 560 climate stations are listed in the database, 517 operated by Environment Canada, and the remaining 43 operated by CA and other agencies.  Locations are shown in the following figure.  Climate stations are identified in the database using a LOC_TYPE_CODE of 9 in the D_LOCATION table.  A standard ORMGP query is provided in the database to display climate stations- this query is called ORMGP - Climate Stations ALL
-
-##### Future Data	
-
-Stream flow data from Environment Canada extends to December 2000, and requires updating.  Past requests have been referred to their web site, which currently does not accommodate the bulk downloads required by the database.  Improvements to the web site are expected, but unfortunately it has been difficult to access the required data.
+Approximately 560 climate stations are listed in the database, 517 operated by Environment Canada, and the remaining 43 operated by CA and other agencies.  Locations are shown in the following figure.  Climate stations are identified in the database using a LOC_TYPE_CODE of 9 in the D_LOCATION table.  
 
 ### Geological Survey of Canada Data
 
@@ -63,10 +72,6 @@ are identified in the database using a LOC_TYPE_CODE of 11 in the D_LOCATION
 table.  A standard ORMGP view is provided in the database to display
 information conncering these - V_GEN_BOREHOLE_OUTCROP.
 
-##### Future Data	
-
-The GSC located a number of non MOE wells for the database.  Some will already exist in the ORMGP database (MTO geotechnical wells for bridge abutments); however, the remaining wells must be identified and transferred into ORMGP.
-
 ### MNR Surface Water Station Coordinates
 
 ##### Date: June 2004
@@ -79,9 +84,21 @@ The original Environment Canada coordinates were initially provided in digital l
 
 ### MOE PTTW Database
 
-Publically available format.  As of 2014-08-01 (approximately).
+##### Dates:
 
-### MOE South Simcoe Groundwater Study data files
+Mutliple import periods, including (with approximate dates):
+
+* February, 2006
+* August, 2015
+* September, 2017
+* May, 2020
+* June, 2021
+
+##### Description
+
+The Ministry of Environments 'Permit to Take Water' (PTTW) datasets.
+
+### MOE South Simcoe Groundwater Study Data Files
 
 ##### Date: June 2004
 ##### Name: Dixon Hydrogeology database for MOE GW study
@@ -132,9 +149,5 @@ UGAIS (Urban Geology Automated Information System) is a compilation of largely u
 ##### Details	
 
 Approximately 33,200 geotechnical boreholes, with depths ranging from 0.1 m (soil sample) to in excess of 100 m were converted from ASCII format and appended to the database  These boreholes are identified in the database using a LOC_TYPE_CODE of 1 and DATA_SOURCE = 'ugais' in the D_LOCATION table.  A standard ORMGP query is provided in the database called ORMGP - Wells UGAIS.  The wells have been assigned as position certainly code of 3 (10 to 30 m), although as geotechnical borings, it is expected the accuracy may be greater, but this cannot be confirmed.  Only about 7,040 of the 33,200 include water level information.
-
-##### Future Data	
-
-In several cases, the geological description for the wells included water level information.  Many of these water levels remain in the geological description field, although often hidden by carriage return characters.  Further work is necessary to parse the water level data into the water level table.   It is noted that the original ASCII files included Liquid Limit and Plastic Limit values; this data could not be confidently converted owing to missing depth readings.
 
 
