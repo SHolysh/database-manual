@@ -22,11 +22,11 @@ The following sources have been used for adding of information into the database
 
 ### Environment Canada
 
-#### Date: February 2004
-#### Name: Climate Data
-#### Source: Sandy Radecki - Burlington
+##### Date: February 2004
+##### Name: Climate Data
+##### Source: Sandy Radecki - Burlington
 
-#### Description 
+##### Description 
 
 Climate data up to the end of 2003 has been added to the database.  Included
 is the following data, provided on a daily average basis:
@@ -37,9 +37,13 @@ is the following data, provided on a daily average basis:
 4.	Maximum, minimum and average temperature
 5.	Solar radiation where available
 
-Details	Approximately 560 climate stations are listed in the database, 517 operated by Environment Canada, and the remaining 43 operated by CA and other agencies.  Locations are shown in the following figure.  Climate stations are identified in the database using a LOC_TYPE_CODE of 9 in the D_LOCATION table.  A standard ORMGP query is provided in the database to display climate stations- this query is called ORMGP - Climate Stations ALL
+##### Details	
 
-Future Data	Stream flow data from Environment Canada extends to December 2000, and requires updating.  Past requests have been referred to their web site, which currently does not accommodate the bulk downloads required by the database.  Improvements to the web site are expected, but unfortunately it has been difficult to access the required data.
+Approximately 560 climate stations are listed in the database, 517 operated by Environment Canada, and the remaining 43 operated by CA and other agencies.  Locations are shown in the following figure.  Climate stations are identified in the database using a LOC_TYPE_CODE of 9 in the D_LOCATION table.  A standard ORMGP query is provided in the database to display climate stations- this query is called ORMGP - Climate Stations ALL
+
+##### Future Data	
+
+Stream flow data from Environment Canada extends to December 2000, and requires updating.  Past requests have been referred to their web site, which currently does not accommodate the bulk downloads required by the database.  Improvements to the web site are expected, but unfortunately it has been difficult to access the required data.
 
 Geological Survey of Canada Data
 
