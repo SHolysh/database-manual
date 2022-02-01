@@ -89,6 +89,13 @@ knit:   (
 
 * D - External Data Sources
 
+    + D.1 Datasets Summary Page - Locations
+    + D.2 Specific Sources of Datasets - Locations
+    + D.3 Datasets Summary Page - Chemistry Records
+    + D.4 Datasets Summary Page - Climate Records
+    + D.5 Datasets Summary Page - Field Records
+    + D.6 Datasets Summary Page - Surface Water Records
+
 * E - YPDT-CAMC/ORMGP Database Timeline
 
 * F - Accessory ORMGP Databases
