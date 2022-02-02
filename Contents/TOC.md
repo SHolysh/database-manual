@@ -63,9 +63,9 @@ knit:   (
     + **2.6.2 Directory and Files, Naming and Structure**
     + **2.6.3 Report Entry**
 
-* **[2.7 Multi-Screen * Installations](/database-manual/02_Understanding_ORMGP_Database/02_07_Multi-Screen_Installations/02_07_Multi-Screen_Installations.html)**
+* **[2.7 Multi-Screen Installations](/database-manual/02_Understanding_ORMGP_Database/02_07_Multi-Screen_Installations/02_07_Multi-Screen_Installations.html)**
 
-* **[2.8 Multi-Borehole * Records](/database-manual/02_Understanding_ORMGP_Database/02_08_Multi-Borehole_Records/02_08_Multi-Borehole_Records.html)**
+* **[2.8 Multi-Borehole Records](/database-manual/02_Understanding_ORMGP_Database/02_08_Multi-Borehole_Records/02_08_Multi-Borehole_Records.html)**
 
 ### Section 3 - Practical Applications
 
@@ -102,27 +102,27 @@ knit:   (
 
 ### Section 4 - Technical
 
-* **[4.1 Detailed Overview of * Relationships](/database-manual/04_Technical/04_01_Detailed_Relationships/04_01_Detailed_Relationships.html)**
+* **[4.1 Detailed Overview of Relationships](/database-manual/04_Technical/04_01_Detailed_Relationships/04_01_Detailed_Relationships.html)**
 
 * **4.2 Table Details (D_\*, R_\* and Other)**
 
 * **4.3 View Details (V_\*)**
 
-* **4.4 Database Distribution**
+* **[4.4 Database Distribution](/database-manual/04_Technical/04_04_Database_Distribution/04_04_Database_Distribution.html)**
 
-* **[4.5 Background Processing and * Updates](/database-manual/04_Technical/04_05_Background_Processing_Updates/05_05_Background_Processing_Updates.html)**
+* **[4.5 Background Processing and Updates](/database-manual/04_Technical/04_05_Background_Processing_Updates/05_05_Background_Processing_Updates.html)**
 
 ### [References](/database-manual/References/References.html)
 
 ### Appendices
 
-* **[A - Basic Outline and Use of Structured Query Language * (SQL)](/database-manual/Appendices/A_SQL_Outline/A_SQL_Outline.html)**
+* **[A - Basic Outline and Use of Structured Query Language (SQL)](/database-manual/Appendices/A_SQL_Outline/A_SQL_Outline.html)**
 
 * **B - Soil Classification Systems and Translation of Geologic Layers**
 
-* **[C - Baseflow * Estimation](/database-manual/Appendices/C_Baseflow/C_Baseflow_Estimation.html)**
+* **[C - Baseflow Estimation](/database-manual/Appendices/C_Baseflow/C_Baseflow_Estimation.html)**
 
-* **[D - External Data * Sources](/database-manual/Appendices/D_External_Data/D_External_Data_Sources.html)**
+* **[D - External Data Sources](/database-manual/Appendices/D_External_Data/D_External_Data_Sources.html)**
 
     + **D.1 Datasets Summary Page - Locations**
     + **D.2 Specific Sources of Datasets - Locations**
@@ -133,20 +133,20 @@ knit:   (
 
 * **E - YPDT-CAMC/ORMGP Database Timeline**
 
-* **[F - Accessory ORMGP * Databases](/database-manual/Appendices/F_Accessory_Databases/F_Accessory_Databases.html)**
+* **[F - Accessory ORMGP Databases](/database-manual/Appendices/F_Accessory_Databases/F_Accessory_Databases.html)**
 
 * **G - Procedures**
 
 * **H - Current Problems (to be Corrected)**
 
-* **[I - Training Setup and * Access](/database-manual/Appendices/I_Training_Setup/I_Training_Setup.html)**
+* **[I - Training Setup and Access](/database-manual/Appendices/I_Training_Setup/I_Training_Setup.html)**
 
     + **I.1 Citrix XenDesktop**
     + **I.2 Geocortex**
 
 * **J - Training Exercises**
 
-* **[K - Alternate Software * Instructions](/database-manual/Appendices/K_Alternate_Software.html)**
+* **[K - Alternate Software Instructions](/database-manual/Appendices/K_Alternate_Software.html)**
 
 * **L - Database Reports**
 
