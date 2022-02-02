@@ -101,7 +101,7 @@ overburden deposits are Quaternary deposits, therefore, this is the system we
 are more likely to encounter in a local academic/scientific borehole log.
 This system is summarized in Table B.4.2.
 
-![Table B.4.2 Lithofacies Classification System - Quaternary Sediments (Eyles et al, 1983)](tb04_02.jpg)
+![Table B.4.2 Lithofacies Classification System - Quaternary Sediments (Eyles et al, 1983)](tb_04_02.jpg)
 *Table B.4.2 Lithofacies Classification System - Quaternary Sediments (Eyles et al, 1983)*
 
 It should be noted that more than one secondary code can be used.  A few examples of this are:  Dmm - matrix-supported, massive, diamict; Dmg, matrix supported, graded etc.
