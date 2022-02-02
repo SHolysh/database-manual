@@ -131,7 +131,7 @@ knit:   (
     + **D.5 Datasets Summary Page - Field Records**
     + **D.6 Datasets Summary Page - Surface Water Records**
 
-* **[E - YPDT-CAMC/ORMGP Database * Timeline](/database-manual/Appendices/E_Database_Timeline/E_Database_Timeline.html)**
+* **[E - YPDT-CAMC/ORMGP Database Timeline](/database-manual/Appendices/E_Database_Timeline/E_Database_Timeline.html)**
 
 * **[F - Accessory ORMGP Databases](/database-manual/Appendices/F_Accessory_Databases/F_Accessory_Databases.html)**
 
