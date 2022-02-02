@@ -20,7 +20,9 @@ knit:   (
 
 ### B.1 Unified Soil Classification System
 
-The most common soil classification system used in geotechnical engineering studies is the Unified Soil Classification System (USCS) (ASTM D2488-93).  Details of the USCS system are provided in the attached table (Table XXX).  The first step in the USCS system is to determine, on the basis of grain size, whether the soil is fine-grained (silts and clays) or coarse-grained (sands and gravels).  If 50% of the soil were to pass through a 200 mesh sieve, the soil would be described as fine-grained.  Similarly, if more than 50% of the soil were to be retained on a 200 mesh sieve, the soil would be described as coarse-grained.
+The most common soil classification system used in geotechnical engineering
+studies is the Unified Soil Classification System (USCS) (ASTM D2488-93).
+Details of the USCS system are provided in the attached table (Table B.1.1).  The first step in the USCS system is to determine, on the basis of grain size, whether the soil is fine-grained (silts and clays) or coarse-grained (sands and gravels).  If 50% of the soil were to pass through a 200 mesh sieve, the soil would be described as fine-grained.  Similarly, if more than 50% of the soil were to be retained on a 200 mesh sieve, the soil would be described as coarse-grained.
 
 The difficulty with using the USCS is that soil classified as coarse-grained (i.e. more than 50% retained on a 200 mesh sieve) may still contain considerable clay and may both look like a clay-rich soil and also behave as a plastic or cohesive soil.  Plasticity refers to the ability of a material to be deformed rapidly without cracking or crumbling and then to maintain that deformed state after the deforming force is released (e.g. molding clay into a shape).  For this reason, describing the soil according to the USCS is quite difficult to do accurately based on field observations alone.  It is more appropriate where laboratory testing of grain size (sieves and hydrometers) and physical properties (plastic and liquid limits) is completed.  This is not the case for most of the borehole logs that are likely to be encountered in the ORMGP.
 
