@@ -118,7 +118,7 @@ knit:   (
 
 * **[A - Basic Outline and Use of Structured Query Language (SQL)](/database-manual/Appendices/A_SQL_Outline/A_SQL_Outline.html)**
 
-* **B - Soil Classification Systems and Translation of Geologic Layers**
+* **[B - Soil Classification Systems and Translation of Geologic Layers](/database-manual/Appendices/B_Soil_Classification/B_Soil_Classification.html)**
 
 * **[C - Baseflow Estimation](/database-manual/Appendices/C_Baseflow/C_Baseflow_Estimation.html)**
 
