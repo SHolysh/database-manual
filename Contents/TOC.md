@@ -69,11 +69,23 @@ knit:   (
 
 ### Section 3 - Practical Applications
 
-* 3.1 Working with the Database
+* **3.1 Working with the Database**
 
-* 3.2 Training Exercises
+    + **[3.1.1 General Database Access](/database-manual/03_01_Working_with_the_Database/03_01_01_Datbase_Access.html)**
+    + **[3.1.2 Microsoft Access](/database-manual/03_01_Working_with_the_Database/03_01_02_MS_Access.html)**
+    + **[3.1.3 Microsoft SQL Management Studio](/database-manual/03_01_Working_with_the_Database/03_01_03_MSSQLMS.html)** 
+    + **[3.1.4 Microsoft Excel](/database-manual/03_01_Working_with_the_Database/03_01_04_MS_Excel.html)**
+    + **[3.1.5 SiteFX](/database-manual/03_01_Working_with_the_Database/03_01_05_SiteFX.html)**
+    + **[3.1.6 Viewlog](/database-manual/03_01_Working_with_the_Database/03_01_06_Viewlog.html)**
 
-* 3.3, Guidelines and FAQ
+* **[3.2 Training Exercises](/database-manual/03_02_Training_Exercises/03_02_Training_Exercises.html)**
+
+* **3.3 Guidelines and FAQ**
+
+    + **[3.3.1 Naming Conventions](/database-manual/03_Practical_Apllications/03_03_Guidelines_and_FAQ/03_03_01_Naming_Conventions.html)**
+    + **[3.3.2 Quality Assurance (QA) and Quality Control (QC)](/database-manual/03_Practical_Applications/03_03_Guidelines_and_FAQ/03_03_02_QA-QC.html)**
+    + **[3.3.3 Data Source Tracking](/database-manual/03_Practical_Applications/03_03_Guidelines_and_FAQ/03_03_03_Data_Source_Tracking.html)**
+    + **[3.3.4 Frequently Asked Questions (FAQ)](/database-manual/03_Practical_Applications/03_03_Guidelines_and_FAQ/03_03_04_FAQ.html)**
 
 * 3.4 Adding New Data
 
