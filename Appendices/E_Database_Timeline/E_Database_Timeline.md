@@ -1825,4 +1825,13 @@ Secondary version number change (now 20160831.20170115).  This is tied to the up
 
 Secondary version number change (now 20160831.20170524).  All meteorological data (i.e. from climate stations) have now been moved into the D_INTERVAL_TEMPORAL_3 table; updates to the various views are ongoing.  Comment added to D_VERSION_CURRENT was 'Climate data moved to DIT3'.
 
+*20210901*
+
+Secondary version number change (now 20160831.20210901).  Includes the updates
+of D_INTERVAL_FORM_ASSIGN (i.e. T, K and specific capacity calculations),
+final switch to the use of D_LOCATION_SPATIAL and D_LOCATION_SPATIAL_HIST
+(bringing together D_LOCATION_COORD_HIST and D_LOCATION_ELEV_HIST which are
+now disparaged) and inclusion of the quality check tables (D_LOCAION_QC,
+D_LOGGER_QC and D_INTERVAL_QC_DATA).
+
 
