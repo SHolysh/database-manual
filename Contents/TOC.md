@@ -137,7 +137,7 @@ knit:   (
 
 * **G - Procedures**
 
-* **H - Current Problems (to be Corrected)**
+* **[H - Current Problems (to be Corrected)](/database-manual/Appendices/H_Current_Problems/H_Current_Problems.html)**
 
 * **[I - Training Setup and Access](/database-manual/Appendices/I_Training_Setup/I_Training_Setup.html)**
 

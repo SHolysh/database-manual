@@ -70,7 +70,7 @@ have been added subsequent to the incorporation of the original data.
 The user who added the DATA_ID to the D_DATA_SOURCE table.  This is usually
 the same user who loaded the dataset.
 
-## Appendix D.1 - Datasets Summary Page - Locations
+### Appendix D.1 - Datasets Summary Page - Locations
 
 [Summary table of moderately sized datasets (greater than 50 locations) used as
 a data source (a PDF).](./DDS_Locations.pdf)
