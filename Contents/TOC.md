@@ -77,7 +77,7 @@ knit:   (
 
 * 4.5 Background Processing and Updates
 
-### [References](./References/References.html)
+### [References](/References/References.html)
 
 ### Appendices
 
