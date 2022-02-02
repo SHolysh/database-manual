@@ -87,9 +87,18 @@ knit:   (
     + **[3.3.3 Data Source Tracking](/database-manual/03_Practical_Applications/03_03_Guidelines_and_FAQ/03_03_03_Data_Source_Tracking.html)**
     + **[3.3.4 Frequently Asked Questions (FAQ)](/database-manual/03_Practical_Applications/03_03_Guidelines_and_FAQ/03_03_04_FAQ.html)**
 
-* 3.4 Adding New Data
+* **3.4 Adding New Data**
 
-* 3.5 Changes to Existing Data
+    + **[3.4.1 Locations - Mandatory Fields](/database-manual/03_Practical_Applications/03_04_Adding_New_Data/03_04_01-06_Guidelines.html)**
+    + **[3.4.2 Geologic Information](/database-manual/03_Practical_Applications/03_04_Adding_New_Data/03_04_01-06_Guidelines.html)**
+    + **[3.4.3 Hydraulic Properties](/database-manual/03_Practical_Applications/03_04_Adding_New_Data/03_04_01-06_Guidelines.html)**
+    + **[3.4.4 Geophysical Logging](/database-manual/03_Practical_Applications/03_04_Adding_New_Data/03_04_01-06_Guidelines.html)**
+    + **[3.4.5 Temporal Data](/database-manual/03_Practical_Applications/03_04_Adding_New_Data/03_04_01-06_Guidelines.html)**
+    + **[3.4.6 Data Validation and Conversion](/database-manual/03_Practical_Applications/03_04_Adding_New_Data/03_04_01-06_Guidelines.html)**
+    + **[3.4.7 Adding New Data - Methods](/database-manual/03_Practical_Applications/03_04_Adding_New_Data/03_04_07_Methods.html)**
+    + **[3.4.8 Data Selection](/database-manual/03_Practical_Applications/03_04_Adding_New_Data/03_04_08_Data_Selection.html)**
+
+* **[3.5 Changes to Existing Data](/database-manual/03_Practical_Applications/03_05_Changing_Existing_Data/03_05_Changing_Existing_Data.html)**
 
 ### Section 4 - Technical
 
