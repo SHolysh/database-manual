@@ -41,7 +41,7 @@ knit:   (
 
 * **[2.2 General Overview of Relationships](/database-manual/02_Understanding_ORMGP_Database/02_02_General_Overview_of_Relationships/02_02_General_Overview_of_Relationships.html)**
 
-* 2.3 Primary Data Relationships
+* **2.3 Primary Data Relationships**
 
     + **[2.3.1 MOE Records](/database-manual/02_Understanding_ORMGP_Database/02_03_Primary_Data_Relationships/02_03_01_MOE_Records.html)**
     + **[2.3.2 Consultant Report Data](/database-manual/02_Understanding_ORMGP_Database/02_03_Primary_Data_Relationships/02_03_02_Consultant_Report.html)**
@@ -53,15 +53,19 @@ knit:   (
     + **[2.3.8 Permit To Take Water (PTTW)](/database-manual/02_Understanding_ORMGP_Database/02_03_Primary_Data_Relationships/02_03_08_PTTW.html)**
     + **[2.3.9 HYDAT and Spotflow Data](/database-manual/02_Understanding_ORMGP_Database/02_03_Primary_Data_Relationships/02_03_09_HYDAT.html)**
 
-* 2.4 Secondary (or Derived) Data Relationships)
+* **[2.4 Secondary (or Derived) Data Relationships)](/database-manual/02_Understanding_ORMGP_Database/02_04_Secondary_Data_Relationships/02_04_Secondary_Data_Relationships.html)**
 
-* 2.5 Locations, Groups and Study Areas
+* **[2.5 Locations, Groups and Study Areas](/database-manual/02_Understanding_ORMGP_Database/02_05_Locations_Groups_and_Study_Areas/02_05_Locations_Groups_and_Study_Areas.html)**
 
-* 2.6 Report Library
+* **[2.6 Report Library](/database-manual/02_Understanding_ORMGP_Database/02_06_Report_Library/02_06_Report_Library.html)**
 
-* 2.7 Multi-Screen Installations
+    + **2.6.1 Document Association**
+    + **2.6.2 Directory and Files, Naming and Structure**
+    + **2.6.3 Report Entry**
 
-* 2.8 Multi-Borehole Records
+* **[2.7 Multi-Screen * Installations](/database-manual/02_Understanding_ORMGP_Database/02_07_Multi-Screen_Installations/02_07_Multi-Screen_Installations.html)**
+
+* **[2.8 Multi-Borehole * Records](/database-manual/02_Understanding_ORMGP_Database/02_08_Multi-Borehole_Records/02_08_Multi-Borehole_Records.html)**
 
 ### Section 3 - Practical Applications
 
