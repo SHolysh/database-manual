@@ -26,7 +26,7 @@ Details of the USCS system are provided in the attached table (Table B.1.1).  Th
 
 The difficulty with using the USCS is that soil classified as coarse-grained (i.e. more than 50% retained on a 200 mesh sieve) may still contain considerable clay and may both look like a clay-rich soil and also behave as a plastic or cohesive soil.  Plasticity refers to the ability of a material to be deformed rapidly without cracking or crumbling and then to maintain that deformed state after the deforming force is released (e.g. molding clay into a shape).  For this reason, describing the soil according to the USCS is quite difficult to do accurately based on field observations alone.  It is more appropriate where laboratory testing of grain size (sieves and hydrometers) and physical properties (plastic and liquid limits) is completed.  This is not the case for most of the borehole logs that are likely to be encountered in the ORMGP.
 
-As outlined in Table XXX, the USCS has a two-letter capitalized group of symbol designations (GW, GP, etc.) that is not used in other systems.  Recognizing these symbols is important in identifying that the USCS system is being used and therefore translating the descriptions appropriately.  Be aware that there is a sedimentological lithofacies classification system, which is described below, that uses two letters symbols as well; that system, however, only has the first letter capitalized.
+As outlined in Table B.1.1, the USCS has a two-letter capitalized group of symbol designations (GW, GP, etc.) that is not used in other systems.  Recognizing these symbols is important in identifying that the USCS system is being used and therefore translating the descriptions appropriately.  Be aware that there is a sedimentological lithofacies classification system, which is described below, that uses two letters symbols as well; that system, however, only has the first letter capitalized.
 
 ![Table B.1.1 Unified Soil Classification System](tb_01_01.jpg)
 *Table B.1.1 Unified Soil Classification System*
@@ -112,5 +112,12 @@ If this coding system is encountered, the approach is similar to that used for t
 
 * Check to see if there is any accompanying description that may provide details regarding the constituent grain sizes.  For example, the fines (F) may be further described as either silt or clay.  
 * Use Material 1 2 and possibly 3 to put in translated interpreted grain sizes, with Material 1 being used for the most predominant grain size.
-* Use of the diamict designation (D) should be considered carefully because it be a till, possibly one of the regionally extensive till sheets that we are attempting to map in our project (e.g. Newmarket Till) or it could be some other type of diamict (debris flow etc.) that would not be as regionally significant and which should not be confused with a till.  If, based on its stratigraphic position or other evidence, you think it is a till then put TILL in the Material 3 column, otherwise, leave it as a diamicton.  The available list of lithologies to choose from in Sitefx includes both till and diamicton.
-* If fine-grained materials are identified as layered (Fl), the dropdown choice of 'layered' should be put in the Material 3 code in SiteFX.  This will help identify this unit as unlikely to be a till (although not conclusively).
+* Use of the diamict designation (D) should be considered carefully because it
+* be a till, possibly one of the regionally extensive till sheets that we are
+* attempting to map in our project (e.g. Newmarket Till) or it could be some
+* other type of diamict (debris flow etc.) that would not be as regionally
+* significant and which should not be confused with a till.  If, based on its
+* stratigraphic position or other evidence, you think it is a till then put
+* TILL in the Material 3 field, otherwise, leave it as a diamicton.  The available list of lithologies to choose from includes both till and diamicton.
+* If fine-grained materials are identified as layered (Fl), the dropdown
+* choice of 'layered' should be recorded in the Material 3 field.  This will help identify this unit as unlikely to be a till (although not conclusively).

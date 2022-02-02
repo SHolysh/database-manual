@@ -146,8 +146,8 @@ knit:   (
 
 * **J - Training Exercises**
 
-* **[K - Alternate Software Instructions](/database-manual/Appendices/K_Alternate_Software.html)**
+* **[K - Alternate Software * Instructions](/database-manual/Appendices/K_Alternate_Software/K_Alternate_Software.html)**
 
-* **L - Database Reports**
+* **[L - Database Reports](/database-manual/Appendices/L_Database_Reports/L_Database_Reports.html)**
 
 
