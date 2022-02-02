@@ -1,11 +1,11 @@
 ---
 title:  "Cover and Table of Contents"
 author: "ormgpmd"
-date:   "20220201"
+date:   "20220202"
 output: html_document
 knit:   (
             function(input_file, encoding) {
-                out_dir <- '';
+                out_dir <- './';
                 rmarkdown::render(
                     input_file,
                     encoding=encoding,
