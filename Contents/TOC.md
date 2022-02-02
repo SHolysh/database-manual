@@ -16,28 +16,28 @@ knit:   (
         )
 ---
 
-![Cover Page](../Cover/cover.jpg)
+![Cover Page](/database-manual/Cover/cover.jpg)
 
 ## Table of Contents
 
-### [Forward](https://owrc.github.io/database-manual/Forward/Forward.html)
+### [Forward](/database-manual/Forward/Forward.html)
 
 ### Section 1 - Introduction
 
-* **[1.1 Overview](https://owrc.github.io/database-manual/01_Introduction/01_01-02_Overview_and_Background.html)**
-* **[1.2 Background](https://owrc.github.io/database-manual/01_Introduction/01_01-02_Overview_and_Background.html)**
-* **[1.3 Database Versions](https://owrc.github.io/database-manual/01_Introduction/01_03_Database_Versions.html)**
+* **[1.1 Overview](/database-manual/01_Introduction/01_01-02_Overview_and_Background.html)**
+* **[1.2 Background](/database-manual/01_Introduction/01_01-02_Overview_and_Background.html)**
+* **[1.3 Database Versions](/database-manual/01_Introduction/01_03_Database_Versions.html)**
 
 ### Section 2 - Understanding the OMGP Database
 
-* **[2.1 Tables and Views](https://owrc.github.io/database-manual/02_Understanding_ORMGP_Database/02_01_Tables_and_Views/02_01_Tables_and_Views.html)**
+* **[2.1 Tables and Views](/database-manual/02_Understanding_ORMGP_Database/02_01_Tables_and_Views/02_01_Tables_and_Views.html)**
 
-    + **[2.1.1 Data Tables (D_\*)](https://owrc.github.io/database-manual/02_Understanding_ORMGP_Database/02_01_Tables_and_Views/02_01_01_Data_Tables.html)**
-    + **[2.1.2 Reference Tables (R_\*)](https://owrc.github.io/database-manual/02_Understanding_ORMGP_Database/02_01_Tables_and_Views/02_01_02_Reference_Tables.html)**
-    + **[2.1.3 Other Tables](https://owrc.github.io/database-manual/02_Understanding_ORMGP_Database/02_01_Tables_and_Views/02_01_03_Other_Tables.html)**
-    + **[2.1.4 Views Outline](https://owrc.github.io/database-manual/02_Understanding_ORMGP_Database/02_01_Tables_and_Views/02_01_04_Views.html)**
-    + **[2.1.5 Main Views (V_\*)](https://owrc.github.io/database-manual/02_Understanding_ORMGP_Database/02_01_Tables_and_Views/02_01_05_Main_Views.html)**
-    + **[2.1.6 System Views (V_SYS_\*)](https://owrc.github.io/database-manual/02_Understanding_ORMGP_Database/02_01_Tables_and_Views/02_01_06_System_Views.html)**
+    + **[2.1.1 Data Tables (D_\*)](/database-manual/02_Understanding_ORMGP_Database/02_01_Tables_and_Views/02_01_01_Data_Tables.html)**
+    + **[2.1.2 Reference Tables (R_\*)](/database-manual/02_Understanding_ORMGP_Database/02_01_Tables_and_Views/02_01_02_Reference_Tables.html)**
+    + **[2.1.3 Other Tables](/database-manual/02_Understanding_ORMGP_Database/02_01_Tables_and_Views/02_01_03_Other_Tables.html)**
+    + **[2.1.4 Views Outline](/database-manual/02_Understanding_ORMGP_Database/02_01_Tables_and_Views/02_01_04_Views.html)**
+    + **[2.1.5 Main Views (V_\*)](/database-manual/02_Understanding_ORMGP_Database/02_01_Tables_and_Views/02_01_05_Main_Views.html)**
+    + **[2.1.6 System Views (V_SYS_\*)](/database-manual/02_Understanding_ORMGP_Database/02_01_Tables_and_Views/02_01_06_System_Views.html)**
 
 * 2.2 General Overview of Relationships
 
