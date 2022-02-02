@@ -5,7 +5,7 @@ date:   "20220202"
 output: html_document
 knit:   (
             function(input_file, encoding) {
-                out_dir <- 'Contents';
+                out_dir <- '';
                 rmarkdown::render(
                     input_file,
                     encoding=encoding,
@@ -77,7 +77,7 @@ knit:   (
 
 * 4.5 Background Processing and Updates
 
-### [References](/References/References.html)
+### [References](/database-manual/References/References.html)
 
 ### Appendices
 
