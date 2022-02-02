@@ -1124,144 +1124,163 @@ Start work on the next version of the database (tentatively referenced as OAK_20
 
 *201308*
 
-Initial evaluation of the CLOCA partner database for import of differences into the master db.  Problems encountered between conflicting primary keys - partner db's and the master db can end up with the same primary keys in some tables.  One table uses incremental values (an S_* table) which guarantees this.  The development of the official QA/QC procedures/methods is necessary.
+Initial evaluation of the CLOCA partner database for import of differences
+into the master db.  Problems encountered between conflicting primary keys -
+partner db's and the master db can end up with the same primary keys in some
+tables.  One table uses incremental values (an S_\* table) which guarantees this.  The development of the official QA/QC procedures/methods is necessary.
 
 *20130826*
 
-In D_LOCATION, where LOC_COORD_OUOM_CODE is null, copied the LOC_COORD_EASTING and LOC_COORD_NORTHING values (if non-null) into their respective *_OUOM fields and assigned a value of '4' (i.e. UTMz17 NAD83) to the LOC_COORD_OUOM_CODE field.  Various coordinate corrections (and QA_COORD_CONFIDENCE_CODE corrections) during this process.
+In D_LOCATION, where LOC_COORD_OUOM_CODE is null, copied the LOC_COORD_EASTING
+and LOC_COORD_NORTHING values (if non-null) into their respective \*_OUOM fields and assigned a value of '4' (i.e. UTMz17 NAD83) to the LOC_COORD_OUOM_CODE field.  Various coordinate corrections (and QA_COORD_CONFIDENCE_CODE corrections) during this process.
 
-20130927
+*20130927*
+
 Corrected layer info in D_GEOLOGY_LAYER (examining units and NULL values) and updated D_BOREHOLE as required.
 
-20130930
+*20130930*
+
 Corrected layer info in D_GEOLOGY_LAYER (examining units and NULL values) and 
 updated D_BOREHOLE as required.
 
-20131004
+*20131004*
+
 Corrected chemistry parameters in D_INTERVAL_TEMP_1B and added aliases (as necessary and appropriate) into R_READING_NAME_ALIAS.
 
-20131007
+*20131007*
+
 Focussed look at the CLOCA partner database for inclusion within the master db.  Note that this is to be used as a test case for the QA/QC methods/procedures (and is the continuation of an earlier test).
 
-20131011
+*20131011*
+
 CLOCA partner database information has been added to the master db.
 
-20131018a
+*20131018a*
+
 Correction of the location of 'Conductivity' (temporal) values, moving them from D_INTERVAL_TEMPORAL_1A/1B to D_INTERVAL_TEMPORAL_2 (note that it is possible that values can be present in the 1A/1B tables - the analysis would have to be lab based only).
 
-20131018b
+*20131018b*
+
 Addition of 'Active (Monitoring)' and 'Inactive (Monitoring)' codes to the R_LOC_STATUS_CODE table (to differentiate from the MOE WWDB understanding of 'Active' and 'Inactive').
 
-20131022 and 23
+*20131022 and 23*
+
 Updated D_LOCATION coordinates (translated as necessary) prior to examining elevations. QA code '117' is beginning to be used to tag those locations outside of the YPDT-CAMC buffered area. 
 
 Re-examined elevations in D_BOREHOLE and D_LOCATION_ELEV.  Each of BH_GND_ELEV, BH_GND_ELEV_OUOM and BH_DEM_GND_ELEV should now match (for those locations with a valid QA, i.e. not '117') that of the ASSIGNED_ELEV in D_LOCATION_ELEV.  The BH_GND_ELEV_OUOM values have been copied/converted to ELEV_ORIGINAL (if not already present).  The BH_GND_ELEV_UNIT_OUOM has been standardized to 'masl' (the BH_GND_ELEV_OUOM value was converted as necessary).  
 
-20131202
+*20131202*
+
 Evaluated possible problem with 'V_General_Consultant_Hydrogeology' - turns out that multiple instances of an INT_ID in D_INTERVAL_FORMATION_ASSIGNMENT results in the doubling (or other multiplier) of the number of water levels associated with the interval.  Note that this is not an error with a view but with the population of the the formation assignment table - there should only be one row/tuple for each INT_ID.  The supplementary check database view 'CHK_D_INT_FM_ASSIGN_Multiple_INT_IDs' should be run periodically to correct this.  Note also that these 'blank' rows (i.e. the additional INT_IDs) have been added in many cases by the 'NT Authority' or 'YKREGION\SQLAgentAdmin' user - this is not mapped to an actual user (so where are these runs coming from?  Is this a SiteFX issue? - supposedly not).
 
-20131209
+*20131209*
+
 Fixed various data constraint issues (i.e. information currently in the database not correctly matching 'new' constraints) when developing methodology and testing conversion/translation of data between database and spreadsheet formats.  This included (but were not necessarily limited to) the tables D_BOREHOLE, D_DOCUMENT, D_GEOLOGY_LAYER, D_GROUP_LOCATION, D_INTERVAL_REF_ELEV, D_LOCATION_ALIAS and D_LOCATION_PURPOSE.  
 
-20131211
+*20131211*
+
 Updated D_INTERVAL_TEMPORAL_2; all rows with no values, no OUOM values and no comments were removed.  This should be consistently applied in the future.
 
-20140115
+*20140115*
+
 Deleted ~1100 records from D_INTERVAL_FORMATION_ASSIGNMENT that contained repeating blank/empty rows for various INT_IDs.  There are multiple SYS_LAST_MODIFIED_BY users (no SYS_USER_STAMP) from both Y-C and the partner agencies - is there some automatic processing running?  Monitor these occurrences.
 
-20140117
+*20140117*
+
 Modified V_Random_ID_Creator to randomize ID's between specified values (actually a lower value and range).  A view needs to be created for each user/partner (according to the uniqueIDrange as found in S_USER for SiteFX).  Currently V_Random_ID_Creator_MD and V_Random_ID_Creator_REG has been created.
 
-20140206
+*20140206*
+
 Started in 20130923, the methodology for the MOE WWDB updates to be included as part of the YPDT-CAMC database are near-completion.  The final steps concerning the inclusion of boreholes with no geology remain.  Notes regarding possible issues and corrections applied (as needed) are shown here.
 
 Notes on 2013 MOE Well Import File
 
-    - D_Location - the field Loc_Start Date - is typically empty for MOE wells - usually the only MOE date gets stored in the Drill_End_Date field in D_Borehole.
-        ? NOT MODIFIED
-    - D_Location - Loc_Name_Alt1 - should read "MOE Well 2013 - Name Witheld by MOE' - this will make it consistent with the other MOE wells that Kelsy brought in in 2010.
-        ? MODIFIED
-    - D_Location - If I do a Group By query on D_Location using Master_Loc_ID and Loc_ID - I can't see any of the famous MOE multi wellls - did we decide to give each BH its own LocID?  Even then though we should have them linked through the Master Loc_ID (which would be the Loc_ID of the Well that has the MOE Geology) - right?.
-        ? CHECK
-    - D_Location - I think Sitefx needs the wells to be assigned a Site_ID of 1 (for YPDT-CAMC).
-        ? MODIFIED
-    - D_Location - the tblWWR table contains the MOE data source code - did none of the new wells have a code to bring in?  should go to Loc_Data_Source in the D_Location table.
-        ? MODIFIED (18 bhs)
-    - D_Location - We should also assign the Loc_Confidentiality_Code of 1 - for accessible to all - for these wells.
-        ? MODIFIED
-    - D_Location_Alias - looks OK
-        ? NOT MODIFIED
-    - D_Location_Purpose - This is a big one - The MOE Use 1st and MOE USE 2nd have to be properly translated to our Loc_Use_Primary and Loc_Use_Secondary Codes - they are not the same - see attached table below.
-        ? MODIFIED
-    - D_Location_QA - What about the Elev_Codes in the Loc_QA table?  In the Loc_QA table - we don't have two columns for Elev Code (as we do for the UTM Code) - so we still have a number of old MOE Codes in here that are no longer relevant.  Should we add another field in the table for Elev_Reliability_Code_OUOM?  then the Elev_Code would be switched to either a 10 or a 1.  As an aside - do you know where the QA_DATA_SOURCE_CODE field in the QA table links to?  Should the QA_ELEV_SOURCE field in this table be updated to MNR DEM ver 2 - for most wells?  (i.e. remove the "MNR DEM Ver1" terminology from here).  All new wells should get a code of QA_Elev_Confidence_Code of 10 right?  With appropriate comment in the QA_ELEV_SOURCE Field.  Also for the UTM Codes we should probably populate the QA_COORD_METHOD from the "Location Method" field in the tblBore_Hole table. (as long as the code is not p1 through p9).
-        ? MODIFIED (some notes not addressed - external to import procedure)
-    - D_Location_Elev - looks ok
-        ? NOT MODIFIED
-    - D_Borehole - we still need all of the Elev fields to be populated so that they appear in Sitefx.  I think we can make them all the same for the new BHs.
-        ? MODIFIED; elevs to be added at a later step
-    - D_Borehole - the BH_Bottom (Depth, OUOM and Unit_OUM) fields need to be filled in - I think we need to take the deepest of either the geology or the BH_Construction depths
-        ? MODIFIED; elevs and depths to be added at a later step
-    - D_Borehole - Let's fill in BH Dip to be 90 and BH_Azimuth to 0
-        ? MODIFIED
-    - D_Borehole - can we populate the BH_Bedrock_Elev field?
-        ? NOT MODIFIED; this is a process external to import procedure
-    - D_Borehole - we should populate the MOE_BH_Geology_Class field - the data is found in tblBore_Hole (CODEOB field) - and is linked to the code_Well_Type Table
-        ? MODIFIED
-    - D_Borehole_Construction - looks good
-        ? NOT MODIFIED
-    - D_Geology_Feature - it looks to me like Sitefx doesn't touch this table - I think we should just do the conversions and populate the "Final" fields and bypass the OUOM fields.
-        ? NOT MODIFIED; as more than MOE data can be included here, there should be a separate procedure for dealing with these values (depths)
-    - D_Geol_Layer - looks good   -   As an aside - do you know what the Geol_LayerType_Code field links to?
-        ? NOT MODIFIED; GEOL_LAYERTYPE_CODE reference table?
-    - D_Interval - why do we have 125 Int_Type = 28 (Screen Information Omitted)?  Why aren't these changed to 19 (1ft above bottom of BH)?  Can't tell if its because they have no bottom depth since that field isn't populated in D_Borehole
-        ? NOT MODIFIED; no depth data associated with these intervals/locations (neither geology, construction or screen details)
-    - D_Interval - I also wanted to confirm that the ones you coded with an Int_type of 21 - were indeed bedrock holes
-        ? NOT MODIFIED; bedrock determination (elevation) is through a separate process not related to the import procedure; this should be an external check (i.e. evaluating all INT_TYPE_CODE tagged intervals with value '21')
-    - D_Interval - we should populate the Int_Confidentiality_Code with a 1 - indicating share with everyone
-        ? MODIFIED
-    - D_Interval - I think that all of the existing Intervals have a "-1" in the Int_Active field - I have never used this field and I don't think it will ever be used - but maybe we should be consistent and put a "-1 in here?
-        ? NOT MODIFIED; INT_ACTIVE is a bit field - '-1' indicates a 'true' value for Microsoft products; should automatically be converted (as it is not '0') on import
-    - D_Interval_Monitor - We have 8,492 Intervals that we are pulling in and 8,583 records in D_Interval_Monitor - are all of these situations where there are more than one pipe at a location? or are there some intervals that have a multi-part screen and if so have we handled them OK?  There is a field in D_Interval called Int_More_1_Part - should we fill that in if there are two or more parts to a screen?
-        ? NOT MODIFIED; this check was originally made (see Section G.10.15) - for duplicates and multiple static water levels assigned to a single INT_ID; re-examined manually (with no results modified); note that overlapping screens (and, elsewhere, geologic layers) need to be investigated external to this import process - as such, those checks are not made here (manually, 1 overlapping screen found)
-    - D_Interval_Monitor - looks like you have introduced a coding for the Mon_Screen_Material field - is that correct (its written out in existing table)?  Do you have a corresponding "R_" table?
-        ? MODIFIED; no, this is a direct copy from the MOE data; is the MOE using the codes from _code_casing_material?; the assumption has been made that this is the case and the relevant code has been updated
-    - D_Interval_Monitor - what is the "mum field for? just temporary?
-        ? NOT MODIFIED; all rnum fields are for internal (before import) use only
-    - D_Interval_Monitor - How about populating the Mon_Top_Depth_M and Mon_Bot_Depth_M while we do the import?
-        ? NOT MODIFIED; this is a separate process outside of the MOE import/conversion
-    - D_Interval_Monitor - is it easier to infill the Mon_WL_Elev_Avg for these MOE wells now - just use the static WL?
-        ? NOT MODIFIED; this is a separate process outside of the MOE import/conversion
-    - D_Int_Ref_Elev - looks OK except for numbers - there are 8,492 records in here - but we have 8,583 records in D_Int_Monitor - the extra pipes should also be assigned a Ref_Elev - right?  or are there two (or more) part screens - see above?
-        ? NOT MODIFIED; these are all multi-part screens; one ref elevation per INT_ID
-    - D_Int_Temporal_2 - I see a bunch of WL in here where the date is "null" and others where it has been defaulted as discussed to July 1, 1867 - what is the difference between the two sets of WLs?
-        ? NOT MODIFIED; the default dates only apply to pumping/recovery data (where the time interval is of interest); are we imposing dates on static water levels?; these are for wells with no completion or starting date
-    - D_Int_Temporal_2 - There are quite a few dates between 2002 and 1951 - are you sure that these are correct?  I would have suspected that all of the wells we are pulling in would be drilled between 2006/2007 and 2012/2013 - it is possible that MOE added a few old wells in the meantime - but just want to make sure.
-        ? NOT MODIFIED; there are 67 locations/intervals with dates prior to 2007-01-01; this matches to 670 values in the D_INT_TEMP_2 table
-    - D_Int_Temporal_2 - I think that you have brouhgt in too many WL duplicates to this table - e.g if you look at IntID -2128160263 o -2111097950 - for both of these there are 27 WLs tied to the Int - all are the same on the same 1867 date/time - can you see what the issue is with this?  Don't know if its just the 1867 ones or if there are others - just check IntID -2132667689 - and it also has 11 duplicate WLs (as a guide we should probably have about 8,441 x 5 or about 40,000 WLs in the D_Temporal 2 Table at the most - since many of the MOE wells have 0 or only 1 water level - the existing table has 58,239  measurents).
-        ? NOT MODIFIED; these are pumping/recovery levels and static water levels
-    - D_Int_Temporal_2 - I only see 3,415 static water levels (Rd_Name_Code = 628) for the 8,441 wells that we are bringing in - are you sure there aren't more static WLs - this seems low?
-        ? NOT MODIFIED; checked but no additional static water levels located; this assumes that these levels are stored in 'TblPump_Test'
-    - D_Int_Temporal_2 - There are quite a few WLs where the Reading Value is less than 75mASL - I see that the OUOMs are quite ridiiculous - lets see how many remain when the duplicates are removed from the table - but maybe we can check to see if the OUOMs are elevations instead of depths?
-        ? CHECK; but ? this may be a check to be performed within the db itself as, is likely, there will be similar errors
-    - D_Int_Temporal_2 - don't know what Rec_Status Code is for but it looks like it is typically populated with a 1 - should we do similar?
-        ? MODIFIED
-    - D_Pumptest - the field "Flowing_Rate_IGPM - should only be populated if the monitor is flowing naturally - it doesn't record the same value as the Rec_Pump_Rate_IGPM - so it should be largely blank except for a few values when the monitor is flowing.  MOE might have this screwed up - I think Albert and I went through and fixed records in the DB a while ago - 
-        ? If the Monitor Flowing field is -1 - then we assume it is really flowing and we can leave the value alone - regardless of whether the Rec_Pump_Rate and the Flowing_rate are the same - some are really high though) (77 instances where they are the same; 1 instance where Flowing>Rec; and 4 instances where the Rec>Flowing);
-        ? If there is no Monitor_Flowing Flag and the Rec_Pumping Rate is the same as the Flowing Rate - then we assume it is not flowing and we delete the Flowing_Rate_IGPM value (2359 instances).
-        ? If there is no Monitor_Flowing Flag and if there is a flowing rate and no Rec_Pump_rate - then we can assume it is flowing and add a -1 to the Monitor_Flowing Flag (2 instances).
-        ? If there is no Monitor_Flowing Flag and if the Flowing Rate is less than the Rec_Pumping Rate - then we add a -1 to the Monitor Flowing field and assume it is really flowing (17 instances).
-        ? If there is no Monitor_Flowing Flag and if the Flowing Rate is greater than the Rec_Pumping Rate - then we assume there is an error and the monitor is not flowing - delete Flowing_Rate value (1 instance).
-        ? MODIFIED
-    - D_Pumptest - only 125 of 3038 records have a PumpTest_Method_Code - seams low - is that right?
-        ? NOT MODIFIED; the remainder have been given a '0' value ('Unknown'; translated to NULL)
-    - D_Pumptest_Step - I think the import is messed up in here - there should only be multiple PumpTest IDs in here if the test was done at a variable pumping rate - if the rate is constant - as is the case for most/all of the MOE wells - then they should only appear once in here.  There are many cases where they appearing multiple times - up to 13 times - I think in our existing table we only have 2 pumping tests where the pumping rate was changed during the test.  We should have about 3038 records in this table - or less if no pumping rate is specified.
-        ? MODIFIED; this has been modified to only record the varying pumping rates (and their time intervals) for any particular PUMP_TEST_ID (which will now result in, basically, a single record for each identifier); this reduced to ~2700 records
-    - D_Pumptest_Step - Typically we have started the pumping test at 12:00 AM on the day it occurred - and then based on how many water levels were provided (usually four at 15, 30, 45 and 60 minutes - we stop the test at 1:00 AM - I see many of your test starting at 12:03 or so and ending 1 minute later - don't know how you populated these times - but they should be dictated by the WLs provided.
-        ? NOT MODIFIED; these have been examined and found to be correct
-    - D_Pumptest_Step - are the fields "mum", "testlevel", "testlevel_uom", and "testtype" just temporary?
-        ? NOT MODIFIED; all lowercase fields are only temporary holders (of data) and are not for final import
+* D_Location - the field Loc_Start Date - is typically empty for MOE wells - usually the only MOE date gets stored in the Drill_End_Date field in D_Borehole.
+    + NOT MODIFIED
+* D_Location - Loc_Name_Alt1 - should read "MOE Well 2013 - Name Witheld by MOE' - this will make it consistent with the other MOE wells that Kelsy brought in in 2010.
+    + MODIFIED
+* D_Location - If I do a Group By query on D_Location using Master_Loc_ID and Loc_ID - I can't see any of the famous MOE multi wellls - did we decide to give each BH its own LocID?  Even then though we should have them linked through the Master Loc_ID (which would be the Loc_ID of the Well that has the MOE Geology) - right?.
+    + CHECK
+* D_Location - I think Sitefx needs the wells to be assigned a Site_ID of 1 (for YPDT-CAMC).
+    + MODIFIED
+* D_Location - the tblWWR table contains the MOE data source code - did none of the new wells have a code to bring in?  should go to Loc_Data_Source in the D_Location table.
+    + MODIFIED (18 bhs)
+* D_Location - We should also assign the Loc_Confidentiality_Code of 1 - for accessible to all - for these wells.
+    + MODIFIED
+* D_Location_Alias - looks OK
+    + NOT MODIFIED
+* D_Location_Purpose - This is a big one - The MOE Use 1st and MOE USE 2nd have to be properly translated to our Loc_Use_Primary and Loc_Use_Secondary Codes - they are not the same - see attached table below.
+    + MODIFIED
+* D_Location_QA - What about the Elev_Codes in the Loc_QA table?  In the Loc_QA table - we don't have two columns for Elev Code (as we do for the UTM Code) - so we still have a number of old MOE Codes in here that are no longer relevant.  Should we add another field in the table for Elev_Reliability_Code_OUOM?  then the Elev_Code would be switched to either a 10 or a 1.  As an aside - do you know where the QA_DATA_SOURCE_CODE field in the QA table links to?  Should the QA_ELEV_SOURCE field in this table be updated to MNR DEM ver 2 - for most wells?  (i.e. remove the "MNR DEM Ver1" terminology from here).  All new wells should get a code of QA_Elev_Confidence_Code of 10 right?  With appropriate comment in the QA_ELEV_SOURCE Field.  Also for the UTM Codes we should probably populate the QA_COORD_METHOD from the "Location Method" field in the tblBore_Hole table. (as long as the code is not p1 through p9).
+    + MODIFIED (some notes not addressed - external to import procedure)
+* D_Location_Elev - looks ok
+    + NOT MODIFIED
+* D_Borehole - we still need all of the Elev fields to be populated so that they appear in Sitefx.  I think we can make them all the same for the new BHs.
+    + MODIFIED; elevs to be added at a later step
+* D_Borehole - the BH_Bottom (Depth, OUOM and Unit_OUM) fields need to be filled in - I think we need to take the deepest of either the geology or the BH_Construction depths
+    + MODIFIED; elevs and depths to be added at a later step
+* D_Borehole - Let's fill in BH Dip to be 90 and BH_Azimuth to 0
+    + MODIFIED
+* D_Borehole - can we populate the BH_Bedrock_Elev field?
+    + NOT MODIFIED; this is a process external to import procedure
+* D_Borehole - we should populate the MOE_BH_Geology_Class field - the data is found in tblBore_Hole (CODEOB field) - and is linked to the code_Well_Type Table
+    + MODIFIED
+* D_Borehole_Construction - looks good
+    + NOT MODIFIED
+* D_Geology_Feature - it looks to me like Sitefx doesn't touch this table - I think we should just do the conversions and populate the "Final" fields and bypass the OUOM fields.
+    + NOT MODIFIED; as more than MOE data can be included here, there should be a separate procedure for dealing with these values (depths)
+* D_Geol_Layer - looks good   -   As an aside - do you know what the Geol_LayerType_Code field links to?
+    + NOT MODIFIED; GEOL_LAYERTYPE_CODE reference table?
+* D_Interval - why do we have 125 Int_Type = 28 (Screen Information Omitted)?  Why aren't these changed to 19 (1ft above bottom of BH)?  Can't tell if its because they have no bottom depth since that field isn't populated in D_Borehole
+    + NOT MODIFIED; no depth data associated with these intervals/locations (neither geology, construction or screen details)
+* D_Interval - I also wanted to confirm that the ones you coded with an Int_type of 21 - were indeed bedrock holes
+    + NOT MODIFIED; bedrock determination (elevation) is through a separate process not related to the import procedure; this should be an external check (i.e. evaluating all INT_TYPE_CODE tagged intervals with value '21')
+* D_Interval - we should populate the Int_Confidentiality_Code with a 1 - indicating share with everyone
+    + MODIFIED
+* D_Interval - I think that all of the existing Intervals have a "-1" in the Int_Active field - I have never used this field and I don't think it will ever be used - but maybe we should be consistent and put a "-1 in here?
+    + NOT MODIFIED; INT_ACTIVE is a bit field - '-1' indicates a 'true' value for Microsoft products; should automatically be converted (as it is not '0') on import
+* D_Interval_Monitor - We have 8,492 Intervals that we are pulling in and 8,583 records in D_Interval_Monitor - are all of these situations where there are more than one pipe at a location? or are there some intervals that have a multi-part screen and if so have we handled them OK?  There is a field in D_Interval called Int_More_1_Part - should we fill that in if there are two or more parts to a screen?
+    + NOT MODIFIED; this check was originally made (see Section G.10.15) - for duplicates and multiple static water levels assigned to a single INT_ID; re-examined manually (with no results modified); note that overlapping screens (and, elsewhere, geologic layers) need to be investigated external to this import process - as such, those checks are not made here (manually, 1 overlapping screen found)
+* D_Interval_Monitor - looks like you have introduced a coding for the Mon_Screen_Material field - is that correct (its written out in existing table)?  Do you have a corresponding "R_" table?
+    + MODIFIED; no, this is a direct copy from the MOE data; is the MOE using the codes from _code_casing_material?; the assumption has been made that this is the case and the relevant code has been updated
+* D_Interval_Monitor - what is the "mum field for? just temporary?
+    + NOT MODIFIED; all rnum fields are for internal (before import) use only
+* D_Interval_Monitor - How about populating the Mon_Top_Depth_M and Mon_Bot_Depth_M while we do the import?
+    + NOT MODIFIED; this is a separate process outside of the MOE import/conversion
+* D_Interval_Monitor - is it easier to infill the Mon_WL_Elev_Avg for these MOE wells now - just use the static WL?
+    + NOT MODIFIED; this is a separate process outside of the MOE import/conversion
+* D_Int_Ref_Elev - looks OK except for numbers - there are 8,492 records in here - but we have 8,583 records in D_Int_Monitor - the extra pipes should also be assigned a Ref_Elev - right?  or are there two (or more) part screens - see above?
+    + NOT MODIFIED; these are all multi-part screens; one ref elevation per INT_ID
+* D_Int_Temporal_2 - I see a bunch of WL in here where the date is "null" and others where it has been defaulted as discussed to July 1, 1867 - what is the difference between the two sets of WLs?
+    + NOT MODIFIED; the default dates only apply to pumping/recovery data (where the time interval is of interest); are we imposing dates on static water levels?; these are for wells with no completion or starting date
+* D_Int_Temporal_2 - There are quite a few dates between 2002 and 1951 - are you sure that these are correct?  I would have suspected that all of the wells we are pulling in would be drilled between 2006/2007 and 2012/2013 - it is possible that MOE added a few old wells in the meantime - but just want to make sure.
+    + NOT MODIFIED; there are 67 locations/intervals with dates prior to 2007-01-01; this matches to 670 values in the D_INT_TEMP_2 table
+* D_Int_Temporal_2 - I think that you have brouhgt in too many WL duplicates to this table - e.g if you look at IntID -2128160263 o -2111097950 - for both of these there are 27 WLs tied to the Int - all are the same on the same 1867 date/time - can you see what the issue is with this?  Don't know if its just the 1867 ones or if there are others - just check IntID -2132667689 - and it also has 11 duplicate WLs (as a guide we should probably have about 8,441 x 5 or about 40,000 WLs in the D_Temporal 2 Table at the most - since many of the MOE wells have 0 or only 1 water level - the existing table has 58,239  measurents).
+    + NOT MODIFIED; these are pumping/recovery levels and static water levels
+* D_Int_Temporal_2 - I only see 3,415 static water levels (Rd_Name_Code = 628) for the 8,441 wells that we are bringing in - are you sure there aren't more static WLs - this seems low?
+    + NOT MODIFIED; checked but no additional static water levels located; this assumes that these levels are stored in 'TblPump_Test'
+* D_Int_Temporal_2 - There are quite a few WLs where the Reading Value is less than 75mASL - I see that the OUOMs are quite ridiiculous - lets see how many remain when the duplicates are removed from the table - but maybe we can check to see if the OUOMs are elevations instead of depths?
+    + CHECK; but ? this may be a check to be performed within the db itself as, is likely, there will be similar errors
+* D_Int_Temporal_2 - don't know what Rec_Status Code is for but it looks like it is typically populated with a 1 - should we do similar?
+    + MODIFIED
+* D_Pumptest - the field "Flowing_Rate_IGPM - should only be populated if the monitor is flowing naturally - it doesn't record the same value as the Rec_Pump_Rate_IGPM - so it should be largely blank except for a few values when the monitor is flowing.  MOE might have this screwed up - I think Albert and I went through and fixed records in the DB a while ago - 
+    + If the Monitor Flowing field is -1 - then we assume it is really flowing and we can leave the value alone - regardless of whether the Rec_Pump_Rate and the Flowing_rate are the same - some are really high though) (77 instances where they are the same; 1 instance where Flowing>Rec; and 4 instances where the Rec>Flowing);
+    + If there is no Monitor_Flowing Flag and the Rec_Pumping Rate is the same as the Flowing Rate - then we assume it is not flowing and we delete the Flowing_Rate_IGPM value (2359 instances).
+    + If there is no Monitor_Flowing Flag and if there is a flowing rate and no Rec_Pump_rate - then we can assume it is flowing and add a -1 to the Monitor_Flowing Flag (2 instances).
+    + If there is no Monitor_Flowing Flag and if the Flowing Rate is less than the Rec_Pumping Rate - then we add a -1 to the Monitor Flowing field and assume it is really flowing (17 instances).
+    + If there is no Monitor_Flowing Flag and if the Flowing Rate is greater than the Rec_Pumping Rate - then we assume there is an error and the monitor is not flowing - delete Flowing_Rate value (1 instance).
+    + MODIFIED
+* D_Pumptest - only 125 of 3038 records have a PumpTest_Method_Code - seams low - is that right?
+    + NOT MODIFIED; the remainder have been given a '0' value ('Unknown'; translated to NULL)
+* D_Pumptest_Step - I think the import is messed up in here - there should only be multiple PumpTest IDs in here if the test was done at a variable pumping rate - if the rate is constant - as is the case for most/all of the MOE wells - then they should only appear once in here.  There are many cases where they appearing multiple times - up to 13 times - I think in our existing table we only have 2 pumping tests where the pumping rate was changed during the test.  We should have about 3038 records in this table - or less if no pumping rate is specified.
+    + MODIFIED; this has been modified to only record the varying pumping rates (and their time intervals) for any particular PUMP_TEST_ID (which will now result in, basically, a single record for each identifier); this reduced to ~2700 records
+* D_Pumptest_Step - Typically we have started the pumping test at 12:00 AM on the day it occurred - and then based on how many water levels were provided (usually four at 15, 30, 45 and 60 minutes - we stop the test at 1:00 AM - I see many of your test starting at 12:03 or so and ending 1 minute later - don't know how you populated these times - but they should be dictated by the WLs provided.
+    + NOT MODIFIED; these have been examined and found to be correct
+* D_Pumptest_Step - are the fields "mum", "testlevel", "testlevel_uom", and "testtype" just temporary?
+    + NOT MODIFIED; all lowercase fields are only temporary holders (of data) and are not for final import
 
-20140605-06
+*20140605-06*
+
 Started in 20130923, the methodology for the MOE WWDB updates to be included as part of the YPDT-CAMC database are complete (refer to Section G.10 for methodology).  This new information has now been added to the database.  Notes regarding possible issues and corrections applied (as needed) are shown here.
 
 Notes on MOE 2013 Well Import
@@ -1269,89 +1288,114 @@ D-Location - 16525 Wells coming into DB
 Min LocID  = 240000035
 Max LocID = 241680698
 
-D_BOREHOLE TABLE
-    - Ground Elevation - Max = 529.6 mASL
-    - Ground Elevation - Min = 67.4 mASL - this well is in Lake Ontario (checked)  (10 wells (all have same WellID) - with zero elevation) BATHYMETRY SUBSTITUTED
-    - Reduce the # of decimal places in the BH_GND_ELEV; BH_GND_ELEV_OUOM, BH_DEM_GND_ELEV, BH_BOTTOM_ELEV, BH_BOTTOM_DEPTH and BH_BOTTOM_DEPTH_OUOM to 2 places SEPARATE PROCEDURE
-    - 5,148 BHs have no specified depth; 3 have a depth of <0; 4 have a depth of 0 DEPTH <0 FIXED
-    - Max Depth = 1167.5? - 2nd largest is 445 m before that (once errors are fixed - the greatest depth should be 402 m)
-    - Min Depth = .1524
-    - 835 BHs with no drill_end_date (ok)
-    - Min Drill_End_Date = 06/07/1951
-    - Max Min Drill_End_Date = 22/03/2012
-    - Many wells with no BH_Geol_Class (ok)
-    - A few MOE errors that I caught - we need to fix either before or after import?..
-        ? MOE ERROR - LocID 240087270 - Change Depth from 1167.5 m to 1167.5 x .3048 = 355.85 m (note the geology only goes to 333 m - I think MOE messed up units. FIXED
-        ? I can't figure where you got the depth of 445 m for LocID 240097354 - the deepest element I can find for this well is the plug at 6.75 m - just maybe check to see that this isn't a more systemic error. FROM BH_CONS; FIXED
-        ? MOE ERROR - I think the depth of 395 m is incorrect for LocID 240001642 - both the Casing and the Fm go to 30.5 m - I think that is more reasonable GEOL_LAY CORR
-        ? MOE ERROR - LocID 240938223 - Fm table goes to 255 ft - I think the MOE units are wrong and should be feet - therefore depth = 266 x .3048 = 81.08 GEOL_LAY CORR
-        ? I can't figure where you got the depth of 250 m for LocID 240416215 - the deepest element I can find for this well is the Geology at 258 ft - therefore depth = 258 x .3048 = 78.64 m - just maybe check to see that this isn't a more systemic error. GEOL_LAY CORR
-        ? MOE Error - LocID 240500279 - everything is in ft except the Plug - likely an error - depth should be 180 x .3048 = 54.86 m GEOL_LAY CORR
-        ? LocID 240183435 - Plug From indicates 55 ft - depth should be 55 x .3048 = 16.76 m (look for Plug From for a depth if none available - LocID - 240183511 (11 ft); LocID 240183453 - (17 ft) DONE
-    - CHECK FOR ADDITIONAL TOP OF PLUG NO BOTTOM FOR NULL DEPTHS (DONE 20140527)
-D_BOREHOLE_CONSTRUCTION TABLE
-    - Looks like top and bottom were exchanged if the top of the construction element was deeper than the bottom - good
-    - Some errors in BH Diameter - some too big - some too small - looks like mostly an issue of inappropriate units (Max Diam = 6125 inch) - should likely be 6.25 inch - also several 625 inch - all should be 6.25 inch - typically bored wells are 3 ft in diameter (36 inch (91.44 cm)  MODIFIED
-    - Smallest BH Diameter = 0.0041 cm (a few 0 diameter) - should be evaluated once in DB and appropriate changes made NOT MODIFIED
-    - Only 8 Con subtypes used (10, 16, 21, 23, 24, 25, 31, 32) - seals (31) and casings only - no sand packs 
-D_GEOLOGY_FEATURE_CODE TABLE 
-    - No codes 7 in table (Iron Water found)
-    - Mostly fresh (Code =1 - 3002 records) or untested (Code = 8 - 1722 records)
-    - Shallowest water found = 0.2 m / deepest water found = 550 ft
-    - 10,224 Water found records (732 Well Ids have more than 1 Water Found Record)
-D_GEOL_LAYER TABLE
-    - There are 28 layers where the top is below the bottom - I didn't check in more detail - but wonder if it makes sense to switch the Top and Bottom fields so that they are proper. THIS IS NOT STRAIGHTFORWARD  - THERE ARE MANY CASES WHERE THE DECIMAL PLACE HAS BEEN MISPLACED AND ETC FIXED
-    - If a layer has no top and no bottom specified - should we even bring it into this table?  Don't know why there are all these blanks?  There are 1664 records (layers) in the table where the top and bottom are null and Mat 1 = 0 - should we just delete these?  
-    - There are around 90 cases where the Mat 1 assignment is 0 - but there are regular values assigned to Mat 2 or Mat 3 - wonder if we should do the same thing you did when the Mat 1 code was empty - move the assignments from Mat2 &/or Mat 3 up to Mat 1?  MOVED MAT2 TO MAT1; MAT3 DIDN'T SEEM REASONABLE
-D_INTERVAL TABLE 
-    - Table looks good
-    - there are 16,525 Intervals coming into the DB - 
-        ? Int_Type Code = 
-            ? 21 - Assumed Open Hole (Bot. of Casing to Bot. of BH) (28 Ints); 
-            ? 18  - Reported Screen (6,061 Ints); 
-            ? 19 - Overburden - Assumed (1 ft Screen above Bot. of Hole) (2,989 Ints);
-            ? 22 - Assumed Open Hole (Top of Bedrock to Bot. of Hole) (2,299 Ints);
-            ? 28 - Screen Information Omitted (5,148 Ints)
-            ? ADDED 123 - TOP INFO ONLY
-    - There are equal number of BHs and Intervals - therefore no Loc contains more than one screen - right? AN INTERVAL CAN HAVE MORE THAN ONE SCREEN IN A SINGLE PIPE (133)
-D_INTERVAL_MONITOR TABLE
-    - 133 Int IDs have more than 1 record in this table - we should look for those cases where it appears to be two pipes in one BH (e.g. the diameter of plastic pipes changes - from 2 inch to 1 inch) - other cases are simply a change in slot size and that is OK.  IN SOME CASES (3 OUT OF 3), THE DEPTH VALUES EXACTLY MATCH SUCH THAT THE SCREENS APPEAR CONTIGUOUS - SHOULD ALL OF THESE 133 BE EXAMINED AND SEPARATED
-    - MOE Error - D_Interval_Monitor - there are 208 cases where the Mon Top OUOM is greater than the Mon Bot OUOM - how about we switch them so that the top is always less than the bottom (unless units are m(ft)asl) FIXED
-    - D_Interval_Monitor - why don't we make the "Mon_Screen_Slot" a number field instead of Text?  Also in our DB - I guess we should check with Sitefx - it might need text.  NOT AN ISSUE WILL BE CONVERTED UPON IMPORT (IS REAL IN MASTER DB)
+**D_BOREHOLE TABLE**
 
-D_INTERVAL_REF_ELEV TABLE
-    - Can we reduce the number of decimal places to 2 in the Ref_Elev and OUOM fields WILL BE RECTIFIED ON IMPORT AUTOMATICALLY (CHANGE IN TYPE)
-    - For the 10 Ints where we have no Ground Surface (I think they are in Lake Ont - can we remove the Ref_Elev of 0.75 mASL - just make null FIXED FOR BATHYMETRY
-D_LOCATION
-    - There are 347 locations that have more than 1 Well tied to them (linked using Master Loc_ID)
-    - Well-ID 7140211 - has 258 wells tied to it; Loc ID 7140275 has 234 wells tied to it   - this is totally unreasonable (should make a note to Tim at MOE) - when I searched in the MOE DB to see if these numbers were correct - I wind up with 246 wells tied to 7140275 and 272 wells tied to 7140211 - did we make a mistake bringing these into our format - are we missing some of the BHs tied to these multi-0location well ids? DIFFERENCES IN COUNTS DUE TO INVALID COORDINATES;  NOTE DEPTHS COME FROM SPECIFIED MOE DEPTH
-    - Why are there 10 LocIDs with no elevation?  No coordinates or no DEM? BATHYMETRY, NOW NONE
-D_LOCATION_ELEV  DONE
-    - looks good - none of the imported wells has an ElevRC of 1 - therefore no elevations to preserve.
-D_LOCATION_QA 
-    - There are 1,125 wells where the Loc_Coord_Confidence_Code (i.e. the one you assigned) is lower than the Loc_Coord_Confidence_Code_Orig - some are flagged with "MOE 201304 Import - Coordinate Conversion (possible error)" - but not all of them.  Wonder why these wells had the codes changed and what the possible import error might be?  IN SOME CASES THE UTM COORDINATES WERE CORRECTED (IF POSSIBLE); IN OTHER CASES, THE UTM COORDINATES WERE INVALID SO A GEOCODING METHODOLOGY WAS IMPOSED - THESE ARE TAGGED WITH A SEPARATE CODE AS THEY WILL NOT BE AS ACCURATE (IF CORRECT) AS SPECIFIED COORDINATES
-    - Were any of the Wells in Zone 18 and converted to Zone 17 equivalents?  Do we retain that in the UTM Zone - or somewhere?  Just curious - the UTMs OUOM match the UTM Final - so are we losing this info and do we care? THE ORIGINAL COORDINATES, WHETHER Z18 OR Z17 HAVE BEEN MAINTAINED
+* Ground Elevation - Max = 529.6 mASL
+* Ground Elevation - Min = 67.4 mASL - this well is in Lake Ontario (checked)  (10 wells (all have same WellID) - with zero elevation) BATHYMETRY SUBSTITUTED
+* Reduce the # of decimal places in the BH_GND_ELEV; BH_GND_ELEV_OUOM, BH_DEM_GND_ELEV, BH_BOTTOM_ELEV, BH_BOTTOM_DEPTH and BH_BOTTOM_DEPTH_OUOM to 2 places SEPARATE PROCEDURE
+* 5,148 BHs have no specified depth; 3 have a depth of <0; 4 have a depth of 0 DEPTH <0 FIXED
+* Max Depth = 1167.5? - 2nd largest is 445 m before that (once errors are fixed - the greatest depth should be 402 m)
+* Min Depth = .1524
+* 835 BHs with no drill_end_date (ok)
+* Min Drill_End_Date = 06/07/1951
+* Max Min Drill_End_Date = 22/03/2012
+* Many wells with no BH_Geol_Class (ok)
+* A few MOE errors that I caught - we need to fix either before or after import?..
+    + MOE ERROR - LocID 240087270 - Change Depth from 1167.5 m to 1167.5 x .3048 = 355.85 m (note the geology only goes to 333 m - I think MOE messed up units. FIXED
+    + I can't figure where you got the depth of 445 m for LocID 240097354 - the deepest element I can find for this well is the plug at 6.75 m - just maybe check to see that this isn't a more systemic error. FROM BH_CONS; FIXED
+    + MOE ERROR - I think the depth of 395 m is incorrect for LocID 240001642 - both the Casing and the Fm go to 30.5 m - I think that is more reasonable GEOL_LAY CORR
+    + MOE ERROR - LocID 240938223 - Fm table goes to 255 ft - I think the MOE units are wrong and should be feet - therefore depth = 266 x .3048 = 81.08 GEOL_LAY CORR
+    + I can't figure where you got the depth of 250 m for LocID 240416215 - the deepest element I can find for this well is the Geology at 258 ft - therefore depth = 258 x .3048 = 78.64 m - just maybe check to see that this isn't a more systemic error. GEOL_LAY CORR
+    + MOE Error - LocID 240500279 - everything is in ft except the Plug - likely an error - depth should be 180 x .3048 = 54.86 m GEOL_LAY CORR
+    + LocID 240183435 - Plug From indicates 55 ft - depth should be 55 x .3048 = 16.76 m (look for Plug From for a depth if none available - LocID - 240183511 (11 ft); LocID 240183453 - (17 ft) DONE
+* CHECK FOR ADDITIONAL TOP OF PLUG NO BOTTOM FOR NULL DEPTHS (DONE 20140527)
 
-20140606
+**D_BOREHOLE_CONSTRUCTION TABLE**
+
+* Looks like top and bottom were exchanged if the top of the construction element was deeper than the bottom - good
+* Some errors in BH Diameter - some too big - some too small - looks like mostly an issue of inappropriate units (Max Diam = 6125 inch) - should likely be 6.25 inch - also several 625 inch - all should be 6.25 inch - typically bored wells are 3 ft in diameter (36 inch (91.44 cm)  MODIFIED
+* Smallest BH Diameter = 0.0041 cm (a few 0 diameter) - should be evaluated once in DB and appropriate changes made NOT MODIFIED
+* Only 8 Con subtypes used (10, 16, 21, 23, 24, 25, 31, 32) - seals (31) and casings only - no sand packs 
+
+**D_GEOLOGY_FEATURE_CODE TABLE**
+
+* No codes 7 in table (Iron Water found)
+* Mostly fresh (Code =1 - 3002 records) or untested (Code = 8 - 1722 records)
+* Shallowest water found = 0.2 m / deepest water found = 550 ft
+* 10,224 Water found records (732 Well Ids have more than 1 Water Found Record)
+
+**D_GEOL_LAYER TABLE**
+
+* There are 28 layers where the top is below the bottom - I didn't check in more detail - but wonder if it makes sense to switch the Top and Bottom fields so that they are proper. THIS IS NOT STRAIGHTFORWARD  - THERE ARE MANY CASES WHERE THE DECIMAL PLACE HAS BEEN MISPLACED AND ETC FIXED
+* If a layer has no top and no bottom specified - should we even bring it into this table?  Don't know why there are all these blanks?  There are 1664 records (layers) in the table where the top and bottom are null and Mat 1 = 0 - should we just delete these?  
+* There are around 90 cases where the Mat 1 assignment is 0 - but there are regular values assigned to Mat 2 or Mat 3 - wonder if we should do the same thing you did when the Mat 1 code was empty - move the assignments from Mat2 &/or Mat 3 up to Mat 1?  MOVED MAT2 TO MAT1; MAT3 DIDN'T SEEM REASONABLE
+
+**D_INTERVAL TABLE** 
+
+* Table looks good
+* there are 16,525 Intervals coming into the DB - Int_Type Code 
+    + 21 - Assumed Open Hole (Bot. of Casing to Bot. of BH) (28 Ints); 
+    + 18  - Reported Screen (6,061 Ints); 
+    + 19 - Overburden - Assumed (1 ft Screen above Bot. of Hole) (2,989 Ints);
+    + 22 - Assumed Open Hole (Top of Bedrock to Bot. of Hole) (2,299 Ints);
+    + 28 - Screen Information Omitted (5,148 Ints)
+    + ADDED 123 - TOP INFO ONLY
+* There are equal number of BHs and Intervals - therefore no Loc contains more than one screen - right? AN INTERVAL CAN HAVE MORE THAN ONE SCREEN IN A SINGLE PIPE (133)
+
+**D_INTERVAL_MONITOR TABLE**
+
+* 133 Int IDs have more than 1 record in this table - we should look for those cases where it appears to be two pipes in one BH (e.g. the diameter of plastic pipes changes - from 2 inch to 1 inch) - other cases are simply a change in slot size and that is OK.  IN SOME CASES (3 OUT OF 3), THE DEPTH VALUES EXACTLY MATCH SUCH THAT THE SCREENS APPEAR CONTIGUOUS - SHOULD ALL OF THESE 133 BE EXAMINED AND SEPARATED
+* MOE Error - D_Interval_Monitor - there are 208 cases where the Mon Top OUOM is greater than the Mon Bot OUOM - how about we switch them so that the top is always less than the bottom (unless units are m(ft)asl) FIXED
+* D_Interval_Monitor - why don't we make the "Mon_Screen_Slot" a number field instead of Text?  Also in our DB - I guess we should check with Sitefx - it might need text.  NOT AN ISSUE WILL BE CONVERTED UPON IMPORT (IS REAL IN MASTER DB)
+
+**D_INTERVAL_REF_ELEV TABLE**
+
+* Can we reduce the number of decimal places to 2 in the Ref_Elev and OUOM fields WILL BE RECTIFIED ON IMPORT AUTOMATICALLY (CHANGE IN TYPE)
+* For the 10 Ints where we have no Ground Surface (I think they are in Lake Ont - can we remove the Ref_Elev of 0.75 mASL - just make null FIXED FOR BATHYMETRY
+
+**D_LOCATION**
+
+* There are 347 locations that have more than 1 Well tied to them (linked using Master Loc_ID)
+* Well-ID 7140211 - has 258 wells tied to it; Loc ID 7140275 has 234 wells tied to it   - this is totally unreasonable (should make a note to Tim at MOE) - when I searched in the MOE DB to see if these numbers were correct - I wind up with 246 wells tied to 7140275 and 272 wells tied to 7140211 - did we make a mistake bringing these into our format - are we missing some of the BHs tied to these multi-0location well ids? DIFFERENCES IN COUNTS DUE TO INVALID COORDINATES;  NOTE DEPTHS COME FROM SPECIFIED MOE DEPTH
+* Why are there 10 LocIDs with no elevation?  No coordinates or no DEM? BATHYMETRY, NOW NONE
+
+**D_LOCATION_ELEV**
+
+* looks good - none of the imported wells has an ElevRC of 1 - therefore no elevations to preserve.
+
+**D_LOCATION_QA**
+
+* There are 1,125 wells where the Loc_Coord_Confidence_Code (i.e. the one you assigned) is lower than the Loc_Coord_Confidence_Code_Orig - some are flagged with "MOE 201304 Import - Coordinate Conversion (possible error)" - but not all of them.  Wonder why these wells had the codes changed and what the possible import error might be?  IN SOME CASES THE UTM COORDINATES WERE CORRECTED (IF POSSIBLE); IN OTHER CASES, THE UTM COORDINATES WERE INVALID SO A GEOCODING METHODOLOGY WAS IMPOSED - THESE ARE TAGGED WITH A SEPARATE CODE AS THEY WILL NOT BE AS ACCURATE (IF CORRECT) AS SPECIFIED COORDINATES
+* Were any of the Wells in Zone 18 and converted to Zone 17 equivalents?  Do we retain that in the UTM Zone - or somewhere?  Just curious - the UTMs OUOM match the UTM Final - so are we losing this info and do we care? THE ORIGINAL COORDINATES, WHETHER Z18 OR Z17 HAVE BEEN MAINTAINED
+
+*20140606*
+
 As part of the MOE WWDB import (201304 version), various corrections for other locations were applied using standard procedures/methodology as developed for the water well database.
 
 D_INTERVAL_MONITOR rows were found with no bottom elevations/depths; these were found to correspond to zero thickness bedrock wells.  In these cases, '0.3m' screen intervals were imposed above the bottom of the well.
 
-201406
+*201406*
+
 Started assembling information for creating a new version of the database; both this document and Appendix H ('Current Problems') will be examined for necessary changes.  The schema created by SiteFX will be reviewed and both additions and modifications will be included as necessary.
 
-20140716
+*20140716*
+
 An SSMA_Timestamp should be incorporated into each table - they help avoid errors when Access updates records in tables linked to SQL Server.  Review 'Supporting Concurrency Checks' from Microsoft documents.  In particular, 'The timestamp column increases automatically every time a new value is assigned to any column in the table.  Access automatically detects when a table contains this type of column and uses it in the WHERE clause of all UPDATE and DELETE statements affecting that table' (Stack Overflow, 2012).
-20140723
+
+*20140723*
+
 At the moment, ranges of values include NULL, '-1' through '2'.  The '-1' values will be changed to '1' and '0' will be changed to NULL.  What is '2' indicating?
 
-201408
+*201408*
+
 Started implementing the new version of the database.  Corrections will be made on-the-fly with regard to errors while copying information between the old and the new versions.
 
-20140908
+*20140908*
+
 Updated R_LOC_WATERSHED1_CODE removing multiple 'Rouge River' indicators.
 
-20140909
+*20140909*
+
 D_INTERVAL_REF_ELEV has NULL values for REF_ELEV_START_DATE - this has been corrected (assigned the 'holder' value '1867-07-01').  A note should be made to populate this field upon data entry (this should be a constraint in the new version of the database).
 
 In D_LOCATION_QA, what is QA_COORD_CONFIDENCE_CODE_UPDATE (a 'bit' field) being used for?  Should this be removed (likely, yes).
@@ -1363,7 +1407,8 @@ Should this table be re-evaluated?
 
 Added R_GEOL_LAYERTYPE_CODE into OAK_20120615_MASTER (non-replicating) and populated manually from the original Microsoft Access database.  The '0' value was not included (no description was tagged to GEOL_LAYERTYPE_CODE '0').  This value (i.e. '0') was removed (assigned a NULL value) from D_GEOLOGY_LAYER  (the GEOL_LAYERTYPE_CODE field).
 
-20140910
+*20140910*
+
 For D_INTERVAL_FORMATION_ASSIGNMENT:
 SYS_RECORD_ID has been removed as both a key and a field - there should be only a single row per INT_ID.  Refer to Section 2.4.1 for the reasoning behind this.
 Do we want to re-think the setup of this table?  Instead of adding additional columns for each model, should we simplify the table and add a look-up table for model codes?  An example would be:
@@ -1373,59 +1418,68 @@ VDIST
 
 Where ASSIGN_CODE (a look-up table) would consist of (for example):
 
-Top Layer
-Bottom Layer
-Next Layer
-Previous Layer
-Assigned Unit
-Override Unit
-Manual Unit
+*Top Layer
+*Bottom Layer
+*Next Layer
+*Previous Layer
+*Assigned Unit
+*Override Unit
+*Manual Unit
 
 And MODEL_CODE (a look-up table) would consist of (for example):
 
-Core Model 2004
-Regional Model 2004
-Extended Core Model 2006
-Durham Model 2007
-East Model 2010
+*Core Model 2004
+*Regional Model 2004
+*Extended Core Model 2006
+*Durham Model 2007
+*East Model 2010
 
 Note that VDIST would only be populated for 'Next ?' and 'Previous ?' records.
 
 There are various problems with this table (invalid GEOL_UNIT_CODE; invalid INT_ID) that should be addressed.
 
-20141017
+*20141017*
+
 D_INTERVAL_TEMPORAL_1B and D_INTERVAL_TEMPORAL_2 have had their SYS_RECORD_ID's substituted for ranges of values that have been assigned to PEEL, CLOCA, YORK and NVCA.  This is to, temporarily, avoid errors when incorporating temporal data in the database where the primary keys conflict.  This arises from each of the partner agencies having a subset of the total database - keys can exist in the master that do not exist in their copy (and will conflict during replication).  Note that some sort of fix should be applied to all tables with identifiers.
 
-20141022
+*20141022*
+
 D_INTERVAL_MONITOR is missing screened intervals (as specified in D_INTERVAL); this includes INT_TYPE_CODE's of: 18, 19, 21, 22 and 27.  Each is assigned tops and bottoms as appropriate.  See write-up in Section G.23.
 
-20141110
+*20141110*
+
 D_LOCATION_PURPOSE is setup in a manner such that multiple purposes can be assigned to a particular location - this can take the form of multiple 'rows' of information.  Upon examination, it is found that there has been locations with more than two purposes assigned them (i.e. other than a single row with PURPOSE_PRIMARY_CODE and PURPOSE_SECONDARY_CODE).  There is an end date indicator (PURPOSE_DATE_END) but this is not being used.  In this case the multiples are repeating purposes (i.e. duplicates) for that particular location - these duplicates have now been removed.  However, more than two purposes can be assigned to any particular location, still (see the PTTW dataset).  If this is to continue, an indicator field - PRIMACY - is suggested which will tag the rows in the order that they should be considered.
 
-20141111
+*20141111*
+
 Corrected location issue with regard to the MOE WWDB 201304 import - geocoding issues placed a subset of wells (~900) in the likely incorrect location.  This should continually be checked (using D_LOCATION_QA) when working with these locations.  QA_COORD_SOURCE and QA_COORD_COMMENT contain the relative details regarding the coordinate assignment.
 
-20141112
+*20141112*
+
 Re-populated the contents of D_LOCATION_GEOM so as to incorporate changes in the D_LOCATION table (including the update of the MOE 201304 imported boreholes).
 
 Examined resulting table (through plotting).  Corrected locations with invalid coordinates or assigned the invalid tag of '117' in D_LOCATION_QA.
 
 It was noticed, during these coordinate corrections, that at times a 6-digit number actually conforms to a lat/long designation in 'ddmmss' format.  This is primarily found for Environment Canada climate stations and surface water sites.  This was then checked against other locations in D_LOCATION with coordinates modified as appropriate.  If addresses were found, an attempt at geocoding was performed.
 
-20141201
+*20141201*
+
 Values within the temporal tables are found to have RD_NAME_CODEs that do not have a READING_GROUP_CODE assigned.  These have been updated as appropriate (either by modifying the RD_NAME_CODE and RD_NAME_OUOM or by applying a READING_GROUP_CODE to the RD_NAME_CODE).  Note that in the case of temperatures, some seem to exceed that which would be appropriate to groundwater but are associated with a 'reported screen'.
 
 Users are assigning parameters to invalid temporal tables (e.g. herbicides in DIT2; water levels in DIT1B).  This is likely due to the default SiteFX setup.  RD_NAME_CODEs have been evaluated and re-assigned as necessary.
 
-20141215
+*20141215*
+
 Reset invalid 'Temperature' records, reassigning them to the specific RD_NAME_CODE for their interval type (either a barometric logger or water level/temperature logger).
 
 Corrected invalid DIT2 and DIT1B rows to appropriate table.
 
-201502+
+*201502+*
+
 Start if review of 'new' database format (views and tables).
 
- 20150224
+*20150224*
+
 D_BOREHOLE and D_LOCATION_ELEV elevations are once again out-of-sync.  Some of these are tagged as 'surveyed' but still have their elevations changed - once this tag is in place, no elevation changes should ever again be made.  Corrected all of the changes (based on the QA_COORD_CONFIDENCE_CODE).
 
 Updated all elevations (BH_GND_ELEV, BH_GND_ELEV_OUOM and BH_DEM_GND_ELEV) setting them to equivalent values (namely the ASSIGNED_ELEV); assigned BH_GND_ELEV_UNIT_OUOM to 'masl'.  Where the location did not have an ELEV_ORIGINAL, the BH_GND_ELEV_OUOM was used to populate the field (converting to 'masl' as appropriate).
@@ -1434,7 +1488,8 @@ Updated/corrected all BH_BEDROCK_ELEV where the elevation has changed (subsequen
 
 Removed 'soil' intervals (1) and 'surface water spot stage elevation' intervals (27) from D_INTERVAL_MONITOR.  Removed duplicates from D_INTERVAL_MONITOR.  Starting correcting of top- and bottom-screen intervals based upon various assumptions (e.g. '0.3' metres above bottom of hole for INT_TYPE_CODE '19').  Started re-examining incorporation of various screens into D_INTERVAL_MONITOR based upon various assumptions (e.g. as in the preceding sentence).
 
-20150225
+*20150225*
+
 Incorporated 'new' intervals into D_INTERVAL_MONITOR with INT_TYPE_CODE 21 where:
 
 INT_TYPE_CODE 21 - Assumed Open Hole (Bot. of Casing to Bot. of Hole)
@@ -1443,257 +1498,269 @@ approx top of bedrock)
 
 Boreholes with a difference between the bottom of the hole and the bottom of casing greater than 0.1m were incorporated as is.  The bottom-of-casing is considered to be the top-of-bedrock (and an update was made in D_BOREHOLE).
 
-20150227
+*20150227*
+
 Finished updating/modifying INT_TYPE_CODE '21'; reassigned those (to '123') that were not appropriate.  Approximately 4000 do not have elevations due to invalid coordinates.  Update required some evaluation of BH_BEDROCK_ELEV and changes in D_GEOLOGY_LAYER; for the latter, a review of 'fbgs' OUOMs (which tend to be integer values) and 'mbgs' OUOMs (which tend to be real values) should be evaluatated.  It appears that some current 'mbgs' should be re-tagged as 'fbgs'.
 
-20150303
+*20150303*
+
 Updating INT_TYPE_CODE '28' (Screen Information Omitted).  UGAIS wells (DATA_ID '2076806159', i.e. DATA_DESCRIPTION 'MNDM - Ontario Geological Survey (UGAIS Wells)') are assigned INT_TYPE_CODE '22' (Assumed open hole, top of bedrock to bottom of hole) where the BH_BEDROCK_ELEV is greater than 0.3m above the BH_BOTTOM_ELEV.  Note that only a subset of these records contain actual water level readings.
 
-20150305
+*20150305*
+
 Updating INT_TYPE_CODE '28' (Screen Information Omitted).  Changed to INT_TYPE_CODE '22' or '19' based upon the presence of a BH_BEDROCK_ELEV.  Deleted those records with no valid bottom depth of any kind (the remainder were from the MOE WWDB 201304 import).  Twenty-four of these remain.  There are >8000 INT_TYPE_CODEs '28' remaining.
 
-20150306
+*20150306*
+
 Update D_BOREHOLE_CONSTRUCTION; corrected CON_TOP_OUOM and CON_BOT_OUOM based upon casing information.  Units are converted from 'inch' and 'cm' to 'mbgs'.  Where CON_UNIT_OUOM is NULL, numeric 'integer' depths are assigned 'fbgs'; numeric 'real' (i.e. with a decimal) depths are assigned 'mbgs'.  Corrected (added) depths based upon construction details.
 
-20150313
+*20150313*
+
 Summary review of 'new' database views (and related tables).
 
-DB REVIEW - March 13, 2015
+*DB REVIEW - March 13, 2015*
 
 Views
 1. V_Consultant_Document - OK
 2. V_Consultant_General
-    - Well Depth is missing
-    - Change Surface_Elev to Ground Elev
-    - Change Interval_Monitor_Num - to Number_Of_Screens
-    - Change BH_Diameter_M to BH_Diameter_cm - (or whatever the correct unit is - it is not metres)
-    - Given that the Number/StartDate/EndDate of the Water Levels and Water Quality info is already in the "V_Consultant_Hydrogeology" View and the intent is to provide all of these together - I think we can remove these fields from this table.
-    - Wonder about the Several "Water_Found" fields at the end of the table - with no depth provided I don't know if this is all that useful to include in the view
+    + Well Depth is missing
+    + Change Surface_Elev to Ground Elev
+    + Change Interval_Monitor_Num - to Number_Of_Screens
+    + Change BH_Diameter_M to BH_Diameter_cm - (or whatever the correct unit is - it is not metres)
+    + Given that the Number/StartDate/EndDate of the Water Levels and Water Quality info is already in the "V_Consultant_Hydrogeology" View and the intent is to provide all of these together - I think we can remove these fields from this table.
+    + Wonder about the Several "Water_Found" fields at the end of the table - with no depth provided I don't know if this is all that useful to include in the view
 3. V_Consultant_Geology - OK 
 4. V_Consultant_Hydrogeology
-    - We should add "Screened Formation" to this view
-    - What is the difference between Pumptest_Start and Pump_Start_Date (and Pumptest_End vs Pump_End_Date
-    - Similarly - doesn't Pumptest_Date_MDY relect the Pumptest_Start - they look the same - except maybe the time?
-    - Does the Field "Pump_Readings_Num" record the number of water levels during the pump test? Or a change in pumping rate?  Maybe change to "Test_WL_Readings_Num"?
-    - How come the "Pumptest_Rate_IGPM" is in whole numbers and the "Pumptest_Rec_Rate_IGPM" has decimal places - check the numbers to make sure that we didn't convert Gal to L or vice versa - make decimal places consistent between two fields.  No decimal places unless we converted from L to gal - then maybe 2 decimals.
-    - Wonder if we should add "Daily_Pumping_Volume_Num" (and start/end dates) to provide indication of the data availability for the main pumping wells.
+    + We should add "Screened Formation" to this view
+    + What is the difference between Pumptest_Start and Pump_Start_Date (and Pumptest_End vs Pump_End_Date
+    + Similarly - doesn't Pumptest_Date_MDY relect the Pumptest_Start - they look the same - except maybe the time?
+    + Does the Field "Pump_Readings_Num" record the number of water levels during the pump test? Or a change in pumping rate?  Maybe change to "Test_WL_Readings_Num"?
+    + How come the "Pumptest_Rate_IGPM" is in whole numbers and the "Pumptest_Rec_Rate_IGPM" has decimal places - check the numbers to make sure that we didn't convert Gal to L or vice versa - make decimal places consistent between two fields.  No decimal places unless we converted from L to gal - then maybe 2 decimals.
+    + Wonder if we should add "Daily_Pumping_Volume_Num" (and start/end dates) to provide indication of the data availability for the main pumping wells.
 5. V_Consultant_Pick
-    - This View doesn't return any records.
+    + This View doesn't return any records.
 6. V_General
-    - Purpose_Primary and Purpose_Secondary (Fix spelling) - do not appear to pull the data correctly - they are all null - should pull description from the correct R tables;
-    - Move "QA_Coord_Code" - so that is right beside "Coord_Confidence" field;
-    - Move "Status_Code" so that it is located beside the "Status" field;
-    - Move "Type_Code" so that it is located right beside the "Type" field - also change name from "Type" to "Location_Type"
-    - What does "Access_Code" refer to?  Do we need it here?
-    - I see some of the 2006 PTTW records in here - did you create this DB before we deleted and replaced them?
+    + Purpose_Primary and Purpose_Secondary (Fix spelling) - do not appear to pull the data correctly - they are all null - should pull description from the correct R tables;
+    + Move "QA_Coord_Code" - so that is right beside "Coord_Confidence" field;
+    + Move "Status_Code" so that it is located beside the "Status" field;
+    + Move "Type_Code" so that it is located right beside the "Type" field - also change name from "Type" to "Location_Type"
+    + What does "Access_Code" refer to?  Do we need it here?
+    + I see some of the 2006 PTTW records in here - did you create this DB before we deleted and replaced them?
 7. V_General_Borehole
-    - Since all records in View are from the D_Borehole  - we can probably remove the "Type" field (are there any outcrops in this view?  Maybe we remove them from here.
-    - Change "Surface_Elev" to "Ground_Elev"
-    - Change "Bottom_Depth" to "Bottom_Depth_m"
-    - Change "Data_MDY" to "Date_Drilled_MDY"
-    - Change "Interval_Monitor_Num"  - to "Number_Of_Screens"
-    - Change "Screen_Geol_Unit" to "Screened_Geol_Unit"
-    - What does "Screen_Geol_Unit_Elev" point to? Top/Middle/bottom of geol Unit? Top of screen? Bottom of Screen?
-    - I don't think we would need "Status_Code", "Access_Code" or "Type_Code" in this View
+    + Since all records in View are from the D_Borehole  - we can probably remove the "Type" field (are there any outcrops in this view?  Maybe we remove them from here.
+    + Change "Surface_Elev" to "Ground_Elev"
+    + Change "Bottom_Depth" to "Bottom_Depth_m"
+    + Change "Data_MDY" to "Date_Drilled_MDY"
+    + Change "Interval_Monitor_Num"  - to "Number_Of_Screens"
+    + Change "Screen_Geol_Unit" to "Screened_Geol_Unit"
+    + What does "Screen_Geol_Unit_Elev" point to? Top/Middle/bottom of geol Unit? Top of screen? Bottom of Screen?
+    + I don't think we would need "Status_Code", "Access_Code" or "Type_Code" in this View
 8. V_General_Borehole_Bedrock
-    - Do we need this View anymore?  It's the same as previous except the Bedrock Field is never null.  If we keep it - then we might want to change name to "Bedrock_Reached"  _ notice there are lots of wells in the table where the screen is in an overburden unit and not in the bedrock.
+    + Do we need this View anymore?  It's the same as previous except the Bedrock Field is never null.  If we keep it - then we might want to change name to "Bedrock_Reached"  _ notice there are lots of wells in the table where the screen is in an overburden unit and not in the bedrock.
 9. V_General_Borehole_Outcrop
-    - Change name to V_General_Outcrop
-    - I think the Alternative_Name and the Study fields are both Null for all Outcrops - maybe we can remove them
-    - Remove "Type" field?
-    - Change name of "Bottom_Depth" to Bottom_Depth_m)
-    - Remove "Borehole_Diameter_cm" - not applicable
-    - Do any of the outcrops have a date associated with them?  If not then remove - if yes then let's change the name from "Date_MDY" to "Date_Logged_MDY"
-    - Remove fields "Interval_Monitor_Num"; "Interval_Soil_Num"; "Screen_Geol_Unit"; "Screen_Geol_Unit_Elev"; "Status_Code"; "Access_Code" and "Type_Code" all are not applicable and/or blank/consistent.
-    - Maybe we could add a Field "Num_of_Geol_Layers" - and record the number of records for each outcrop in the D_Geol_Layer table.
+    + Change name to V_General_Outcrop
+    + I think the Alternative_Name and the Study fields are both Null for all Outcrops - maybe we can remove them
+    + Remove "Type" field?
+    + Change name of "Bottom_Depth" to Bottom_Depth_m)
+    + Remove "Borehole_Diameter_cm" - not applicable
+    + Do any of the outcrops have a date associated with them?  If not then remove - if yes then let's change the name from "Date_MDY" to "Date_Logged_MDY"
+    + Remove fields "Interval_Monitor_Num"; "Interval_Soil_Num"; "Screen_Geol_Unit"; "Screen_Geol_Unit_Elev"; "Status_Code"; "Access_Code" and "Type_Code" all are not applicable and/or blank/consistent.
+    + Maybe we could add a Field "Num_of_Geol_Layers" - and record the number of records for each outcrop in the D_Geol_Layer table.
 10. V_General_Chemistry
-    - What is in this view?  Does it include everything from all of the following Chemistry Views? If yes - should we change name to "V_General_Chemistry_All"
-    - Change "Name" to "Loc_Name"
-    - What does "Formation" refer to?  Change to "Screened_Formation".
-    - I don't think anyone would care about "Bedrock_Elevation" in here - delete field.
-    - Change "Group_Code" to the description - or add description and leave the Code.
-    - What does Int_Access_Code refer to?  Remove?
-    - What does Int_Active_Code - refer to?  Is it updated/used?  Remove?
-    - This view also returns all of the soil grain size analyses and other lab data that pertains to soils - which I guess is why we called it "Lab" before.  Don't know if we should change name or change what the view returns (Int_Type <>  "Soil or Rock") - we should discuss.
+    + What is in this view?  Does it include everything from all of the following Chemistry Views? If yes - should we change name to "V_General_Chemistry_All"
+    + Change "Name" to "Loc_Name"
+    + What does "Formation" refer to?  Change to "Screened_Formation".
+    + I don't think anyone would care about "Bedrock_Elevation" in here - delete field.
+    + Change "Group_Code" to the description - or add description and leave the Code.
+    + What does Int_Access_Code refer to?  Remove?
+    + What does Int_Active_Code - refer to?  Is it updated/used?  Remove?
+    + This view also returns all of the soil grain size analyses and other lab data that pertains to soils - which I guess is why we called it "Lab" before.  Don't know if we should change name or change what the view returns (Int_Type <>  "Soil or Rock") - we should discuss.
 11. V_General_Chemistry_Bacteriologicals
-    - Same points as for V_General_Chemistry
+    + Same points as for V_General_Chemistry
 12. V_General_Chemistry_Extractables
-    - Same points as for V_General_Chemistry
-    - Maybe we should add the "Qualifier" Field so that all of the "<" signs pop up
+    + Same points as for V_General_Chemistry
+    + Maybe we should add the "Qualifier" Field so that all of the "<" signs pop up
 13. V_General_Chemistry_Herbicides_Pesticides
-    - Same points as for V_General_Chemistry
-    - Maybe we should add the "Qualifier" Field so that all of the "<" signs pop up
+    + Same points as for V_General_Chemistry
+    + Maybe we should add the "Qualifier" Field so that all of the "<" signs pop up
 14. V_General_Chemistry_Ions
-    - Same points as for V_General_Chemistry
+    + Same points as for V_General_Chemistry
 15. V_General_Chemistry_Isotopes
-    - Same points as for V_General_Chemistry
+    + Same points as for V_General_Chemistry
 16. V_General_Chemistry_Metals
-    - Same points as for V_General_Chemistry
-    - Maybe we should add the "Qualifier" Field so that all of the "<" signs pop up
+    + Same points as for V_General_Chemistry
+    + Maybe we should add the "Qualifier" Field so that all of the "<" signs pop up
 17. V_General_Chemistry_Organics
-    - Same points as for V_General_Chemistry
-    - Maybe we should add the "Qualifier" Field so that all of the "<" signs pop up
+    + Same points as for V_General_Chemistry
+    + Maybe we should add the "Qualifier" Field so that all of the "<" signs pop up
 18. V_General_Chemistry_SVOCs
-    - Same points as for V_General_Chemistry
-    - Maybe we should add the "Qualifier" Field so that all of the "<" signs pop up
+    + Same points as for V_General_Chemistry
+    + Maybe we should add the "Qualifier" Field so that all of the "<" signs pop up
 19. V_General_Chemistry_VOCs
-    - Same points as for V_General_Chemistry
-    - Maybe we should add the "Qualifier" Field so that all of the "<" signs pop up
+    + Same points as for V_General_Chemistry
+    + Maybe we should add the "Qualifier" Field so that all of the "<" signs pop up
 20. V_General_Document
-    - Remove "Study" field - not used for documents
+    + Remove "Study" field - not used for documents
 21.	V_General_Document_Bibliography - OK
 22.	V_General_Field
-    - What does this View Return? All Field Data?  Change Name to "General_Field_All"?
-    - Change "Name" to "Loc_Name"
-    - Change "Parameter_Type" to "Measurement_Descriptor"
-    - Remove "Bedrock_Elev" - not relevant to this View
-    - Remove "Int_Access_Code" and "Int_Active_Code"
+    + What does this View Return? All Field Data?  Change Name to "General_Field_All"?
+    + Change "Name" to "Loc_Name"
+    + Change "Parameter_Type" to "Measurement_Descriptor"
+    + Remove "Bedrock_Elev" - not relevant to this View
+    + Remove "Int_Access_Code" and "Int_Active_Code"
 23. V_General_Field_Metereological
-    - Change "Name" to "Loc__Alternative_Name" - the AltName field has the Environment Canada Name - so its easier for folks to quickly know the Climate Station location
-    - Maybe remove the "Int_Type" and "Int_Type_Code" - since all of these should be climate station intervals?
-    - What about adding RD_NAME_CODE to this View - someone might want to query out snowpack or something and the code might be handy (rather than text);
-    - Change "Parameter_Type" to "Measurement_Descriptor"
-    - Isn't the "Group_Code" all 22 for the metereological data?   If it doesn't change then maybe we can delete this field. 
-    - Remove "Int_Access_Code" and "Int_Active_Code"
+    + Change "Name" to "Loc__Alternative_Name" - the AltName field has the Environment Canada Name - so its easier for folks to quickly know the Climate Station location
+    + Maybe remove the "Int_Type" and "Int_Type_Code" - since all of these should be climate station intervals?
+    + What about adding RD_NAME_CODE to this View - someone might want to query out snowpack or something and the code might be handy (rather than text);
+    + Change "Parameter_Type" to "Measurement_Descriptor"
+    + Isn't the "Group_Code" all 22 for the metereological data?   If it doesn't change then maybe we can delete this field. 
+    + Remove "Int_Access_Code" and "Int_Active_Code"
 24. V_General_Field_Stream_Flow
-    - I didn't check all - but if the Int_Alt_Name always has the Env Canada Long Name - then its fine - however if it doesn't then maybe we have to add Loc_Alternative_Name to show this.
-    - Maybe remove the "Int_Type" and "Int_Type_Code" - since all of these should be surface water stations?
-    - Isn't the "Group_Code" all 25 for the stream flow data?   If it doesn't change then maybe we can delete this field. 
-    - Change "Parameter_Type" to "Measurement_Descriptor"
-    - Remove "Int_Access_Code" and "Int_Active_Code"
+    + I didn't check all - but if the Int_Alt_Name always has the Env Canada Long Name - then its fine - however if it doesn't then maybe we have to add Loc_Alternative_Name to show this.
+    + Maybe remove the "Int_Type" and "Int_Type_Code" - since all of these should be surface water stations?
+    + Isn't the "Group_Code" all 25 for the stream flow data?   If it doesn't change then maybe we can delete this field. 
+    + Change "Parameter_Type" to "Measurement_Descriptor"
+    + Remove "Int_Access_Code" and "Int_Active_Code"
 25. V_General_Field_Summary
-    - So does this summarize the Count and start/end dates for each Parameter for each Interval from Int 2?  Looks like Climate and Streamflow Ints are omitted.  Maybe change name to reflect this - "V_General_Field_Summary_BHs"
-    - Remove "Bedrock_Elev" - not relevant to this View
-    - Wonder if a "Value_Avg" would be a useful addition to this table?
-    - Remove "Int_Access_Code" and "Int_Active_Code"
+    + So does this summarize the Count and start/end dates for each Parameter for each Interval from Int 2?  Looks like Climate and Streamflow Ints are omitted.  Maybe change name to reflect this - "V_General_Field_Summary_BHs"
+    + Remove "Bedrock_Elev" - not relevant to this View
+    + Wonder if a "Value_Avg" would be a useful addition to this table?
+    + Remove "Int_Access_Code" and "Int_Active_Code"
 26. V_General_Geology
-    - Change "Name" to "Loc_Name"
-    - Maybe add "Layer_Thickness"?
-    - Don't know if we need UTMs and QA code in here - don't think that plotting would occur very often from this View
-    - Remove Type_Code; Access_Code; and Status_Code - not needed
-    - For those wells that have it - it might be nice to add in the "GSC_Code"
+    + Change "Name" to "Loc_Name"
+    + Maybe add "Layer_Thickness"?
+    + Don't know if we need UTMs and QA code in here - don't think that plotting would occur very often from this View
+    + Remove Type_Code; Access_Code; and Status_Code - not needed
+    + For those wells that have it - it might be nice to add in the "GSC_Code"
 27. V_General_Geology_Deepest_Nonrock
-    - Don't know if we need UTMs and QA code in here - don't think that plotting would occur very often from this View
-    - Remove Type_Code; Access_Code; and Status_Code - not needed
+    + Don't know if we need UTMs and QA code in here - don't think that plotting would occur very often from this View
+    + Remove Type_Code; Access_Code; and Status_Code - not needed
 28. V_General_Geology_Outcrop
-    - If we separate Outcrops - then should we rename V_General_Geology - to "V_General_Geology_BHs"?
-    - Same points as above
+    + If we separate Outcrops - then should we rename V_General_Geology - to "V_General_Geology_BHs"?
+    + Same points as above
 29. V_General_Hydrogeology
-    - This view only pulls BHs right?  Therefore the Type and Type_Code are likely not needed
-    - Access_Code not needed
-    - Same as for "V_Consultant_Hydrogeology" - Rectify difference between Pump_Readings and Pumping_Test - is one showing the daily pumping rates?  If yes - let's try find a better name - how about "Daily Pumped Volume_Num" (too long?)
-    - We should add "Screened Formation" to this view
-    - Is "Name" - the "Int Name" or the "Loc_Name"? - clarify
-    - We need to check the field "PUMPTEST_REC_RATE_IGPM" - the values do not appear to be whole numbers - even when the pumping rate is a whole number - did we do a conversion here that we didn't mean to?
+    + This view only pulls BHs right?  Therefore the Type and Type_Code are likely not needed
+    + Access_Code not needed
+    + Same as for "V_Consultant_Hydrogeology" - Rectify difference between Pump_Readings and Pumping_Test - is one showing the daily pumping rates?  If yes - let's try find a better name - how about "Daily Pumped Volume_Num" (too long?)
+    + We should add "Screened Formation" to this view
+    + Is "Name" - the "Int Name" or the "Loc_Name"? - clarify
+    + We need to check the field "PUMPTEST_REC_RATE_IGPM" - the values do not appear to be whole numbers - even when the pumping rate is a whole number - did we do a conversion here that we didn't mean to?
 30. V_General_MOE_Report
-    - What is the field "WellNumbers? - mostly contains ND(ND)ND?
-    - Does "Water" indicate "Water_Found"?  Maybe change name? 
+    + What is the field "WellNumbers? - mostly contains ND(ND)ND?
+    + Does "Water" indicate "Water_Found"?  Maybe change name? 
 31. V_General_MOE_Well
-    - We need to add a field for MOE_Well_ID (Loc Original Name)
-    - I don't think that Primary and Secondary Use are being populated correctly - they are all null for the first 1000 records
-    - "Access Code" and "Type Code" and "Type" are probably not needed
+    + We need to add a field for MOE_Well_ID (Loc Original Name)
+    + I don't think that Primary and Secondary Use are being populated correctly - they are all null for the first 1000 records
+    + "Access Code" and "Type Code" and "Type" are probably not needed
 32. V_General_Pick
-    - View doesn't return any records
+    + View doesn't return any records
 33. V_General_Station_Climate
-    - How about changing name to "V_General_Field_Summary_Meteorological" - similar to #25
-    - We should add Int_ID and Maybe IntNAme - so if someone wants to quickly find the info the Int_ID is right here.
-    - Type; Type_Code; and Access_Code are likely not needed
-    - There are quite a few stations that have no Precip or Temp readings - is that correct?  No data for them - wonder if we should delete them?
+    + How about changing name to "V_General_Field_Summary_Meteorological" - similar to #25
+    + We should add Int_ID and Maybe IntNAme - so if someone wants to quickly find the info the Int_ID is right here.
+    + Type; Type_Code; and Access_Code are likely not needed
+    + There are quite a few stations that have no Precip or Temp readings - is that correct?  No data for them - wonder if we should delete them?
 34. V_General_Station_SurfaceWater
-    - How about changing name to "V_General_Field_Summary_SurfaceWater" - similar to #25
-    - What about adding in the Max and Min Water Level so that the Staff Gauges get summarized
-    - Any chance that for the staff gauges we could have the min/max/avg/start date/end date and number of WL readings  - I guess this might mean we need two sets of readings here (one for WLev and one for streamflow)
-    - I think the status code should also be in text (i.e. "Active" vs "Not Active")
+    + How about changing name to "V_General_Field_Summary_SurfaceWater" - similar to #25
+    + What about adding in the Max and Min Water Level so that the Staff Gauges get summarized
+    + Any chance that for the staff gauges we could have the min/max/avg/start date/end date and number of WL readings  - I guess this might mean we need two sets of readings here (one for WLev and one for streamflow)
+    + I think the status code should also be in text (i.e. "Active" vs "Not Active")
 35. V_General_Water_Level_Best
-    - I don't like the name of this view - cannot tell what is returned?
-    - If we keep this View - how about changing WL_Source to WL_Type (i.e. static vs logger vs other?)
-
+    + I don't like the name of this view - cannot tell what is returned?
+    + If we keep this View - how about changing WL_Source to WL_Type (i.e. static vs logger vs other?)
 36. "General"
-    - What do you think of removing "General" from all of the Views - I don't think it provides any info that is useful.  If you/Rick want to go for only "pure" views that have codes only or no change in field names - then why not preface those with a "YPDT"  - it looks to me that most of your stuff/Rick's stuff is tucked away in your linked DBs anyway.  Let's discuss again.
+    + What do you think of removing "General" from all of the Views - I don't think it provides any info that is useful.  If you/Rick want to go for only "pure" views that have codes only or no change in field names - then why not preface those with a "YPDT"  - it looks to me that most of your stuff/Rick's stuff is tucked away in your linked DBs anyway.  Let's discuss again.
 37. "Names"
-    - In general you tend to use Name - in many of the views - and this is tied to LocName - I think the Loc_Name_Alt1 is a much more informative name in general - for spot flows and MOE wells - the AltName1 is better.  Just thinking about what I have said below here - that we should combine "Consultant Views" with the General Vviews" to provide one - we are not supposed to give out "Owner" - so wondering if Loc_Name_Alt1" is different enough from "owner" that I can plead it wasn't intentional or if we should have one separate view for consultants - where we drop the Alt_1 name.  We should discuss when you read this.
+    + In general you tend to use Name - in many of the views - and this is tied to LocName - I think the Loc_Name_Alt1 is a much more informative name in general - for spot flows and MOE wells - the AltName1 is better.  Just thinking about what I have said below here - that we should combine "Consultant Views" with the General Vviews" to provide one - we are not supposed to give out "Owner" - so wondering if Loc_Name_Alt1" is different enough from "owner" that I can plead it wasn't intentional or if we should have one separate view for consultants - where we drop the Alt_1 name.  We should discuss when you read this.
 38. Sitefx_SearchLoc_YPDT_Custom_view
-    - Provides the info for one template format that we need to keep - there might be others - so this view should be transferred to the new DB
+    + Provides the info for one template format that we need to keep - there might be others - so this view should be transferred to the new DB
 39. Overburden Wells
-    - To get overburden wells - we would filter General_BHs for "Bedrock_Elev is null" - correct?  [Which way are we approaching this - users that know exactly what they're doing OR general users?]
+    + To get overburden wells - we would filter General_BHs for "Bedrock_Elev is null" - correct?  [Which way are we approaching this - users that know exactly what they're doing OR general users?]
 40. Consultant PTTW
-    - We formerly had a View Consultant PTTW - we should likely make a new one with our revised PTTW tables. [Revised tables have not, thus far, been approved.]
+    + We formerly had a View Consultant PTTW - we should likely make a new one with our revised PTTW tables. [Revised tables have not, thus far, been approved.]
 41. V_Consultant_TemporalData
-    - We also had a V_Consultant_TemporalData - the intent of this view was to pull info from Interval_Temporal 2 - where a flag in D_Location (SysTemp1 or SysTemp2) was inserted.  The consultants were to be given the first views and based on the info - largely in Consultant_Hydrogeology - they would be able to see if they needed any of the temporal data.
+    + We also had a V_Consultant_TemporalData - the intent of this view was to pull info from Interval_Temporal 2 - where a flag in D_Location (SysTemp1 or SysTemp2) was inserted.  The consultants were to be given the first views and based on the info - largely in Consultant_Hydrogeology - they would be able to see if they needed any of the temporal data.
 42. Climate station views
-    - The Views for the Climate Stations are missing - We should restore V_General_Climate_Annual_Prec_Summary - this provides the number of readings in any given year as well as the Avg/Max/Min for the year - it looks like to me the Avg is only calculated when the number of readings in any given year reaches close to 365 (maybe above 360) - but I don't know if the annual avg precip is all that valueable - we can discuss - but maybe we dump the Avg and just keep the max and min?  I also see some stations where the number of readings in a year exceeds 365 - can we check to see why that is? (See point below)
+    + The Views for the Climate Stations are missing - We should restore V_General_Climate_Annual_Prec_Summary - this provides the number of readings in any given year as well as the Avg/Max/Min for the year - it looks like to me the Avg is only calculated when the number of readings in any given year reaches close to 365 (maybe above 360) - but I don't know if the annual avg precip is all that valueable - we can discuss - but maybe we dump the Avg and just keep the max and min?  I also see some stations where the number of readings in a year exceeds 365 - can we check to see why that is? (See point below)
 43. V_General_Climate_Annual_Temp_Summary
-    - Restore - this view is similar to the above - except with Temp.  Again some years have more than 365 readings (e.g. Toronto City - 2004 has 397 readings - I suppose that if they took more than one measurement per day this could happen - don't know how it would affect the Avg calculation though - if it is an issue - then maybe we can dump the Avg. (See point below)
+    + Restore - this view is similar to the above - except with Temp.  Again some years have more than 365 readings (e.g. Toronto City - 2004 has 397 readings - I suppose that if they took more than one measurement per day this could happen - don't know how it would affect the Avg calculation though - if it is an issue - then maybe we can dump the Avg. (See point below)
 44. General_Climate_Data_Range 
-    - The current view takes too long to run (>11 minutes) - but I thought you were going to rejig things to have some of the key info temporarily stored in Summary Tables?  Off-hand I don't see any tables that house summarized climate data - but I do see the View YPDT_Sys_Summary_Temp_Air that basically appears to do the same as the old view - but only for Temp.  I see YPDT_Sys_Summary_Precip does the same for precip.  These views are infinitely faster - so they must be relying on a built table somewhere.  Wonder if we want to have them in the same view and pull it out of the "Sys_View" pile and put it up in general?
-45. The View "General Climate Stations" View
-    - Can be restored - its pretty basic - but at least should provide the status for all of the climate stations (active vs non-active). - ok I see it below with new name.
-    - How about for Climate Stations/Meteorological - what if we have the following views:
-    - V_General_Station_Climate_All_Data (currently named "Field_Meteorological"
-    - V_General_Station_Climate_Summary (currently named "Station_Climate")
-    - V_General_Station_Climate_Annual_Temp_Summary
-    - V_General_Station_Climate_Annual_Precip_Summary
-    - Same with the Streamflow stations
-        ? V_General_Station_Streamflow_All_Data (currently named "Field_Stream_Flow")
-        ? V_General_Station_Streamflow_Summary (currently named "Station_Surface_Water")
-        ? V_General_Station_Streamflow_Annual_Flow_Summary 
-    - We should discuss whether "Station" comes before or after "Streamflow" and "Climate"
+    + The current view takes too long to run (>11 minutes) - but I thought you were going to rejig things to have some of the key info temporarily stored in Summary Tables?  Off-hand I don't see any tables that house summarized climate data - but I do see the View YPDT_Sys_Summary_Temp_Air that basically appears to do the same as the old view - but only for Temp.  I see YPDT_Sys_Summary_Precip does the same for precip.  These views are infinitely faster - so they must be relying on a built table somewhere.  Wonder if we want to have them in the same view and pull it out of the "Sys_View" pile and put it up in general?
+45. The View "General Climate Stations" View (repeat for Streamflow stations)
+    + Can be restored - its pretty basic - but at least should provide the status for all of the climate stations (active vs non-active). - ok I see it below with new name.
+    + How about for Climate Stations/Meteorological - what if we have the following views:
+    + V_General_Station_Climate_All_Data (currently named "Field_Meteorological"
+    + V_General_Station_Climate_Summary (currently named "Station_Climate")
+    + V_General_Station_Climate_Annual_Temp_Summary
+    + V_General_Station_Climate_Annual_Precip_Summary
+    + V_General_Station_Streamflow_All_Data (currently named "Field_Stream_Flow")
+    + V_General_Station_Streamflow_Summary (currently named "Station_Surface_Water")
+    + V_General_Station_Streamflow_Annual_Flow_Summary 
+    + We should discuss whether "Station" comes before or after "Streamflow" and "Climate"
 46. V_General_Surface_Water_Station_Spotflow
-    - I think we should bring this back so that folks remember we have data and that they should add info to DB 
+    + I think we should bring this back so that folks remember we have data and that they should add info to DB 
 47. V_General_Documents
-    - Similar to the Consultant View but has slightly more info - maybe we can discuss and fold into only one View - V_General_Documents_(Consultant)?
+    + Similar to the Consultant View but has slightly more info - maybe we can discuss and fold into only one View - V_General_Documents_(Consultant)?
 48. V_General_Field 
-    - Does this view only contain data from the BHs (i.e. not metereological stations nor surface water stations?) - if yes maybe we change name to V_General_Field_Borehole?  Then we would have V_General_Field_ 1) BH; 2) Meteorological; and 3) Stream Flow as well as the V_General_Field_Summary - which includes all three of above.
+    + Does this view only contain data from the BHs (i.e. not metereological stations nor surface water stations?) - if yes maybe we change name to V_General_Field_Borehole?  Then we would have V_General_Field_ 1) BH; 2) Meteorological; and 3) Stream Flow as well as the V_General_Field_Summary - which includes all three of above.
 49. V_General_Geology
-    - We can probably look at adding a couple of fields to V_Consultant_Geology (maybe i) Ground Elev and ii) Bottom Elev (of the well - not the layer) and iii) Formation (Interpreted)) and merging the two views V_General_Geology_(Consultant) - Don't know how many layers would have a populated Material 4 - but we may want to include it in the view so that partners etc. would know that it is available;  
+    + We can probably look at adding a couple of fields to V_Consultant_Geology (maybe i) Ground Elev and ii) Bottom Elev (of the well - not the layer) and iii) Formation (Interpreted)) and merging the two views V_General_Geology_(Consultant) - Don't know how many layers would have a populated Material 4 - but we may want to include it in the view so that partners etc. would know that it is available;  
 50. V_General_Hydrogeology vs V_Consultant_Hydrogeology 
-    - Maybe combine to one view  - there are a few fields in the General one that aren't in the Consultant one that I would think we should add (i) Interpreted Formation (screen top); ii) Interpreted Formation (screen bottom); iii) First Measured WL (mASL); iv) Most recent measured WL (mASL); v) Drawdown During Pumptest (m); v) Completion date; vi) screen type)
+    + Maybe combine to one view  - there are a few fields in the General one that aren't in the Consultant one that I would think we should add (i) Interpreted Formation (screen top); ii) Interpreted Formation (screen bottom); iii) First Measured WL (mASL); iv) Most recent measured WL (mASL); v) Drawdown During Pumptest (m); v) Completion date; vi) screen type)
 51. V_General_Outcrops
-    - Maybe bring back- just so folks are reminded that they are in the DB - just found it with new name - don't know if I like calling it Borehole?  
+    + Maybe bring back- just so folks are reminded that they are in the DB - just found it with new name - don't know if I like calling it Borehole?  
 52. V_General_Locations
-    - Similar to above - maybe we combine this with the "Consultant_General" View  - re-name to V_General_Locations_(Consultant)
+    + Similar to above - maybe we combine this with the "Consultant_General" View  - re-name to V_General_Locations_(Consultant)
 53. V_General_Permits
-    - We should probably develop a new View that works with the new PTTW table(s) AND COMBINE WITH Consultant view - re-name to V_General_PTTW_(Consultant)
+    + We should probably develop a new View that works with the new PTTW table(s) AND COMBINE WITH Consultant view - re-name to V_General_PTTW_(Consultant)
 54. V_General_Pick
-    - Let's add the "s" back - "V_General_Picks"
+    + Let's add the "s" back - "V_General_Picks"
 55. LOC_TYPE 
-    - Wonder if we should add the Loc_Type to the chemistry views - so that folks can readily screen out SW vs GW
+    + Wonder if we should add the Loc_Type to the chemistry views - so that folks can readily screen out SW vs GW
 56. General_Chemistry
-    - Maybe change the name of General_Chemistry to General_Chemistry_All
+    + Maybe change the name of General_Chemistry to General_Chemistry_All
 56. Locs/Ints with Chemistry
-    - How about a view (a group by) that pulls out the Locations/Intervals that have chemistry data associated with them?  Maybe called V_Chemistry_Present? - I don't think we need to necessarily pull the chemistry values - but maybe the number of "dates" that appear in Int1a/b - and the first/last date.
+    + How about a view (a group by) that pulls out the Locations/Intervals that have chemistry data associated with them?  Maybe called V_Chemistry_Present? - I don't think we need to necessarily pull the chemistry values - but maybe the number of "dates" that appear in Int1a/b - and the first/last date.
 57. Temporal_BHs_Discharge_Production
-    - I would like to bring back the Temporal_BHs_Discharge_Production" view - should focus on the "Production - Pumped Volume (Total Daily)" Rd_Name Code.
+    + I would like to bring back the Temporal_BHs_Discharge_Production" view - should focus on the "Production - Pumped Volume (Total Daily)" Rd_Name Code.
 58. Viewlog views
-    - For the Viewlog views (VL) - I think I would want to keep the names the same (especially for VL_Log_Header) since everyone's Viewlog project would be looking for this view to show wells in cross section.  We can talk specifically about these - I think the ones you omitted are ok to leave out for now.
+    + For the Viewlog views (VL) - I think I would want to keep the names the same (especially for VL_Log_Header) since everyone's Viewlog project would be looking for this view to show wells in cross section.  We can talk specifically about these - I think the ones you omitted are ok to leave out for now.
 59. General_Temporal_Chemistry_General_Water_Soil_Rock
-    - We might want to bring this one back - Waterfront Toronto is thinking of asking us to put in 15,000 BHs into the DB - all having soil chemistry results.
+    + We might want to bring this one back - Waterfront Toronto is thinking of asking us to put in 15,000 BHs into the DB - all having soil chemistry results.
 
-20150317-19
+*20150317-19*
+
 Reassigned INT_TYPE_CODEs '27' (i.e. 'Reported Open Hole - derived from bh construction') to one of '21' and '22' based upon the presence of casing and a bedrock elevation.  Started corrections of D_INTERVAL_MONITOR with invalid or duplicate rows for particular INT_IDs.  Started corrections of D_GEOLOGY_LAYER with possibly invalid units.  
 
-20150320
+*20150320*
+
 Updated D_LOCATION_ELEV for new locations (~800).
 
-20150407-08
+*20150407-08*
+
 With regard to the new database version: Reworked D_INTERVAL_FORMATION_ASSIGNMENT view(s); added the number of geologic layers to the summary tables; incorporated the SITEFX_SEARCHLOC view; added the V_GENERAL_WATER_LEVEL_OTHER view; added the V_GENERAL_HYDROGEOLOGY_BEDROCK view; added the V_GENERAL_WATER_FOUND view; updated various other views to reflect underlying changes.
 
-20150410
+*20150410*
+
 Exchanged LOC_NAME and LOC_NAME_ALT1 for the climate stations.  Added the spot flow view(s) to the new database version.
 
-20150413
+*20150413*
+
 Modified V_CONSULTANT_HYDROGEOLOGY in new version of database.  Add V_SUMMARY_CHEMISTRY_SAMPLES and V_GENERAL_FIELD_PUMPING_PRODUCTION.  Examined duplicate INT_IDs and combined data to single INT_ID.
 
-20150415+
+*20150415+*
+
 Corrected D_GEOLOGY_LAYER based on duplicate '0' depth values (and other errors).
 
-20150420
+*20150420*
+
 Worked on PICKS table (trying to decrease access/update speed).
 
-20150507-12
+*20150507-12*
+
 Incorporated UGAIS grainsize (with corrections) data previously included as part of the GEOL_DESCRIPTION within D_GEOLOGY_LAYER.  Additional soil intervals were created (in some cases) in some instances(where they previously did not exist).
 
-20150515+
+*20150515+*
+
 Start of the water level (DIT2) corrections as part of a shallow water table calculation across the entire area.  The first phase is the examination of those values that greatly exceed '20m' depth (at which depth the shallow wells are arbitrarily defined).  Various modifications are made including (for example): depths such as '203m'  for boreholes that are only '4m' deep are assigned a value of '2.03m' instead; units are converted from (some combination of) 'ft' to 'm' (or vice-versa) as appropriate based upon the depth of the well or depth of the screen.
 
 Note that these modifications have/may affect borehole details  especially with regard to depths and including modification of REF_ELEV from D_INTERVAL_REF_ELEV as appropriate.
@@ -1702,69 +1769,60 @@ There is a real issue with regard to multiple instances of elevations throughout
 
 In addition, correction of the water levels themselves (as found in D_INTERVAL_TEMPORAL_2) has-been/is-being performed.  This includes adjustment of 'masl' units to depth units (based upon, usually, the original elevation) - a similar problem, as described above, was found.
 
-20150529
+*20150529*
+
 Evaluated R_BH_DRILLER_CODE to swap BH_DRILLER_DESCRIPTION and BH_DRILLER_DESCRIPTION_LONG; not possible as there are duplicates in the latter.
 
-201506+
+*201506+*
+
 Worked with TRCA on Portlands data (extraction and addition of).  Evaluated the presence of boreholes in the lake for this area (UGAIS wells; they were drilled through in the lake itself and is not an locational error).  Determed that Toronto uses a modified NAD27 datum - modified Portlands locations based upon this.
 
-20150623
+*20150623*
+
 Reset all Y/N fields in D_DOCUMENT; 'N' is changed to a NULL value and 'Y' changed to a '1' value for consistency.
 
-20150814
+*20150814*
+
 Change BH_BEDROCK_ELEV values to four decimal places.  This should be standardized across all relevant (i.e. REAL types) columns (e.g. elevations and depths).
 
-201509+
+*201509+*
+
 Major push to finish database structure (including views) for the updated master database release.  Note that if replication is to be discontinued, the auto-increment (i.e. IDENT) columns can be reinstated (from the programming - maximum determination - currently imposed).  Remember, IDENT fields are very finicky with regard to multiple users and replication.
 
-20150904
-R_GEOL_MAT*_CODE out of sync (mainly MAT3 and MAT4).  Corrected these and D_GEOLOGY_LAYER.
+*20150904
 
-20150908
+R_GEOL_MA\T*_CODE out of sync (mainly MAT3 and MAT4).  Corrected these and D_GEOLOGY_LAYER.
+
+*20150908*
+
 Applied a GEOL_SUBCLASS_CODE of '7' ('Original (Invalid)') to those records in D_GEOL_LAYER where the GEOL_TOP_OUOM and GEOL_BOT_OUOM have NULL values.  This is code (i.e. '7') should be used to weed out invalid geology layers in the various views (as required; e.g. V_GENERAL_MOE_REPORT).
 
-20150923
+*20150923*
+
 Corrected D_GEOLOGY_LAYER for those wells in the 'Yonge St. Aquifer' study.  Mainly, these have zeroed elevation layers; in some cases, geology for a single layer is spread over multiple rows.
 
-20151005
+*20151005*
+
 Incorporation of Permite-to-take-Water database (from 20141003) using the newly developed structure.
 
-20151103
+*20151103*
+
 Changed water level data in D_INTERVAL_TEMPORAL_2 from 628/629 to 70899 when the RD_VALUE is NULL due to: frozen; dry; other ...  The RD_TYPE_CODE is adjusted to match as well.
 
-201606-08
+*201606-08*
+
 A tracking mechanism is implemented for both coordinates (D_LOCATION_COORD_HIST) and elevations (D_LOCATION_ELEV_HIST).
 
-20160831
+*20160831*
+
 A new version of the database is created - this incorporates all changes as originally implemented in the OAK_20120615_VIEWS database.  All views and tables are now found entirely in a single database.
 
-20170115
+*20170115*
+
 Secondary version number change (now 20160831.20170115).  This is tied to the update of the master database to match the current SiteFX schema base.  Comment added to D_VERSION_CURRENT was 'Matched to subset of SiteFX db v16082201'.
 
-20170524
+*20170524*
+
 Secondary version number change (now 20160831.20170524).  All meteorological data (i.e. from climate stations) have now been moved into the D_INTERVAL_TEMPORAL_3 table; updates to the various views are ongoing.  Comment added to D_VERSION_CURRENT was 'Climate data moved to DIT3'.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
