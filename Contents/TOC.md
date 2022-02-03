@@ -1,7 +1,7 @@
 ---
 title:  "Cover and Table of Contents"
 author: "ormgpmd"
-date:   "20220202"
+date:   "20220203"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -136,6 +136,40 @@ knit:   (
 * **[F - Accessory ORMGP Databases](/database-manual/Appendices/F_Accessory_Databases/F_Accessory_Databases.html)**
 
 * **G - Procedures**
+
+    + **[G.1 Formation Assignment and Associated Calculations (Automated)](/database-manual/Appendices/G_Procedures/G_01.html)**
+    + **[G.2 Update of D_LOCATION_GEOM (Automated)](/database-manual/Appendices/G_Procedures/G_02.html)**
+    + **[G.3 Report Library - Addition](/database-manual/Appendices/G_Procedures/G_03.html)**
+    + **[G.4 Ground Elevation Assignment](/database-manual/Appendices/G_Procedures/G_01.html)**
+    + **[G.5 Correction of Bedrock Wells](/database-manual/Appendices/G_Procedures/G_01.html)**
+    + **Removed: G.6 Addition to/Population of D_LOCATION_AGENCY**
+    + G.7 Update of Bedrock Elevation (Automated)
+    + G.8 Assignment of MOE Elevations as Original Elevations
+    + G.9 Correction of Datalogger Information (DESCRIPTION NEEDED)
+    + G.10 Import of MOE Water Well Database 
+    + G.11 Correction of D_GEOLOGY_LAYER - Missing Depths and Units
+    + G.12 Creation of the TRAINING database (a subset of the MASTER database)
+    + G.13 Synchronizing non-replicating databases (e.g. CLOCA)
+    + G.14 Population of coordinates (REVIEW)
+    + G.15 Synchronize elevations between D_BOREHOLE and D_LOCATION_ELEV (REVIEW)
+    + G.16 Check D_INTERVAL_FORMATION_ASSIGNMENT for Invalid (Null) Rows
+    + G.17 Correction of elevations (D_BOREHOLE and D_LOCATION_ELEV) (REVIEW)
+    + G.18 Extracting LOC_IDs for the Training database
+    + G.19 Addition of INT_ID to D_INTERVAL_FORMATION_ASSIGNMENT
+    + G.20 Calculate and Incorporate Specific Capacity
+    + G.21 Perform QA/QC Check Against OAK_20120615_MASTER Backup
+    + G.22 Incorporation of the MOE Permit-To-Take-Water database (REVIEW and include code)
+    + G.23 Population of D_INTERVAL_MONITOR (Top and Bottom)
+    + G.24 Update D_INTERVAL_MONITOR Depths
+    + G.25 Correction of Water Levels and Associated Data
+    + G.26 Correction or Update of Borehole Coordinates (MOE WWDB)
+    + G.27 York Database - Incorporation of Temporal Data
+    + G.28 Updating Elevations in D_* tables
+    + G.29 Update MOE BORE_HOLE_ID (D_LOCATION_ALIAS)
+    + G.30 Update Locations from MOE WWDB
+    + G.31 Incorporate D_LOCATION_COORD_HIST and D_LOCATION_ELEV_HIST Records in D_LOCATION_SPATIAL_HIST
+    + G.32 Automated Scripts (Listing and Calling Order)
+    + G.33 Update of D_AREA_GEOM
 
 * **[H - Current Problems (to be Corrected)](/database-manual/Appendices/H_Current_Problems/H_Current_Problems.html)**
 
