@@ -140,13 +140,13 @@ knit:   (
     + **[G.1 Formation Assignment and Associated Calculations (Automated)](/database-manual/Appendices/G_Procedures/G_01.html)**
     + **[G.2 Update of D_LOCATION_GEOM (Automated)](/database-manual/Appendices/G_Procedures/G_02.html)**
     + **[G.3 Report Library - Addition](/database-manual/Appendices/G_Procedures/G_03.html)**
-    + **[G.4 Ground Elevation Assignment](/database-manual/Appendices/G_Procedures/G_01.html)**
-    + **[G.5 Correction of Bedrock Wells](/database-manual/Appendices/G_Procedures/G_01.html)**
-    + **Removed: G.6 Addition to/Population of D_LOCATION_AGENCY**
-    + G.7 Update of Bedrock Elevation (Automated)
-    + G.8 Assignment of MOE Elevations as Original Elevations
-    + G.9 Correction of Datalogger Information (DESCRIPTION NEEDED)
-    + G.10 Import of MOE Water Well Database 
+    + **[G.4 Ground Elevation Assignment](/database-manual/Appendices/G_Procedures/G_04.html)**
+    + **[G.5 Correction of Bedrock Wells](/database-manual/Appendices/G_Procedures/G_05.html)**
+    + **[G.6 Addition to/Population of D_LOCATION_AGENCY (Replaced)](/database-manual/Appendices/G_Procedures/G_06.html)**
+    + **[G.7 Update of Bedrock Elevation (Automated)](/database-manual/Appendices/G_Procedures/G_07.html)**
+    + **[G.8 Assignment of MOE Elevations as Original Elevations](/database-manual/Appendices/G_Procedures/G_08.html)**
+    + **G.9 Correction of Datalogger Information (DESCRIPTION NEEDED)**
+    + **[G.10 Import of MOE Water Well Database](/database-manual/Appendices/G_Procedures/G_10.html)**
     + G.11 Correction of D_GEOLOGY_LAYER - Missing Depths and Units
     + G.12 Creation of the TRAINING database (a subset of the MASTER database)
     + G.13 Synchronizing non-replicating databases (e.g. CLOCA)
