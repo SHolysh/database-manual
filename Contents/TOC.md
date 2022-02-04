@@ -1,7 +1,7 @@
 ---
 title:  "Cover and Table of Contents"
 author: "ormgpmd"
-date:   "20220203"
+date:   "20220204"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -54,6 +54,12 @@ knit:   (
     + **[2.3.9 HYDAT and Spotflow Data](/database-manual/02_Understanding_ORMGP_Database/02_03_Primary_Data_Relationships/02_03_09_HYDAT.html)**
 
 * **[2.4 Secondary (or Derived) Data Relationships)](/database-manual/02_Understanding_ORMGP_Database/02_04_Secondary_Data_Relationships/02_04_Secondary_Data_Relationships.html)**
+
+    + **2.4.1 Formation Assignment**
+    + **2.4.2 Elevations**
+    + **2.4.3 Geologic Picks**
+    + **2.4.4 Baseflow Estimation**
+    + **2.4.5 Specific Capacity, Transmissivity and Hydraulic Conductivity**
 
 * **[2.5 Locations, Groups and Study Areas](/database-manual/02_Understanding_ORMGP_Database/02_05_Locations_Groups_and_Study_Areas/02_05_Locations_Groups_and_Study_Areas.html)**
 
@@ -142,34 +148,34 @@ knit:   (
     + **[G.3 Report Library - Addition](/database-manual/Appendices/G_Procedures/G_03.html)**
     + **[G.4 Ground Elevation Assignment](/database-manual/Appendices/G_Procedures/G_04.html)**
     + **[G.5 Correction of Bedrock Wells](/database-manual/Appendices/G_Procedures/G_05.html)**
-    + **[G.6 Addition to/Population of D_LOCATION_AGENCY (Replaced)](/database-manual/Appendices/G_Procedures/G_06.html)**
+    + **[G.6 Addition to/Population of D_LOCATION_AGENCY (REPLACED)](/database-manual/Appendices/G_Procedures/G_06.html)**
     + **[G.7 Update of Bedrock Elevation (Automated)](/database-manual/Appendices/G_Procedures/G_07.html)**
     + **[G.8 Assignment of MOE Elevations as Original Elevations](/database-manual/Appendices/G_Procedures/G_08.html)**
-    + **G.9 Correction of Datalogger Information (DESCRIPTION NEEDED)**
+    + **[G.9 Correction of Datalogger Information (DESCRIPTION NEEDED)](/database-manual/Appendices/G_Procedures/G_09.html)**
     + **[G.10 Import of MOE Water Well Database](/database-manual/Appendices/G_Procedures/G_10.html)**
-    + G.11 Correction of D_GEOLOGY_LAYER - Missing Depths and Units
-    + G.12 Creation of the TRAINING database (a subset of the MASTER database)
-    + G.13 Synchronizing non-replicating databases (e.g. CLOCA)
-    + G.14 Population of coordinates (REVIEW)
-    + G.15 Synchronize elevations between D_BOREHOLE and D_LOCATION_ELEV (REVIEW)
-    + G.16 Check D_INTERVAL_FORMATION_ASSIGNMENT for Invalid (Null) Rows
-    + G.17 Correction of elevations (D_BOREHOLE and D_LOCATION_ELEV) (REVIEW)
-    + G.18 Extracting LOC_IDs for the Training database
-    + G.19 Addition of INT_ID to D_INTERVAL_FORMATION_ASSIGNMENT
-    + G.20 Calculate and Incorporate Specific Capacity
-    + G.21 Perform QA/QC Check Against OAK_20120615_MASTER Backup
-    + G.22 Incorporation of the MOE Permit-To-Take-Water database (REVIEW and include code)
-    + G.23 Population of D_INTERVAL_MONITOR (Top and Bottom)
-    + G.24 Update D_INTERVAL_MONITOR Depths
-    + G.25 Correction of Water Levels and Associated Data
-    + G.26 Correction or Update of Borehole Coordinates (MOE WWDB)
-    + G.27 York Database - Incorporation of Temporal Data
-    + G.28 Updating Elevations in D_* tables
-    + G.29 Update MOE BORE_HOLE_ID (D_LOCATION_ALIAS)
-    + G.30 Update Locations from MOE WWDB
-    + G.31 Incorporate D_LOCATION_COORD_HIST and D_LOCATION_ELEV_HIST Records in D_LOCATION_SPATIAL_HIST
-    + G.32 Automated Scripts (Listing and Calling Order)
-    + G.33 Update of D_AREA_GEOM
+    + **[G.11 Correction of D_GEOLOGY_LAYER - Missing Depths and Units](/database-manual/Appendices/G_Procedures/G_11.html)**
+    + **[G.12 Creation of the TRAINING database (REPLACED)](/database-manual/Appendices/G_Procedures/G_12.html)**
+    + **[G.13 Synchronizing non-replicating databases (REPLACED)](/database-manual/Appendices/G_Procedures/G_13.html)**
+    + **[G.14 Population of coordinates (REVIEW)](/database-manual/Appendices/G_Procedures/G_14.html)**
+    + **[G.15 Synchronize elevations between D_BOREHOLE and D_LOCATION_ELEV (REVIEW)](/database-manual/Appendices/G_Procedures/G_15.html)**
+    + **[G.16 Check D_INTERVAL_FORMATION_ASSIGNMENT for Invalid (Null) Rows](/database-manual/Appendices/G_Procedures/G_16.html)**
+    + **[G.17 Correction of elevations (D_BOREHOLE and D_LOCATION_ELEV) (REVIEW)](/database-manual/Appendices/G_Procedures/G_17.html)**
+    + **[G.18 Extracting LOC_IDs for the Training database](/database-manual/Appendices/G_Procedures/G_18.html)**
+    + **[G.19 Addition of INT_ID to D_INTERVAL_FORMATION_ASSIGNMENT (REPLACED)](/database-manual/Appendices/G_Procedures/G_19.html)**
+    + **[G.20 Calculate and Incorporate Specific Capacity (REPLACED)](/database-manual/Appendices/G_Procedures/G_20.html)**
+    + **[G.21 Perform QA/QC Check Against OAK_20120615_MASTER Backup (REPLACED)](/database-manual/Appendices/G_Procedures/G_21.html)**
+    + **[G.22 Incorporation of the MOE Permit-To-Take-Water database (REVIEW)](/database-manual/Appendices/G_Procedures/G_22.html)**
+    + **[G.23 Population of D_INTERVAL_MONITOR (Top and Bottom)](/database-manual/Appendices/G_Procedures/G_23.html)**
+    + **[G.24 Update D_INTERVAL_MONITOR Depths (REPLACED)](/database-manual/Appendices/G_Procedures/G_24.html)**
+    + **[G.25 Correction of Water Levels and Associated Data (REVIEW)](/database-manual/Appendices/G_Procedures/G_25.html)**
+    + **[G.26 Correction or Update of Borehole Coordinates (MOE WWDB)](/database-manual/Appendices/G_Procedures/G_26.html)**
+    + **[G.27 York Database - Incorporation of Temporal Data](/database-manual/Appendices/G_Procedures/G_27.html)**
+    + **[G.28 Updating Elevations in D_* tables](/database-manual/Appendices/G_Procedures/G_13.html)**
+    + **[G.29 Update MOE BORE_HOLE_ID (D_LOCATION_ALIAS)](/database-manual/Appendices/G_Procedures/G_13.html)**
+    + **[G.30 Update Locations from MOE WWDB](/database-manual/Appendices/G_Procedures/G_13.html)**
+    + **[G.31 Incorporate D_LOCATION_COORD_HIST and D_LOCATION_ELEV_HIST Records in D_LOCATION_SPATIAL_HIST](/database-manual/Appendices/G_Procedures/G_13.html)**
+    + **[G.32 Automated Scripts (Listing and Calling Order)](/database-manual/Appendices/G_Procedures/G_13.html)**
+    + **[G.33 Update of D_AREA_GEOM](/database-manual/Appendices/G_Procedures/G_13.html)**
 
 * **[H - Current Problems (to be Corrected)](/database-manual/Appendices/H_Current_Problems/H_Current_Problems.html)**
 
