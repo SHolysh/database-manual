@@ -1,7 +1,7 @@
 ---
 title:  "Cover and Table of Contents"
 author: "ormgpmd"
-date:   "20220204"
+date:   "20220207"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -170,12 +170,12 @@ knit:   (
     + **[G.25 Correction of Water Levels and Associated Data (REVIEW)](/database-manual/Appendices/G_Procedures/G_25.html)**
     + **[G.26 Correction or Update of Borehole Coordinates (MOE WWDB)](/database-manual/Appendices/G_Procedures/G_26.html)**
     + **[G.27 York Database - Incorporation of Temporal Data](/database-manual/Appendices/G_Procedures/G_27.html)**
-    + **[G.28 Updating Elevations in D_* tables](/database-manual/Appendices/G_Procedures/G_13.html)**
-    + **[G.29 Update MOE BORE_HOLE_ID (D_LOCATION_ALIAS)](/database-manual/Appendices/G_Procedures/G_13.html)**
-    + **[G.30 Update Locations from MOE WWDB](/database-manual/Appendices/G_Procedures/G_13.html)**
-    + **[G.31 Incorporate D_LOCATION_COORD_HIST and D_LOCATION_ELEV_HIST Records in D_LOCATION_SPATIAL_HIST](/database-manual/Appendices/G_Procedures/G_13.html)**
-    + **[G.32 Automated Scripts (Listing and Calling Order)](/database-manual/Appendices/G_Procedures/G_13.html)**
-    + **[G.33 Update of D_AREA_GEOM](/database-manual/Appendices/G_Procedures/G_13.html)**
+    + **[G.28 Updating Elevations in D_* tables](/database-manual/Appendices/G_Procedures/G_28.html)**
+    + **[G.29 Update MOE BORE_HOLE_ID (D_LOCATION_ALIAS)](/database-manual/Appendices/G_Procedures/G_29.html)**
+    + **[G.30 Update Locations from MOE WWDB](/database-manual/Appendices/G_Procedures/G_30.html)**
+    + **[G.31 Incorporate D_LOCATION_COORD_HIST and D_LOCATION_ELEV_HIST Records in D_LOCATION_SPATIAL_HIST](/database-manual/Appendices/G_Procedures/G_31.html)**
+    + **[G.32 Automated Scripts (Listing and Calling Order)](/database-manual/Appendices/G_Procedures/G_32.html)**
+    + **[G.33 Update of D_AREA_GEOM](/database-manual/Appendices/G_Procedures/G_33.html)**
 
 * **[H - Current Problems (to be Corrected)](/database-manual/Appendices/H_Current_Problems/H_Current_Problems.html)**
 
