@@ -188,7 +188,7 @@ knit:   (
 
     + **[J.1 Training Exercises - Easy](/database-manual/Appendices/J_Training_Exercises/J_1_Easy.html)**
     + **[J.2 Training Exercises - Moderate](/database-manual/Appendices/J_Training_Exercises/J_2_Moderate.html)**
-    + **[J.3 Training Exercises = Difficult](/database-manual/Appendices/J_Training_Exercises/J_3_Difficult.html)**
+    + **[J.3 Training Exercises - Difficult](/database-manual/Appendices/J_Training_Exercises/J_3_Difficult.html)**
 
 * **[K - Alternate Software Instructions](/database-manual/Appendices/K_Alternate_Software/K_Alternate_Software.html)**
 
