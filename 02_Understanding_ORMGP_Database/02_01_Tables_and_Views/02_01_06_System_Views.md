@@ -1112,40 +1112,40 @@ elevation values).
 
 The possible layer names, their abbreviations and order are:
 
-1 Late stage glaciolacustrine
+1. Late stage glaciolacustrine
     + LATESTG
     + LS
-2 Halton/Kettleby Till
+2. Halton/Kettleby Till
     + HALTON
     + HAL
-3 Mackinaw/Oak Ridges (MIS/ORAC)
+3. Mackinaw/Oak Ridges (MIS/ORAC)
     + MISORAC
     + MIS
-4 Channel - Clay or Channel - Silt
+4. Channel - Clay or Channel - Silt
     + CHANAQUITARD
     + CAQT
-5 Channel - Sand or Channel - Gravel
+5. Channel - Sand or Channel - Gravel
     + CHANAQUIFER
     + CAQF
-6 Upper Newmarked
+6. Upper Newmarked
     + NEWMARKUPP
     + NUP
-7 Inter New Market Sediment
+7. Inter New Market Sediment
     + NEWMARKINT
     + NIN
-8 Lower Newmarket
+8. Lower Newmarket
     + NEWMARKLOW
     + NLO
-9 Thorncliffe
+9. Thorncliffe
     + THORNCLIFFE
     + THO
-10 Sunnybrook
+10. Sunnybrook
     + SUNNYBROOK
     + SUN
-11 Scarborough
+11. Scarborough
     + SCARBOROUGH
     + SCA
-12 Bedrock
+12. Bedrock
     + BEDROCK
     + BED
 
