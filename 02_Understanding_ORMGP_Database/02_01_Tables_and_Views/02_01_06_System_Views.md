@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.6"
 author: "ormgpmd"
-date:   "20220131"
+date:   "20220208"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -1101,6 +1101,59 @@ This view checks if the elevation of the bottom of any screen (from D_INTERVAL_M
 #### V_SYS_CHK_PICK_ELEV
 
 This view compares the GND_ELEV (from D_PICK) with that of BH_GND_ELEV (from D_BOREHOLE) and ASSIGNED_ELEV (from D_LOCATION_ELEV), calculating their differences.  If either of these differences (which should contain the same value) are greater than an absolute value of '0.1m' the resultant row(s) are returned.  The difference can be added to TOP_ELEV (and GND_ELEV) as a correction factor.
+
+#### V_SYS_CHK_PICK_ELEV_CMP
+
+Using the views V_SYS_PICK_\*, assembles picks for all formations (idenfified
+by numeric layer) for each LOC_ID (using D_BOREHOLE as a master list of
+locations).  This can be used to check for invalid picks with regard to
+elevations of the ordered layers (i.e. the layers should have descending
+elevation values). 
+
+The possible layer names, their abbreviations and order are:
+
+1 Late stage glaciolacustrine
+    + LATESTG
+    + LS
+2 Halton/Kettleby Till
+    + HALTON
+    + HAL
+3 Mackinaw/Oak Ridges (MIS/ORAC)
+    + MISORAC
+    + MIS
+4 Channel - Clay or Channel - Silt
+    + CHANAQUITARD
+    + CAQT
+5 Channel - Sand or Channel - Gravel
+    + CHANAQUIFER
+    + CAQF
+6 Upper Newmarked
+    + NEWMARKUPP
+    + NUP
+7 Inter New Market Sediment
+    + NEWMARKINT
+    + NIN
+8 Lower Newmarket
+    + NEWMARKLOW
+    + NLO
+9 Thorncliffe
+    + THORNCLIFFE
+    + THO
+10 Sunnybrook
+    + SUNNYBROOK
+    + SUN
+11 Scarborough
+    + SCARBOROUGH
+    + SCA
+12 Bedrock
+    + BEDROCK
+    + BED
+
+#### V_SYS_CHK_PICK_ELEV_CMP_\*
+
+Using V_SYS_CHK_PICK_ELEV_CMP as a base, looks for erroneous picks for a
+particular geologic layer where its elevation exceeds that of any layers above
+it or is lower than that of any layers below it.
 
 #### V_SYS_CHK_PICK_ORIG_GND_ELEV
 
