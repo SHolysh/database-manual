@@ -188,7 +188,7 @@ The view V_SYS_PUMP_MOE_TRANS is used to perform the calculations which, in turn
 
 The equation assembled by Bradbury and Rothschild (1985; subsequently referred to as BR1985) is of the form
 
-![Equation 2.4.5.1](e02_04_05_01.jpg]
+![Equation 2.4.5.1](e02_04_05_01.jpg)
 
 where:	
 * T is Transmissivity (m2/s)
