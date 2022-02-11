@@ -254,20 +254,11 @@ The table (D_INTERVAL_FORM_ASSIGN) also stores the aquifer thickness as well as 
 
 The final view, V_SYS_PUMP_MOE_TRANS, performs the final calculation for transmissivity (i.e. using P1, P2 and P3) as well as calculating each of K, SC_LPMM, T_ERR and T_ITER.  Note that the TRANS_EST value is either the previously calculated T (from the previous iteration) or the DEF_TRANSMISSIVITY_EST value.  The only check made here is to avoid divide-by-zero errors or to calculate negative values - each of the numerators and denominators must be greater than zero.
 
-Refer to the Figure 2.4.5.1 for details.
+Refer to Figure 2.4.5.1 for details.
 
 ![Figure 2.4.5.1 ORMGP Database Tables and Views Reference Structure for Hydraulic Conductivity and Transmissivity Calculation.](f02_04_05_01.jpg)
 *Figure 2.4.5.1 ORMGP Database Tables and Views Reference Structure for
 Hydraulic Conductivity and Transmissivity Calculation.*
-
-
-
-
-
-
-
-
-
 
 
 
