@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.4"
 author: "ORMGP"
-date:   "20220125"
+date:   "20220211"
 output: html_document
 knit:  (
             function(input_file, encoding) {
@@ -170,7 +170,6 @@ The database holds specific capacity values previously found in the MOE WWDB (li
 
 For MOE WWDB locations a view has been created to calculate specific capacity on-the-fly - V_SYS_SPEC_CAP_MOE_CALC.  This relies upon V_SYS_PUMP_MOE_TEST as the source of data upon which the calculation is based and requires that the change in elevation (i.e. between the static water level and pumping drawdown water level) be non-negative (indicative of problematic data) and non-null as well as having a non-zero pumping rate value.  The latter view (V_SYS_PUMP_MOE_TEST) has its own set of requirements and draws from a number of source views (and tables) as follows:
 
-
 * D_INTERVAL
 * V_SYS_BH_DIAMETER_ALL
 * V_SYS_INT_MON_MAX_MIN
@@ -189,7 +188,7 @@ The view V_SYS_PUMP_MOE_TRANS is used to perform the calculations which, in turn
 
 The equation assembled by Bradbury and Rothschild (1985; subsequently referred to as BR1985) is of the form
 
-
+![Equation 2.4.5.1](e02_04_05_01.jpg]
 
 where:	
 * T is Transmissivity (m2/s)
@@ -203,49 +202,47 @@ where:
 
 The Well Loss is calculated by
 
-$$
-    s_w = C \cdot Q^2
-$$
+![Equation 2.4.5.2](e02_04_05_02.jpg)
 
 where:	
 * C is the Well Loss Constant (BR1985 defaults to 380.121905 s2/m5)
 
 The Partial Penetration Factor is calculated by
 
-
+![Equation 2.4.5.3](e02_04_05_03.jpg)
 
 where:	
 * L is the Screen Length (m)
 * b is the Aquifer Thickness (m)
 * G{L/b} is a fitted polynomial equation (with an R of 0.992) of the form
 
-
+![Equation 2.4.5.4](e02_04_05_04.jpg)
 
 Hydraulic Conductivity is then calculated from Transmissivity by
 
-
+![Equation 2.4.5.5](e02_04_05_05.jpg)
 
 where:	
 * K is Hydraulic Conductivity (m/s)
 
 Note that the Specific Capacity, in this methodology, is calculated through
 
-
+![Equation 2.4.5.6](e02_04_05_06.jpg)
 
 where: 
 * Cs is Specific Capacity (m/s)
 
 To ease the complexity of the views, these calculations are divided into three components
 
+![Equation 2.4.5.7](e02_04_05_07.jpg)
 
+![Equation 2.4.5.8](e02_04_05_08.jpg)
 
-
-
-
+![Equation 2.4.5.9](e02_04_05_09.jpg)
 
 with the final calculation, then, of the form
 
-
+![Equation 2.4.5.10](e02_04_05_10.jpg)
 
 ***Methodology - Bradbury and Rothschild (1985) - Implementation***
 
@@ -257,7 +254,12 @@ The table (D_INTERVAL_FORM_ASSIGN) also stores the aquifer thickness as well as 
 
 The final view, V_SYS_PUMP_MOE_TRANS, performs the final calculation for transmissivity (i.e. using P1, P2 and P3) as well as calculating each of K, SC_LPMM, T_ERR and T_ITER.  Note that the TRANS_EST value is either the previously calculated T (from the previous iteration) or the DEF_TRANSMISSIVITY_EST value.  The only check made here is to avoid divide-by-zero errors or to calculate negative values - each of the numerators and denominators must be greater than zero.
 
-Refer to the following figure for the 'ORMGP Database Table and View Reference Structure'.
+Refer to the Figure 2.4.5.1 for details.
+
+![Figure 2.4.5.1 ORMGP Database Tables and Views Reference Structure for Hydraulic Conductivity and Transmissivity Calculation.](f02_04_05_01.jpg)
+*Figure 2.4.5.1 ORMGP Database Tables and Views Reference Structure for
+Hydraulic Conductivity and Transmissivity Calculation.*
+
 
 
 
