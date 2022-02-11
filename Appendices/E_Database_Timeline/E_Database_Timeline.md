@@ -1,7 +1,7 @@
 ---
 title:  "Appendix E"
 author: "ormgpmd"
-date:   "20220202"
+date:   "20220211"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -1418,21 +1418,21 @@ VDIST
 
 Where ASSIGN_CODE (a look-up table) would consist of (for example):
 
-*Top Layer
-*Bottom Layer
-*Next Layer
-*Previous Layer
-*Assigned Unit
-*Override Unit
-*Manual Unit
+* Top Layer
+* Bottom Layer
+* Next Layer
+* Previous Layer
+* Assigned Unit
+* Override Unit
+* Manual Unit
 
 And MODEL_CODE (a look-up table) would consist of (for example):
 
-*Core Model 2004
-*Regional Model 2004
-*Extended Core Model 2006
-*Durham Model 2007
-*East Model 2010
+* Core Model 2004
+* Regional Model 2004
+* Extended Core Model 2006
+* Durham Model 2007
+* East Model 2010
 
 Note that VDIST would only be populated for 'Next ?' and 'Previous ?' records.
 
@@ -1789,7 +1789,7 @@ Change BH_BEDROCK_ELEV values to four decimal places.  This should be standardiz
 
 Major push to finish database structure (including views) for the updated master database release.  Note that if replication is to be discontinued, the auto-increment (i.e. IDENT) columns can be reinstated (from the programming - maximum determination - currently imposed).  Remember, IDENT fields are very finicky with regard to multiple users and replication.
 
-*20150904
+*20150904*
 
 R_GEOL_MA\T*_CODE out of sync (mainly MAT3 and MAT4).  Corrected these and D_GEOLOGY_LAYER.
 

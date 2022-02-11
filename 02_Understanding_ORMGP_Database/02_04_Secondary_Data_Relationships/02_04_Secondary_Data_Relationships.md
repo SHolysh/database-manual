@@ -16,11 +16,6 @@ knit:  (
         )
 ---
 
-{ r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-
----
-
 ## Section 2.4 Secondary (or Derived) Data Relationships
 
 In addition to the primary data that is incorporated into the database (as discussed in the previous section), there are also several interpreted or derived data sets held within the database.  
