@@ -1,7 +1,7 @@
 ---
 title:  "Section 3.1.6"
 author: "ormgpmd"
-date:   "20220127"
+date:   "20220217"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -16,7 +16,7 @@ knit:   (
         )
 ---
 
-## Section 3.1.6 - Viewlog
+## Section 3.1.6 - Viewlog Test
 
 Like SiteFX, Viewlog also allows a connection to SQL Server databases through an ODBC source (see Section 3.1.1 and 3.1.5).  Within Viewlog, connection to the database is via the 'Data Source' menu and any of the created data sources within a Viewlog project can be linked through to the SQL database.  Selecting 'Project Data - Data Source' brings up the associated dialog box.
 
