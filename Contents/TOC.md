@@ -77,7 +77,7 @@ knit:   (
 
 * **3.1 Working with the Database**
 
-    + **[3.1.1 General Database Access](/database-manual/03_Practical_Applications/03_01_Working_with_the_Database/03_01_01_Datbase_Access.html)**
+    + **[3.1.1 General Database Access](/database-manual/03_Practical_Applications/03_01_Working_with_the_Database/03_01_01_Database_Access.html)**
     + **[3.1.2 Microsoft Access](/database-manual/03_Practical_Applications/03_01_Working_with_the_Database/03_01_02_MS_Access.html)**
     + **[3.1.3 Microsoft SQL Management Studio](/database-manual/03_Practical_Applications/03_01_Working_with_the_Database/03_01_03_MSSQLMS.html)** 
     + **[3.1.4 Microsoft Excel](/database-manual/03_Practical_Applications/03_01_Working_with_the_Database/03_01_04_MS_Excel.html)**
