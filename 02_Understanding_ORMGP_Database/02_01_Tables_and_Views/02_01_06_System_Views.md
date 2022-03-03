@@ -1493,10 +1493,6 @@ Each of these views returns the location (as LOC_ID) whose spatial geometry (fro
 
 These views use the built-in function 'STIntersects'.
 
-#### V_SYS_LOC_MODEL_YT32011
-
-This view returns the location (as LOC_ID) whose spatial geometry (from D_LOCATION_GEOM) intersects the spatial geometry of this model (with no buffer applied; from D_AREA_GEOM).  This spatial area defined the 'York Tier 3 Model - 2011' (whose AREA_ID is '63').
-
 #### V_SYS_MOE_BORE_HOLE_ID
 
 This view returns all locations from D_LOCATION_ALIAS where LOC_ALIAS_TYPE_CODE is '3' (i.e. 'MOE bore_hold_id field').  Note that LOC_NAME_ALIAS must convert to a numeric (integer) form.  If it cannot convert correctly, a '-9999' value is returned instead.
