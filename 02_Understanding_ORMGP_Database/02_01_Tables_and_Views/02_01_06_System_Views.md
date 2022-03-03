@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.6"
 author: "ormgpmd"
-date:   "20220208"
+date:   "20220303"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -1127,7 +1127,7 @@ The possible layer names, their abbreviations and order are:
 5. Channel - Sand or Channel - Gravel
     + CHANAQUIFER
     + CAQF
-6. Upper Newmarked
+6. Upper Newmarket
     + NEWMARKUPP
     + NUP
 7. Inter New Market Sediment
