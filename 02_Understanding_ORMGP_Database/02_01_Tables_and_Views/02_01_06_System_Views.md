@@ -1464,7 +1464,24 @@ This view returns the calculated spatial geometry for each valid location (i.e. 
 
 This view returns the calculated 'well known binary' (WKB) spatial geometry (return as a varbinary type) for all locations in D_LOCATION_GEOM.  This is accomplished through the built-in function 'STAsBinary'.
 
-#### V_SYS_LOC_MODEL_<model>BUF
+#### V_SYS_LOC_MODEL_\<model\>
+
+Each of these views returns the locations (as LOC_ID) whose spatial geometry
+(from D_LOCATION_GEOM) intersects the spatial geometry of the specified model
+polygon (from D_AREA_GEOM).  The models and area objects include:
+
+* CM2004 - AREA_ID '19' (YPDT-CAMC CORE Model 2004)
+* DM2007 - AREA_ID '22' (YPDT-CAMC DURHAM Model 2007)
+* ECM2006 - AREA_ID '28' (YPDT-CAMC EXTENDED CORE Model 2006)
+* EM2010 - AREA_ID '24' (YPDT-CAMC EAST Model 2010)
+* RM2004 - AREA_ID '26' (YPDT-CAMC REGIONAL Model 2004)
+* WB2018 - AREA_ID '65' (ORMGP Model 2018)
+* WB2021 - AREA_ID  '73' (ORMGP Model 2021)
+* YT32011 - AREA_ID '63' (York Tier 3 Model 2011)
+
+These views use the built-in function 'STIntersects'.
+
+#### V_SYS_LOC_MODEL_\<model\>BUF
 
 Each of these views returns the location (as LOC_ID) whose spatial geometry (from D_LOCATION_GEOM) intersects the spatial geometry of the specified model (with buffer) polygon (from D_AREA_GEOM).  The models and area objects include:
 
@@ -1473,9 +1490,6 @@ Each of these views returns the location (as LOC_ID) whose spatial geometry (fro
 * ECM2006 - AREA_ID '29' (YPDT-CAMC EXTENDED CORE Model 2006 5km Buffer)
 * EM2010 - AREA_ID '25' (YPDT-CAMC EAST Model 2010 5km Buffer)
 * RM2004 - AREA_ID '27' (YPDT-CAMC REGIONAL Model 2004 5km Buffer)
-* WB2018 - AREA_ID '65' (ORMGP Model 2018)
-* WB2021 - AREA_ID  '73' (ORMGP Model 2021)
-* YT32011 - AREA_ID '63' (York Tier 3 Model 2011)
 
 These views use the built-in function 'STIntersects'.
 
