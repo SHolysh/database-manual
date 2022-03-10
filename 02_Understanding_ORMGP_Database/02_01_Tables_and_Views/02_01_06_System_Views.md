@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.6"
 author: "ormgpmd"
-date:   "20220303"
+date:   "20220310"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -141,6 +141,7 @@ These include:
 * V_SYS_CHK_CORR_ELEV_TAG
 * V_SYS_CHK_CORR_WLS_BARO
 * V_SYS_CHK_DGEOM_ELEV
+* V_SYS_CHK_DGL_BEDROCK
 * V_SYS_CHK_DGL_COUNTS
 * V_SYS_CHK_DGL_DEPTHS_MOE
 * V_SYS_CHK_DGL_ELEV_OUOM
@@ -328,6 +329,7 @@ These include:
 * V_SYS_DGL_TOTAL_GRAVEL
 * V_SYS_DGL_TOTAL_SAND_GRAVEL
 * V_SYS_DIFA_ASSIGNED_FINAL
+* V_SYS_DIFA_CMP
 * V_SYS_DIFA_GL
 * V_SYS_DIFA_GL_ASSIGN
 * V_SYS_DIFA_GL_CHANSAND
@@ -570,6 +572,11 @@ These include:
 * V_SYS_SFLOW_YEARLY
 * V_SYS_SHYDROLOGY
 * V_SYS_SPEC_CAP_MOE_CALC
+* V_SYS_STAT_SUM_LAB_PAR
+* V_SYS_STAT_SUM_LAB_PAR_MED
+* V_SYS_STAT_SUM_LAB_PAR_MODE
+* V_SYS_STAT_SUM_LAB_PAR_MODE_RANGE
+* V_SYS_STAT_SUM_LAB_PAR_MODEC
 * V_SYS_STAT_WLS_LOGGER
 * V_SYS_STAT_WLS_LOGGER_MED
 * V_SYS_STAT_WLS_LOGGER_MODE
@@ -596,6 +603,7 @@ These include:
 * V_SYS_STATUS_LOC_TYPE_CODE
 * V_SYS_STATUS_READING_GROUP_CODE
 * V_SYS_SUM_INT_TYPE_COUNTS
+* V_SYS_STAT_SUM_LAB_PAR_MODEC
 * V_SYS_SUM_LOC_TYPE_COUNTS
 * V_SYS_SUM_READING_GROUP_COUNTS
 * V_SYS_SUMMARY_DEEPEST_SCREEN_TOP
@@ -611,6 +619,7 @@ These include:
 * V_SYS_SUMMARY_SOIL_GEOTECH
 * V_SYS_SUMMARY_SPEC_CAP
 * V_SYS_SUMMARY_TEMP_AIR
+* V_SYS_SUMMARY_TEMP_WATER
 * V_SYS_SUMMARY_WL
 * V_SYS_SUMMARY_WL_ALL
 * V_SYS_SUMMARY_WL_AVG
@@ -820,6 +829,12 @@ This view returns a number of elevations associated with a borehole location whe
 #### V_SYS_CHK_BH_ELEV_MISSING
 
 This view returns borehole and location information where the BH_GND_ELEV and BH_GND_ELEV_OUOM is NULL and LOC_COORD_EASTING and LOC_COORD_NORTHING are not.
+
+#### V_SYS_CHK_DGL_BEDROCK
+
+Returns all LOC_IDs where a bedrock material (as defined in the
+R_GEOL_MAT1_CODE column GEOL_MAT1_ROCK) is present in GEOL_MAT1_CODE in
+D_GEOLOGY_LAYER
 
 #### V_SYS_CHK_DGL_COUNTS
 
@@ -1187,6 +1202,12 @@ D_INTERVAL_FORM_ASSIGN_FINAL.
 
 This view returns the assigned 'final' geologic unit to the particular
 interval.  The units descriptive text is included.
+
+#### V_SYS_DIFA_CMP
+
+Returns the assigned geologic unit and unit code (from D_INTERVAL_FORM_ASSIGN)
+for each interval from the variety of geologic models under examination; this
+currently includes CM2004, YT32011, WB2018 and WB2021
 
 #### V_SYS_DOC_REPLIB_ENTRY
 
@@ -1667,6 +1688,55 @@ This view calculates the specific capacity for intervals from D_INTERVAL_TEMPORA
 
 Note that the static water level must be shallower than the pumping water level; a NULL is returned otherwise.
 
+#### V_SYS_STAT_SUM_LAB_PAR
+
+Calculates various statistics of a particular parameter from records in
+D_INTERVAL_TEMPORAL_1B (the particular parameter is specified using the system
+constant DEF_PARAM_RNC).  This includes:
+
+* Minimum value (PAR_MIN)
+* Maximum value (PAR_MAX)
+* Average (mean) value (PAR_MEAN)
+* Range of values (PAR_RANGE)
+* Median value (PAR_MED)
+* Mode value (PAR_MODE_MIN and PAR_MODE_MAX)
+* The number of records with the particular mode value (PAR_MODE_NUM)
+* The total number of records with the highest occurrences of the mode value (PAR_NUM)
+* The standard deviation (PAR_STDEV)
+* The variance (PAR_VAR)
+
+Refer to V_SYS_STAT_WLS_LOGGER for additional details.
+
+#### V_SYS_STAT_SUM_LAB_PAR_MED
+
+Calculates the median value of parameter records from D_INTERVAL_TEMPORAL_1B
+(as specified by the system constant DEF_PARAM_RNC). Note that this view uses
+the SQLServer command [percentile_cont] that is not available in earlier
+versions of the software.
+
+#### V_SYS_STAT_SUM_LAB_PAR_MODE
+
+Calculates the mode of parameter records from D_INTERVAL_TEMPORAL_1B (as
+specified by the system constant DEF_PARAM_RNC).  Note that for a particular
+parameter, multiple modes may be calculated (i.e. they have the same number of
+records).  See also V_SYS_STAT_SUM_LAB_PAR_MODEC and
+V_SYS_STAT_SUM_LAB_PAR_MODE_RANGE.
+
+#### V_SYS_STAT_SUM_LAB_PAR_MODE_RANGE
+
+Calculates the mode range (i.e. the minimum and maximum mode as well as the
+count of records for each) of parameter records from D_INTERVAL_TEMPORAL_1B
+(as specified by the system constant DEF_PARAM_RNC).  This allows a single row
+to be returned for each interval.  See also V_SYS_STAT_SUM_LAB_PAR_MODE and
+V_SYS_STAT_SUM_LAB_PAR_MODEC.
+
+#### V_SYS_STAT_SUM_LAB_PAR_MODEC
+
+Calculates the count of parameter records from D_INTERVAL_TEMPORAL_1B (as
+specified by the system constant DEF_PARAM_RNC) that have the same value (the
+values are compared to ten-decimal places).  See also
+V_SYS_STAT_SUM_LAB_PAR_MODE and V_SYS_STAT_SUM_LAB_PAR_MODE_RANGE.
+
 #### V_SYS_STAT_WLS_LOGGER/_MANUAL
 
 This view assembles various statistical measures of the water level logger and manual record distributions (by INT_ID).  This includes
@@ -1771,6 +1841,14 @@ This view extracts the number of values associated with particular reading group
 
 This view, using D_VERSION_CURRENT and V_SUM_INT_TYPE_COUNTS as sources, formats interval type count data into a format for insertion into D_VERSION_STATUS.  Note that CURRENT_VERSION corresponds to the current 'yyymmdd' format.
 
+#### V_SYS_SUM_LAB_PARAM_CPERC_BIN
+
+For a particular parameter in D_INTERVAL_TEMPORAL_1B (as specified through the
+system constant DEF_PARAM_RNC) this view groups values into particular ranges
+(as specified through the system constant DEF_BIN_SIZE; returned as B) and
+calculates the counts per group (RCOUNT), its percentage (PERC) and cumulative
+percentage (CPERC) as well as the total number of records (TCOUNT).
+
 #### V_SYS_SUM_LOC_TYPE_COUNTS
 
 This view, using D_VERSION_CURRENT and V_SUM_LOC_TYPE_COUNTS as sources, formats location type count data into a format for insertion into D_VERSION_STATUS.  Note that CURRENT_VERSION corresponds to the current 'yyyymmdd' format.
@@ -1830,6 +1908,13 @@ This view determines the minimum, maximum and number of specific capacity values
 #### V_SYS_SUMMARY_TEMP_AIR
 
 This view returns the minimum and maximum dates as well as the number of air temperature readings in D_INTERVAL_TEMPORAL_3.  The RD_NAME_CODE's used include '369' (i.e. 'Temperature (Air)'), '546' (i.e. 'Temperature (Air) - Daily Max'), '547' (i.e. 'Temperature (Air) - Daily Min') and '548' (i.e. 'Temperature (Air) - Daily Mean').
+
+#### V_SYS_SUMMARY_TEMP_WATER
+
+Returns the minimum and maximum dates as well as the number of water
+temperature readings found in both of D_INTERVAL_TEMPORAL_2 and
+D_INTERVAL_TEMPORAL_5 (surface water).  The parameter used in this case is
+[Temperature (Water) - Field].
 
 #### V_SYS_SUMMARY_WL
 
