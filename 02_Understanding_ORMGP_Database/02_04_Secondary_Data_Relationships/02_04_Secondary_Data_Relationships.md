@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.4"
 author: "ORMGP"
-date:   "20220211"
+date:   "20220328"
 output: html_document
 knit:  (
             function(input_file, encoding) {
@@ -59,6 +59,7 @@ Additional fields and their usage are defined in Section 2.4.5.  Each combinatio
 The ASSIGNED_UNIT in D_INTERVAL_FORM_ASSIGN is populated using the following steps (as found in V_SYS_DIFA_GL_ASSIGN).
 
 * if the top and bottom of the interval is within the same geologic unit, that geologic unit is assigned (regardless of whether the unit is considered an aquifer or aquitard)
+* if the bottom of the interval is in bedrock and the interval type code is an 'open hole' (i.e. it has an INT_TYPE_CODE of 20, 21 or 22) then BLAYER is assigned
 * if both top and bottom geologic units are aquifers, the geologic unit most exposed to the interval is assigned (based upon the appropriate *_VDIST fields)
 * if only one of the top and bottom geologic units is an aquifer, the aquifer geologic unit is assigned
 * if the TNLAYER is an aquifer then that geologic unit is assigned (i.e. the aquifer intersects the interval below the top and above the bottom of the interval)
