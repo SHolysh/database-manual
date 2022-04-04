@@ -1,7 +1,7 @@
 ---
 title:  "Section 3.4.7"
 author: "ORMGP"
-date:   "20220126"
+date:   "20220404"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -31,6 +31,8 @@ In cases where no software is available to enable data entry or to assemble data
 * FIELD_DATA (F)
 
 An example Microsoft Excel worksheet, providing the required, recommended and/or optional fields necessary for incorporating different types/levels of data into the ORMGP database is available. The file also contains three reference sheets - GEOLOGY_MATERIAL, PARAMETER_NAME and UNIT_NAME - which provide lists of acceptable geologic materials, parameters and units, for use in the GEOLOGY, LAB_DATA and FIELD_DATA worksheets (see the MATERIAL_1, MATERIAL_2, MATERIAL_3, MATERIAL_4, PARAMETER and UNIT fields, below).
+
+[The spreadsheet is found here.](ORMGP_spreadsheet_data_entry.zip)
 
 For these worksheets the location name (LOC_NAME) and/or interval name (INT_NAME) are being used as the key field by which data (e.g. LAB_DATA or FIELD_DATA) can be linked or related to a particular spatial location within the ORMGP study area. Refer to the following figure for the required relationships between the worksheets.  
 
@@ -429,3 +431,5 @@ The individual worksheets (LOCATION, BOREHOLE, GEOLOGY, SCREEN_AND_SOIL, LAB_DAT
 * Data Type: Numeric
 * Description
     + Uncertainty in the value for the PARAMETER analyzed; that is, uncertainty associated with the measurement itself (this would be considered in the database to be a '+/-' in front of the value).
+
+*Last Modified: 2022-04-04*
