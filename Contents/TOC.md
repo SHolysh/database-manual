@@ -1,7 +1,7 @@
 ---
 title:  "Cover and Table of Contents"
 author: "ormgpmd"
-date:   "20220217"
+date:   "20220405"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -176,6 +176,7 @@ knit:   (
     + **[G.31 Incorporate D_LOCATION_COORD_HIST and D_LOCATION_ELEV_HIST Records in D_LOCATION_SPATIAL_HIST](/database-manual/Appendices/G_Procedures/G_31.html)**
     + **[G.32 Automated Scripts (Listing and Calling Order)](/database-manual/Appendices/G_Procedures/G_32.html)**
     + **[G.33 Update of D_AREA_GEOM](/database-manual/Appendices/G_Procedures/G_33.html)**
+    + **[G.34 Incorporation of Bedrock Elevations as Bedrock Picks](/database-manual/Appendices/G_Procedures/G_34.html)**
 
 * **[H - Current Problems (to be Corrected)](/database-manual/Appendices/H_Current_Problems/H_Current_Problems.html)**
 
@@ -194,4 +195,4 @@ knit:   (
 
 * **[L - Database Reports](/database-manual/Appendices/L_Database_Reports/L_Database_Reports.html)**
 
-
+*Last modified: 2022-04-05*
