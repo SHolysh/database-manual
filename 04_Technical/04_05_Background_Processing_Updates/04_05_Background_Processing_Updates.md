@@ -1,7 +1,7 @@
 ---
 title:  "Section 4.5"
 author: "ormgpmd"
-date:   "20220201"
+date:   "20220407"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -36,9 +36,12 @@ The details for these procedures (and the order in which they are called) can be
 
 All scripts (as found in the '\bat' directory on the root drive of the SQL server; a copy of these scripts are included in the digital files of the database manual) are implemented as command-line batch files (i.e. .bat files) with any SQL code (as required) found within the same file and called using the Microsoft SQL Server command 'osql' (which allows SQL code to be run from the command-line).
 
-These are called at a specific time either through the built-in Windows Task Scheduler (i.e. scheduled) or called in specific order (using an overarching batch file).  Note that most of the batch scripts writes the status or result of their operation to a 'log' file - these can be reviewed if an issue arises during the automated processing/updates.
+These are called at a specific time either through the built-in Windows Task
+Scheduler (i.e. scheduled) or called in specific order (using an overarching
+batch file).  Note that most of the batch scripts write the status or result
+of their operation(s) to a 'log' file - these can be reviewed if an issue arises during the automated processing/updates.
 
 The details for these procedures and the order in which they are called can be found in Appendix G (Section G.32).
 
 
-
+*Last Modified: 2022-04-07*
