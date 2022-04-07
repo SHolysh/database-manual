@@ -28,7 +28,7 @@ knit:   (
 * **[1.2 Background](/database-manual/01_Introduction/01_01-02_Overview_and_Background.html)**
 * **[1.3 Database Versions](/database-manual/01_Introduction/01_03_Database_Versions.html)**
 
-### Section 2 - Understanding the OMGP Database
+### Section 2 - Understanding the ORMGP Database
 
 * **[2.1 Tables and Views](/database-manual/02_Understanding_ORMGP_Database/02_01_Tables_and_Views/02_01_Tables_and_Views.html)**
 
