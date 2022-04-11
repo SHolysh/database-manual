@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.1"
 author: "ormgpmd"
-date:   "20220131"
+date:   "20220411"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -450,6 +450,10 @@ This table was previously referenced as PICKS.  The table contains the FORMATION
 
 Each pick row is linked to D_LOCATION via its LOC_ID.
 
+In some instances, multiple formations are specified within the FORMATION
+field.  This was used to facilitate *pinch-outs* of overlying units.  The last
+unit specified has the value of TOP_ELEV.
+
 #### D_PICK_EXTERNAL
 
 Similar to D_PICK, the records in this table contain formation information (using both the FORMATION and GEOL_UNIT_CODE fields) tied to a specific coordinate (x,y) location as well as an elevation (z).  These do not correspond, however, to the database location schema but are instead self-referencing where all information concerning a record occurs either within this table or within the linked data source (through DATA_ID which must be populated).  This includes the various quality assurance information (normally found in D_LOCATION_QA) as well as supplementary elevation information (as found in D_LOCATION_SPATIAL_HIST).  In particular, the latter should reference the particular ground surface elevation (usually a DEM) used as a reference base while the RD_VALUE_OUOM should be populated using the depth of the 'pick'.  This latter value can be calculated if the original value was an elevation.
@@ -517,3 +521,4 @@ The VERSION_COMMENT should be updated whenever the SECONDARY_VERSION is changed 
 
 This table captures the 'status' of the database at various stages, tied to the 'Dated Version' (both primary and secondary).  This includes the number of records for each available location type, each available interval type and each available reading group code type.
 
+*Last Modified: 2022-04-11*
