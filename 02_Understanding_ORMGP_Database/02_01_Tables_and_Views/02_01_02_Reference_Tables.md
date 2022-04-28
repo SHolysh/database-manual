@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.2"
 author: "ormgpmd"
-date:   "20220131"
+date:   "20220428"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -479,7 +479,7 @@ This table is used and populated by SiteFX.
 
 #### R_UNIT_CODE
 
-This table allows specification of all allowed 'system' unit codes within the database.  The values, here, are paired with R_UNIT_CONV to allow SiteFX (or other software) to convert values to specified system units.  Note that if the OUOM units are not found within this table when importing data, SiteFX can add them (to both R_UNIT_CODE and R_UNIT_CONV) rather than returning a 'not found' message (though it will write the results of an import to an external log, if desired).  This capability is user (and system-wide) selectable.  This is related through UNIT_CODE in D_INTERVAL_TEMPORAL_1B and D_INTERVAL_TEMPORAL_2.
+This table allows specification of all allowed 'system' unit codes within the database.  The values, here, are paired with R_UNIT_CONV to allow SiteFX (or other software) to convert values to specified system units.  Note that if the OUOM units are not found within this table when importing data, SiteFX can add them (to both R_UNIT_CODE and R_UNIT_CONV) rather than returning a 'not found' message (though it will write the results of an import to an external log, if desired).  This capability is user (and system-wide) selectable.  This is related through UNIT_CODE in D_INTERVAL_TEMPORAL_1B and D_INTERVAL_TEMPORAL_2.  A new column, UNIT_DEFAULT, allows linking of equivalent units for error checking purposes (as used by the various V_SYS_CHK_PARAM_UNITS_\* views).
 
 #### R_UNIT_CONV
 
@@ -517,3 +517,4 @@ With regard to conversion of depths to elevations, SiteFX does not use the above
 
 This is adapted from the MOE water well database and is related through WATER_CLARITY_CODE in D_PUMPTEST.
 
+*Last Modified: 2022-04-28*

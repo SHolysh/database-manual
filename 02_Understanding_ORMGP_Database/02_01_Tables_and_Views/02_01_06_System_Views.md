@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.6"
 author: "ormgpmd"
-date:   "20220310"
+date:   "20220428"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -1113,6 +1113,53 @@ This view returns all locations (by LOC_ID) from D_LOCATION_SUMMARY that are no 
 
 This view checks if the elevation of the bottom of any screen (from D_INTERVAL_MONITOR) is below the elevation of the bottom of the borehole (from D_BOREHOLE).  Note that a value of '0.001' is added to the former to account for slight rounding errors introduced during data entry.
 
+#### V_SYS_CHK_PARAM_UNITS_DIT1B
+
+Returns a count of records that are associated with a particular combined RD_NAME_CODE and UNIT_CODE along with their descriptions.  This should be used to consolidate the original records into consistent units.
+
+#### V_SYS_CHK_PARAM_UNITS_DIT1B_MGL
+
+Returns recalculated values for parameters with a reading group of [Water - Major Ions] or [Chemistry - General (Water &/or Soil/Rock)] converting their current units (of various form) to mg/L.
+
+#### V_SYS_CHK_PARAM_UNITS_DIT1B_RNC_C
+
+Returns the recalculated values (as necessary) for any units associated with 
+temperature 'C' as defined by the UNIT_DEFAULT field in R_UNIT_CODE.  This 
+is limited to those RD_NAME_CODEs that have a RD_NAME_DEFAULT_UNIT set to 'C'.
+The 'new' units are indicated and can be used to update the associated fields.
+
+#### V_SYS_CHK_PARAM_UNITS_DIT1B_RNC_MGL
+
+Returns the recalculated values (as necessary) for any units associated with 
+the units 'mg/L' as defined by the UNIT_DEFAULT field in R_UNIT_CODE.  This 
+is limited to those RD_NAME_CODEs that have a RD_NAME_DEFAULT_UNIT set to
+'mg/L'.  The 'new' units are indicated and can be used to update the associated fields.
+
+#### V_SYS_CHK_PARAM_UNITS_DIT1B_RNC_PERC
+
+Returns the recalculated values (as necessary) for any units associated with 
+the units '%' (i.e. percentage) as defined by the UNIT_DEFAULT field in R_UNIT_CODE.  This 
+is limited to those RD_NAME_CODEs that have a RD_NAME_DEFAULT_UNIT set to
+'%'.  The 'new' units are indicated and can be used to update the associated fields.
+
+#### V_SYS_CHK_PARAM_UNITS_DIT1B_RNC_UGL
+
+Returns the recalculated values (as necessary) for any units associated with 
+the units 'ug/L' as defined by the UNIT_DEFAULT field in R_UNIT_CODE.  This 
+is limited to those RD_NAME_CODEs that have a RD_NAME_DEFAULT_UNIT set to
+'ug/L'.  The 'new' units are indicated and can be used to update the associated fields.
+
+#### V_SYS_CHK_PARAM_UNITS_DIT1B_RNC_USCM
+
+Returns the recalculated values (as necessary) for any units associated with 
+the units 'uS/cm' as defined by the UNIT_DEFAULT field in R_UNIT_CODE.  This 
+is limited to those RD_NAME_CODEs that have a RD_NAME_DEFAULT_UNIT set to
+'uS/cm'.  The 'new' units are indicated and can be used to update the associated fields.
+
+#### V_SYS_CHK_PARAM_UNITS_DIT1B_UGL
+
+Returns recalculated values for parameters with a reading group of [Chemistry - Metals (Water &/or Soil/Rock)], [Water - VOCs], [Water - Pesticides & Herbicides], [PAHs (Water &/or Soil/Rock)], [Water - Miscellaneous Organics], [SVOCs (Water &/or Soil/Rock)] or [PHCs (Water &/or Soil/Rock)] converting their current units (of various form) to ug/L.
+
 #### V_SYS_CHK_PICK_ELEV
 
 This view compares the GND_ELEV (from D_PICK) with that of BH_GND_ELEV (from D_BOREHOLE) and ASSIGNED_ELEV (from D_LOCATION_ELEV), calculating their differences.  If either of these differences (which should contain the same value) are greater than an absolute value of '0.1m' the resultant row(s) are returned.  The difference can be added to TOP_ELEV (and GND_ELEV) as a correction factor.
@@ -2087,4 +2134,4 @@ This view was originally a source for V_VL_HEADER_SCREEN.  Refer to V_SYS_YPDT_V
 This view returns the information in D_LOCATION related to the 'YPDT Viewlog Header Well'.
 
 
-
+*Last Modified: 2022-04-28*
