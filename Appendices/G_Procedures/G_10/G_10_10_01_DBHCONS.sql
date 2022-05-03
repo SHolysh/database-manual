@@ -13,6 +13,7 @@
 -- v20190509 9021 rows
 -- v20200721 10902 rows
 -- v20210119 22672 rows
+-- v20220328 6551 rows
 
 select
 -- note that we're using BORE_HOLE_ID as a temporary BH_ID
@@ -37,10 +38,10 @@ as [CON_SUBTYPE_CODE]
 ,moec.CASING_DIAMETER_UOM as [CON_DIAMETER_UNIT_OUOM]
 ,convert(varchar(255),null) as CON_COMMENT
 from 
-MOE_20210119.dbo.YC_20210119_BH_ID as y
-inner join MOE_20210119.dbo.TblPipe as moep
+MOE_20220328.dbo.YC_20220328_BH_ID as y
+inner join MOE_20220328.dbo.TblPipe as moep
 on y.BORE_HOLE_ID=moep.Bore_Hole_ID
-inner join MOE_20210119.dbo.TblCasing as moec
+inner join MOE_20220328.dbo.TblCasing as moec
 on moep.PIPE_ID=moec.PIPE_ID
 where
 not
@@ -73,12 +74,12 @@ as [CON_SUBTYPE_CODE]
 ,moec.CASING_DIAMETER as [CON_DIAMETER_OUOM]
 ,moec.CASING_DIAMETER_UOM as [CON_DIAMETER_UNIT_OUOM]
 ,convert(varchar(255),null) as CON_COMMENT
-into MOE_20210119.dbo.YC_20210119_DBHCONS
+into MOE_20220328.dbo.YC_20220328_DBHCONS
 from 
-MOE_20210119.dbo.YC_20210119_BH_ID as y
-inner join MOE_20210119.dbo.TblPipe as moep
+MOE_20220328.dbo.YC_20220328_BH_ID as y
+inner join MOE_20220328.dbo.TblPipe as moep
 on y.BORE_HOLE_ID=moep.Bore_Hole_ID
-inner join MOE_20210119.dbo.TblCasing as moec
+inner join MOE_20220328.dbo.TblCasing as moec
 on moep.PIPE_ID=moec.PIPE_ID
 where
 not
@@ -91,24 +92,27 @@ and moec.CASING_DIAMETER_UOM is null
 
 -- the PLUG information
 
+-- as of 20220328, changed CON_SUBTUPE_CODE from the default 31 to 29
+
 -- v20170905 27210 rows 
 -- v20180531 22881 rows
 -- v20190509 15413 rows
 -- v20200721 20158 rows
 -- v20210119 44046 rows
+-- v20220328 16564 rows
 
-insert into MOE_20210119.dbo.YC_20210119_DBHCONS
+insert into MOE_20220328.dbo.YC_20220328_DBHCONS
 (BH_ID,CON_SUBTYPE_CODE,CON_TOP_OUOM,CON_BOT_OUOM,CON_UNIT_OUOM)
 select 
 -- note that we're using BORE_HOLE_ID as a temporary BH_ID
 ycb.BORE_HOLE_ID as BH_ID
-,31 as CON_SUBTYPE_CODE
+,29 as CON_SUBTYPE_CODE
 ,moep.PLUG_FROM as [CON_TOP_OUOM]
 ,moep.PLUG_TO   as [CON_BOT_OUOM]
 ,moep.PLUG_DEPTH_UOM as [CON_UNIT_OUOM]
 from 
-MOE_20210119.dbo.YC_20210119_BH_ID as ycb
-inner join MOE_20210119.dbo.TblPlug as moep
+MOE_20220328.dbo.YC_20220328_BH_ID as ycb
+inner join MOE_20220328.dbo.TblPlug as moep
 on ycb.BORE_HOLE_ID=moep.BORE_HOLE_ID
 where 
 not 
@@ -125,6 +129,7 @@ and moep.PLUG_DEPTH_UOM is null
 -- v20190509 2519 rows
 -- v20200721 2377 rows
 -- v20210119 5083 rows
+-- v20220328 451 rows
 
 SELECT 
 [BH_ID]
@@ -135,12 +140,12 @@ SELECT
 ,[CON_DIAMETER_OUOM]
 ,[CON_DIAMETER_UNIT_OUOM]
 ,[CON_COMMENT]
-FROM MOE_20210119.[dbo].[YC_20210119_DBHCONS]
+FROM MOE_20220328.[dbo].[YC_20220328_DBHCONS]
 where
 CON_TOP_OUOM>CON_BOT_OUOM
 --and CON_COMMENT is not null
 
-update MOE_20210119.[dbo].[YC_20210119_DBHCONS]
+update MOE_20220328.[dbo].[YC_20220328_DBHCONS]
 set
 CON_TOP_OUOM=CON_BOT_OUOM
 ,CON_BOT_OUOM=CON_TOP_OUOM
@@ -148,7 +153,7 @@ CON_TOP_OUOM=CON_BOT_OUOM
 where
 CON_TOP_OUOM>CON_BOT_OUOM
 
---drop table yc_20210119_dbhcons
+--drop table yc_20220328_dbhcons
 
 --***** 20200731
 

@@ -41,7 +41,7 @@ select
 pump_test_id 
 ,COUNT(*) as rcount
 from 
-MOE_20210119.[dbo].[M_D_PUMPTEST]
+MOE_20220318.[dbo].[M_D_PUMPTEST]
 group by 
 pump_test_id 
 ) as t1
@@ -49,14 +49,14 @@ where
 t1.rcount>1
 ) as t2
 inner join 
-MOE_20210119.[dbo].[M_D_PUMPTEST] as dpump
+MOE_20220318.[dbo].[M_D_PUMPTEST] as dpump
 on
 t2.pump_test_id=dpump.pump_test_id
 group by 
 dpump.pump_test_id 
 ) as t3
 inner join
-MOE_20210119.[dbo].[M_D_PUMPTEST] as dpump
+MOE_20220318.[dbo].[M_D_PUMPTEST] as dpump
 on
 t3.pump_test_id=dpump.pump_test_id
 
@@ -69,7 +69,7 @@ select
 t3.pump_test_id
 ,t3.int_id_new
 ,dpump.int_id as int_id_old
-into MOE_20210119.dbo.YC_20210119_PUMP_INT
+into MOE_20220318.dbo.YC_20220318_PUMP_INT
 from 
 (
 select 
@@ -86,7 +86,7 @@ select
 pump_test_id 
 ,COUNT(*) as rcount
 from 
-MOE_20210119.[dbo].[M_D_PUMPTEST]
+MOE_20220318.[dbo].[M_D_PUMPTEST]
 group by 
 pump_test_id 
 ) as t1
@@ -94,14 +94,14 @@ where
 t1.rcount>1
 ) as t2
 inner join 
-MOE_20210119.[dbo].[M_D_PUMPTEST] as dpump
+MOE_20220318.[dbo].[M_D_PUMPTEST] as dpump
 on
 t2.pump_test_id=dpump.pump_test_id
 group by 
 dpump.pump_test_id 
 ) as t3
 inner join
-MOE_20210119.[dbo].[M_D_PUMPTEST] as dpump
+MOE_20220318.[dbo].[M_D_PUMPTEST] as dpump
 on
 t3.pump_test_id=dpump.pump_test_id
 

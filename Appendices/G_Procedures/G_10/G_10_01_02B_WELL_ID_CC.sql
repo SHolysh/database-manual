@@ -1,9 +1,13 @@
+
+--***** G_10_01_02B
+
 --***** Determine which WELL_IDs need to be added based upon a NULL Zone using
 --***** the County Code to check placement within the ORMGP study area
 
 -- v20190509 possibly two rows match this criteria, not added
 -- v20200721 possibly 43 rows match this criteria, not added at this time
 -- v20210119 43 rows, not added at this time
+-- v20220328 43 rows, not added at this time
 
 select
 b.well_id
@@ -11,8 +15,8 @@ b.well_id
 ,b.east83
 ,b.north83
 from 
-MOE_20210119.dbo.[tblBore_Hole] as b
-inner join MOE_20210119.dbo.[tblWWR] as w
+MOE_20220328.dbo.[tblBore_Hole] as b
+inner join MOE_20220328.dbo.[tblWWR] as w
 on b.well_id=w.well_id
 left outer join oak_20160831_master.dbo.v_sys_moe_locations as v
 on cast(b.well_id as int)=v.moe_well_id

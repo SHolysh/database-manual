@@ -13,7 +13,7 @@
 select
 COUNT(*)
 FROM 
-MOE_20210119.[dbo].[YC_20210119_DINTMON]
+MOE_20220328.[dbo].[YC_20220328_DINTMON]
 
 -- 2016.08.31 28575 records here
 -- 2017.09.05 17413 records here
@@ -21,11 +21,12 @@ MOE_20210119.[dbo].[YC_20210119_DINTMON]
 -- v20190509 11930 rows
 -- v20200721 11834 rows
 -- v20210119 24769 rows
+-- v20220328 15269 rows
 
 select
 COUNT(*) 
 from 
-MOE_20210119.dbo.[YC_20210119_BH_ID] as ycb
+MOE_20220328.dbo.[YC_20220328_BH_ID] as ycb
 
 -- remember only those records also in YC_20130923_COORDS will be present
 
@@ -35,6 +36,7 @@ MOE_20210119.dbo.[YC_20210119_BH_ID] as ycb
 -- v20190509 11851 rows 
 -- v20200721 11760 rows
 -- v20210119 24619 rows
+-- v20220328 15235 rows
 
 -- check if these are duplicates; they appear to be all reported screens, i.e.
 -- not created through construction or formation details; 
@@ -45,18 +47,19 @@ MOE_20210119.dbo.[YC_20210119_BH_ID] as ycb
 -- v20190509 150 total - 
 -- v20200721 146 total - more intervals than locations
 -- v20210119 290 total - more intervals than locations
+-- v20220328 62 total - more intarevals than locations
 
 select
 *
 from 
-MOE_20210119.dbo.YC_20210119_DINTMON as dim
+MOE_20220328.dbo.YC_20220328_DINTMON as dim
 inner join 
 (
 select
 dim.TMP_LOC_ID
 ,COUNT(*) as rcount
 from 
-MOE_20210119.dbo.YC_20210119_DINTMON as dim
+MOE_20220328.dbo.YC_20220328_DINTMON as dim
 group by 
 dim.TMP_LOC_ID
 ) as t1
@@ -83,15 +86,15 @@ moept.[PIPE_ID]
 ,[Static_lev]
 ,[LEVELS_UOM]
 FROM 
-MOE_20210119.[dbo].[TblPump_Test] as moept
+MOE_20220328.[dbo].[TblPump_Test] as moept
 inner join
 (
 select
 moetp.PIPE_ID
 ,ycb.BORE_HOLE_ID
 from 
-MOE_20210119.dbo.[YC_20210119_BH_ID] as ycb
-inner join MOE_20210119.dbo.TblPipe as moetp
+MOE_20220328.dbo.[YC_20220328_BH_ID] as ycb
+inner join MOE_20220328.dbo.TblPipe as moetp
 on ycb.BORE_HOLE_ID=moetp.Bore_Hole_ID
 ) as t1
 on moept.PIPE_ID=t1.PIPE_ID
@@ -118,15 +121,15 @@ moept.[PIPE_ID]
 ,[Static_lev]
 ,[LEVELS_UOM]
 FROM 
-MOE_20210119.[dbo].[TblPump_Test] as moept
+MOE_20220328.[dbo].[TblPump_Test] as moept
 inner join
 (
 select
 moetp.PIPE_ID
 ,ycb.BORE_HOLE_ID
 from 
-MOE_20210119.dbo.[YC_20210119_BH_ID] as ycb
-inner join MOE_20210119.dbo.TblPipe as moetp
+MOE_20220328.dbo.[YC_20220328_BH_ID] as ycb
+inner join MOE_20220328.dbo.TblPipe as moetp
 on ycb.BORE_HOLE_ID=moetp.Bore_Hole_ID
 ) as t1
 on moept.PIPE_ID=t1.PIPE_ID
@@ -146,6 +149,7 @@ t3.rcount>1
 -- v20190509 0 rows with multiple records
 -- v20200721 4 rows with multiple records
 -- v20210119 2 rows with multiple records
+-- v20220328 0 rows with multiple records
 
 -- make sure the bot>top values
 
@@ -154,16 +158,17 @@ t3.rcount>1
 -- v20190509 223 rows
 -- v20200721 134 rows
 -- v20210119 499 rows
+-- v20220328 59 rows
 
 select
 ycd.*
 from 
-MOE_20210119.dbo.YC_20210119_DINTMON as ycd
+MOE_20220328.dbo.YC_20220328_DINTMON as ycd
 where 
 ycd.MON_BOT_OUOM<ycd.MON_TOP_OUOM
 
 
-update MOE_20210119.dbo.YC_20210119_DINTMON
+update MOE_20220328.dbo.YC_20220328_DINTMON
 set
 MON_TOP_OUOM=MON_BOT_OUOM 
 ,MON_BOT_OUOM=MON_TOP_OUOM 
@@ -178,7 +183,8 @@ MON_BOT_OUOM<MON_TOP_OUOM
 -- 2018.05.30 2 rows
 -- v20190509 0 rows
 -- v20200721 8 rows (4 locations)
--- v20210119 4 rows (2 locations_
+-- v20210119 4 rows (2 locations)
+-- v20220328 0 rows
 
 select 
 test.TMP_LOC_ID
@@ -189,12 +195,12 @@ select
 TMP_LOC_ID
 ,COUNT(*) as rcount
 from 
-MOE_20210119.dbo.YC_20210119_DINTMON as ycd
+MOE_20220328.dbo.YC_20220328_DINTMON as ycd
 group by
 TMP_LOC_ID,MON_SCREEN_SLOT,MON_SCREEN_MATERIAL,MON_DIAMETER_OUOM,MON_DIAMETER_UNIT_OUOM,MON_TOP_OUOM,MON_BOT_OUOM
 ) as test
 inner join 
-MOE_20210119.dbo.YC_20210119_DINTMON as ycd
+MOE_20220328.dbo.YC_20220328_DINTMON as ycd
 on test.TMP_LOC_ID=ycd.TMP_LOC_ID
 where 
 test.rcount>1
@@ -227,6 +233,7 @@ test.TMP_LOC_ID
 -- v20190509 11930 rows 
 -- v20200721 11834
 -- v20210119 24769 rows
+-- v20220328 15269 rows
 
 select 
 TMP_LOC_ID as INT_ID
@@ -242,8 +249,8 @@ TMP_LOC_ID as INT_ID
 ,cast(null as int) as MON_FLOWING
 ,row_number() over (order by dim.TMP_LOC_ID) as SYS_RECORD_ID
 from 
-MOE_20210119.dbo.YC_20210119_DINTMON as dim
-left outer join MOE_20210119.dbo._code_casing_material as moeccm
+MOE_20220328.dbo.YC_20220328_DINTMON as dim
+left outer join MOE_20220328.dbo._code_casing_material as moeccm
 on dim.MON_SCREEN_MATERIAL=moeccm.CODE
 
  --check that the number of rows from YC_20130923_DINTMON matches the
@@ -255,11 +262,12 @@ on dim.MON_SCREEN_MATERIAL=moeccm.CODE
  -- v20190509 11930 (matches)
  -- v20200721 11834 (matches)
  -- v20210119 24769 rows (matches)
+ -- v20220328 15269 rows (matches)
 
 select
 COUNT(*)
 from 
-MOE_20210119.dbo.YC_20210119_DINTMON as dim
+MOE_20220328.dbo.YC_20220328_DINTMON as dim
 
 -- create if it matched
 
@@ -276,10 +284,10 @@ TMP_LOC_ID as INT_ID
 ,dim.MON_COMMENT
 ,cast(null as int) as MON_FLOWING
 ,row_number() over (order by dim.TMP_LOC_ID) as SYS_RECORD_ID
-into MOE_20210119.dbo.M_D_INTERVAL_MONITOR
+into MOE_20220328.dbo.M_D_INTERVAL_MONITOR
 from 
-MOE_20210119.dbo.YC_20210119_DINTMON as dim
-left outer join MOE_20210119.dbo._code_casing_material as moeccm
+MOE_20220328.dbo.YC_20220328_DINTMON as dim
+left outer join MOE_20220328.dbo._code_casing_material as moeccm
 on dim.MON_SCREEN_MATERIAL=moeccm.CODE
 
 -- remove the duplicates (found earlier)
@@ -289,6 +297,7 @@ on dim.MON_SCREEN_MATERIAL=moeccm.CODE
 -- v20190509 0 duplicates
 -- v20200721 
 -- v20210119 2 duplicates
+-- v20220328 0 rows
 
 select 
 y.*
@@ -298,12 +307,12 @@ select
 INT_ID
 ,COUNT(*) as rcount
 from 
-MOE_20210119.dbo.M_D_INTERVAL_MONITOR as y
+MOE_20220328.dbo.M_D_INTERVAL_MONITOR as y
 group by
 INT_ID,MON_SCREEN_SLOT,MON_SCREEN_MATERIAL,MON_DIAMETER_OUOM,MON_DIAMETER_UNIT_OUOM,MON_TOP_OUOM,MON_BOT_OUOM
 ) as test
 inner join 
-MOE_20210119.dbo.M_D_INTERVAL_MONITOR as y
+MOE_20220328.dbo.M_D_INTERVAL_MONITOR as y
 on
 test.INT_ID=y.INT_ID
 where 
@@ -312,14 +321,14 @@ order by
 test.INT_ID
 
 
-delete from MOE_20210119.dbo.M_D_INTERVAL_MONITOR
+delete from MOE_20220328.dbo.M_D_INTERVAL_MONITOR
 where 
 SYS_RECORD_ID in
 (
 select
 dim.SYS_RECORD_ID
 from 
-MOE_20210119.dbo.M_D_INTERVAL_MONITOR as dim
+MOE_20220328.dbo.M_D_INTERVAL_MONITOR as dim
 inner join
 (
 select
@@ -332,7 +341,7 @@ INT_ID
 ,COUNT(*) as rcount
 ,min(SYS_RECORD_ID) as keep_SRI
 from 
-[MOE_20210119].dbo.M_D_INTERVAL_MONITOR as dim
+[MOE_20220328].dbo.M_D_INTERVAL_MONITOR as dim
 group by
 INT_ID,MON_SCREEN_SLOT,MON_SCREEN_MATERIAL,MON_DIAMETER_OUOM,MON_DIAMETER_UNIT_OUOM,MON_TOP_OUOM,MON_BOT_OUOM
 ) as t
@@ -350,11 +359,12 @@ dim.SYS_RECORD_ID<>t2.keep_SRI
 -- v20190509 0 rows 
 -- v20200721 0 rows
 -- v20210119 0 rows
+-- v20220328 0 rows
 
 select
 b.*
 from 
-MOE_20210119.dbo.YC_20210119_BH_ID as b
+MOE_20220328.dbo.YC_20220328_BH_ID as b
 where 
 BORE_HOLE_ID 
 not in
@@ -362,7 +372,7 @@ not in
 select
 INT_ID
 from 
-MOE_20210119.dbo.M_D_INTERVAL_MONITOR
+MOE_20220328.dbo.M_D_INTERVAL_MONITOR
 group by
 INT_ID
 )

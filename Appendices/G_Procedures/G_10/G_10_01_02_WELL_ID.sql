@@ -1,3 +1,6 @@
+
+--***** G_10_01_02
+
 --***** Determine which WELL_IDs need to be added and create an existence table
 --***** listing those wells; ~768401 well_ids in original db; note that for the
 --***** list of missing WELL_ID's, we're also using NULL ZONE, EAST83 and NORTH83
@@ -25,11 +28,11 @@ from
   ,tbh.EAST83
   ,tbh.NORTH83
   from 
-  MOE_20210119.dbo.TblBore_Hole as tbh
+  MOE_20220328.dbo.TblBore_Hole as tbh
   left outer join OAK_20160831_MASTER.dbo.V_SYS_MOE_LOCATIONS as v
   on cast(tbh.WELL_ID as int)=v.MOE_WELL_ID
 ) as missing
-inner join MOE_20210119.dbo.YC_20210119_LOC_COORD_OUOM_CODE as yccode
+inner join MOE_20220328.dbo.YC_20220328_LOC_COORD_OUOM_CODE as yccode
 on missing.ZONE=yccode.ZONE
 where 
 missing.LOC_ID is null 
@@ -44,7 +47,7 @@ select
  distinct(missing.WELL_ID)
 --,ROW_NUMBER() over (order by missing.WELL_ID) as [rnum]
 ,cast(null as int) as well_id_rnum
-into MOE_20210119.dbo.YC_20210119_WELL_ID_AVAIL
+into MOE_20220328.dbo.YC_20220328_WELL_ID_AVAIL
 from 
 (
   select 
@@ -54,11 +57,11 @@ from
   ,tbh.EAST83
   ,tbh.NORTH83
   from 
-  MOE_20210119.dbo.TblBore_Hole as tbh
+  MOE_20220328.dbo.TblBore_Hole as tbh
   left outer join OAK_20160831_MASTER.dbo.V_SYS_MOE_LOCATIONS as v
   on cast(tbh.WELL_ID as int)=v.MOE_WELL_ID
 ) as missing
-inner join MOE_20210119.dbo.YC_20210119_LOC_COORD_OUOM_CODE as yccode
+inner join MOE_20220328.dbo.YC_20220328_LOC_COORD_OUOM_CODE as yccode
 on missing.ZONE=yccode.ZONE
 where 
 missing.LOC_ID is null 
@@ -73,9 +76,10 @@ and missing.NORTH83 is not null
 -- v20190509 350473 WELL_IDs not in ormgpdb
 -- v20200721 360213 WELL_IDs not in ormgpdb
 -- v20210119 367677 WELL_IDs not in ormgpdb
+-- v20220328 366060 WELL_IDs not in ormgpdb
 
 select
 count(*)
 from 
-MOE_20210119.dbo.YC_20210119_WELL_ID_AVAIL
+MOE_20220328.dbo.YC_20220328_WELL_ID_AVAIL
 

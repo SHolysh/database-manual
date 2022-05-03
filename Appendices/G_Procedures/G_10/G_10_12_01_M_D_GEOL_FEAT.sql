@@ -8,6 +8,7 @@
 
 -- v20200731 7253 rows
 -- v20210126 15401 rows
+-- v20220328 3768 rows
 
 select
 y.BORE_HOLE_ID as LOC_ID
@@ -21,10 +22,10 @@ as [FEATURE_CODE]
 ,moew.WATER_FOUND_DEPTH_UOM as [FEATURE_UNIT_OUOM]
 ,ROW_NUMBER() over (order by y.LOC_ID) as [SYS_RECORD_ID]
 from 
-MOE_20210119.dbo.YC_20210119_BH_ID as y
-inner join MOE_20210119.dbo.TblPipe as moep
+MOE_20220328.dbo.YC_20220328_BH_ID as y
+inner join MOE_20220328.dbo.TblPipe as moep
 on y.BORE_HOLE_ID=moep.Bore_Hole_ID
-inner join MOE_20210119.[dbo].[TblWater] as moew
+inner join MOE_20220328.[dbo].[TblWater] as moew
 on moep.PIPE_ID=moew.PIPE_ID
 
 select
@@ -38,16 +39,16 @@ as [FEATURE_CODE]
 ,moew.WATER_FOUND_DEPTH as [FEATURE_TOP_OUOM]
 ,moew.WATER_FOUND_DEPTH_UOM as [FEATURE_UNIT_OUOM]
 ,ROW_NUMBER() over (order by y.LOC_ID) as [SYS_RECORD_ID]
-into MOE_20210119.dbo.M_D_GEOLOGY_FEATURE
+into MOE_20220328.dbo.M_D_GEOLOGY_FEATURE
 from 
-MOE_20210119.dbo.YC_20210119_BH_ID as y
-inner join MOE_20210119.dbo.TblPipe as moep
+MOE_20220328.dbo.YC_20220328_BH_ID as y
+inner join MOE_20220328.dbo.TblPipe as moep
 on y.BORE_HOLE_ID=moep.Bore_Hole_ID
-inner join MOE_20210119.[dbo].[TblWater] as moew
+inner join MOE_20220328.[dbo].[TblWater] as moew
 on moep.PIPE_ID=moew.PIPE_ID
 
 
---drop table moe_20210119.dbo.m_d_geology_feature
+--drop table moe_20220328.dbo.m_d_geology_feature
 
 
 

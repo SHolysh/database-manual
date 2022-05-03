@@ -35,8 +35,8 @@ y.BORE_HOLE_ID
  as BH_DRILL_METHOD_CODE
 ,cast( null as varchar(255) ) as BH_COMMENT
 from 
-MOE_20210119.dbo.YC_20210119_BH_ID as y
-inner join MOE_20210119.[dbo].[TblMethod_Construction] as m
+MOE_20220328.dbo.YC_20220328_BH_ID as y
+inner join MOE_20220328.[dbo].[TblMethod_Construction] as m
 on y.BORE_HOLE_ID= m.BORE_HOLE_ID
 
 select
@@ -69,23 +69,24 @@ y.BORE_HOLE_ID
  end 
  as BH_DRILL_METHOD_CODE
 ,cast( null as varchar(255) ) as BH_COMMENT
-into MOE_20210119.dbo.YC_20210119_DRILL_CODE
+into MOE_20220328.dbo.YC_20220328_DRILL_CODE
 from 
-MOE_20210119.dbo.YC_20210119_BH_ID as y
-inner join MOE_20210119.[dbo].[TblMethod_Construction] as m
+MOE_20220328.dbo.YC_20220328_BH_ID as y
+inner join MOE_20220328.[dbo].[TblMethod_Construction] as m
 on y.BORE_HOLE_ID= m.BORE_HOLE_ID
 
---drop table YC_20210119_DRILL_CODE
+--drop table YC_20220328_DRILL_CODE
 
 -- v20180530 379 rows
 -- v20180530 7043 rows 
 -- v20190509 7894 rows
 -- v20200721 9373 rows
 -- v20210119 20063 rows
+-- v20220328 5439 rows
 
 select
 count(*) 
 from 
-MOE_20210119.dbo.YC_20210119_DRILL_CODE
+MOE_20220328.dbo.YC_20220328_DRILL_CODE
 
---alter table YC_20210119_DRILL_CODE add BH_COMMENT varchar(255)
+--alter table YC_20220328_DRILL_CODE add BH_COMMENT varchar(255)

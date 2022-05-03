@@ -1,4 +1,6 @@
 
+--***** G_10_01_01 
+
 --***** A look up table for translating MOE zones to YCDB zone codes
 
 select 
@@ -13,7 +15,7 @@ select
  end 
  as [LOC_COORD_OUOM_CODE]
 FROM 
-MOE_20210119.[dbo].[TblBore_Hole] as tbh
+MOE_20220328.[dbo].[TblBore_Hole] as tbh
 group by
 ZONE 
 
@@ -29,9 +31,9 @@ ZONE
  end 
  as [LOC_COORD_OUOM_CODE]
 into 
-MOE_20210119.dbo.YC_20210119_LOC_COORD_OUOM_CODE
+MOE_20220328.dbo.YC_20220328_LOC_COORD_OUOM_CODE
 FROM 
-MOE_20210119.[dbo].[TblBore_Hole] as tbh
+MOE_20220328.[dbo].[TblBore_Hole] as tbh
 group by
 ZONE 
 

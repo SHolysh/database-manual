@@ -26,8 +26,8 @@ y.BORE_HOLE_ID as LOC_ID
  end as [QA_ELEV_CONFIDENCE_CODE]
 ,m.ELEVRC as [QA_ELEV_CONFIDENCE_CODE_ORIG]
 from 
-MOE_20210119.dbo.YC_20210119_BH_ID as y
-inner join MOE_20210119.dbo.TblBore_Hole as m
+MOE_20220328.dbo.YC_20220328_BH_ID as y
+inner join MOE_20220328.dbo.TblBore_Hole as m
 on y.BORE_HOLE_ID=m.BORE_HOLE_ID
 
 
@@ -49,9 +49,9 @@ y.BORE_HOLE_ID as LOC_ID
      else 10
  end as [QA_ELEV_CONFIDENCE_CODE]
 ,m.ELEVRC as [QA_ELEV_CONFIDENCE_CODE_ORIG]
-into MOE_20210119.dbo.M_D_LOCATION_QA
+into MOE_20220328.dbo.M_D_LOCATION_QA
 from 
-MOE_20210119.dbo.YC_20210119_BH_ID as y
-inner join MOE_20210119.dbo.TblBore_Hole as m
+MOE_20220328.dbo.YC_20220328_BH_ID as y
+inner join MOE_20220328.dbo.TblBore_Hole as m
 on y.BORE_HOLE_ID=m.BORE_HOLE_ID
 

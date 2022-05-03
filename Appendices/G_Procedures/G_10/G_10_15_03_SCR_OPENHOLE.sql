@@ -14,16 +14,17 @@
 -- v20190509 0 rows
 -- v20200721 0 rows 
 -- v20210119 0 rows
+-- v20220328 0 rows
 
 select 
 ycb.BORE_HOLE_ID
 ,ycdim.TMP_LOC_ID 
 ,moebh.*
 from 
-MOE_20210119.dbo.YC_20210119_BH_ID as ycb
-inner join MOE_20210119.dbo.TblBore_Hole as moebh
+MOE_20220328.dbo.YC_20220328_BH_ID as ycb
+inner join MOE_20220328.dbo.TblBore_Hole as moebh
 on ycb.BORE_HOLE_ID=moebh.BORE_HOLE_ID
-inner join MOE_20210119.dbo.YC_20210119_DINTMON as ycdim
+inner join MOE_20220328.dbo.YC_20220328_DINTMON as ycdim
 on ycb.BORE_HOLE_ID=ycdim.TMP_LOC_ID
 where 
 moebh.OPEN_HOLE='Y'
@@ -36,14 +37,15 @@ moebh.OPEN_HOLE='Y'
 -- v20190509 0 rows
 -- v20200721 0 rows
 -- v20210119 7 rows
+-- v20220328 0 rows
 
 select 
 ycb.BORE_HOLE_ID 
 from 
-MOE_20210119.dbo.YC_20210119_BH_ID as ycb
-inner join MOE_20210119.dbo.TblBore_Hole as moebh
+MOE_20220328.dbo.YC_20220328_BH_ID as ycb
+inner join MOE_20220328.dbo.TblBore_Hole as moebh
 on ycb.BORE_HOLE_ID=moebh.BORE_HOLE_ID
-left outer join MOE_20210119.dbo.M_D_BOREHOLE_CONSTRUCTION as ycbc
+left outer join MOE_20220328.dbo.M_D_BOREHOLE_CONSTRUCTION as ycbc
 on ycb.BORE_HOLE_ID=ycbc.BH_ID
 where 
 moebh.OPEN_HOLE='Y'
@@ -58,6 +60,7 @@ and ycbc.CON_SUBTYPE_CODE in (9,16,21,23,25,32)
 -- v20190509 0 rows 
 -- v20200721 0 rows 
 -- v20210119 7 rows
+-- v20220328 0 rows
 
 select 
 ycb.BORE_HOLE_ID as TMP_LOC_ID
@@ -72,8 +75,8 @@ end as MON_TOP_OUOM
 --,(ycb.MAX_DEPTH_M-cd.CASING_DEPTH) as DIFF_OPEN_HOLE
 ,'open hole; bottom-of-casing to bottom-of-hole' as MON_COMMENT
 from 
-[MOE_20210119].dbo.YC_20210119_BH_ID as ycb
-inner join [MOE_20210119].dbo.TblBore_Hole as moebh
+[MOE_20220328].dbo.YC_20220328_BH_ID as ycb
+inner join [MOE_20220328].dbo.TblBore_Hole as moebh
 on ycb.BORE_HOLE_ID=moebh.BORE_HOLE_ID
 left outer join
 (
@@ -90,7 +93,7 @@ else ycbc.CON_BOT_OUOM
 end 
 as CON_BOT_OUOM
 from 
-[MOE_20210119].dbo.M_D_BOREHOLE_CONSTRUCTION as ycbc
+[MOE_20220328].dbo.M_D_BOREHOLE_CONSTRUCTION as ycbc
 where 
 ycbc.CON_SUBTYPE_CODE in (9,16,21,23,25,32)
 ) as cd
@@ -105,7 +108,7 @@ moebh.OPEN_HOLE='Y'
 
 -- add these results to the temporary interval monitor table
 
-insert into [MOE_20210119].dbo.YC_20210119_DINTMON
+insert into MOE_20220328.dbo.YC_20220328_DINTMON
 (TMP_LOC_ID,TMP_INT_TYPE_CODE,MON_TOP_OUOM,MON_BOT_OUOM,MON_UNIT_OUOM,MON_COMMENT)
 select 
 ycb.BORE_HOLE_ID as TMP_LOC_ID
@@ -120,8 +123,8 @@ end as MON_TOP_OUOM
 --,(ycb.MAX_DEPTH_M-cd.CASING_DEPTH) as DIFF_OPEN_HOLE
 ,'open hole; bottom-of-casing to bottom-of-hole' as MON_COMMENT
 from 
-[MOE_20210119].dbo.YC_20210119_BH_ID as ycb
-inner join [MOE_20210119].dbo.TblBore_Hole as moebh
+[MOE_20220328].dbo.YC_20220328_BH_ID as ycb
+inner join [MOE_20220328].dbo.TblBore_Hole as moebh
 on ycb.BORE_HOLE_ID=moebh.BORE_HOLE_ID
 left outer join
 (
@@ -138,7 +141,7 @@ else ycbc.CON_BOT_OUOM
 end 
 as CON_BOT_OUOM
 from 
-[MOE_20210119].dbo.M_D_BOREHOLE_CONSTRUCTION as ycbc
+[MOE_20220328].dbo.M_D_BOREHOLE_CONSTRUCTION as ycbc
 where 
 ycbc.CON_SUBTYPE_CODE in (9,16,21,23,25,32)
 ) as cd
@@ -156,7 +159,7 @@ moebh.OPEN_HOLE='Y'
 select
 *
 from 
-[MOE_20210119].dbo.YC_20210119_BH_ID as y
+[MOE_20220328].dbo.YC_20220328_BH_ID as y
 where 
 y.bore_hole_id in
 (
@@ -183,7 +186,7 @@ y.bore_hole_id in
 select
 *
 from 
-[MOE_20210119].dbo.YC_20210119_DINTMON
+[MOE_20220328].dbo.YC_20220328_DINTMON
 where 
 tmp_int_type_code= 21
 

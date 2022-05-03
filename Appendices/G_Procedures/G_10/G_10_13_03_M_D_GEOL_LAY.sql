@@ -11,6 +11,7 @@
 -- v20190509 19071 rows
 -- v20200721 25005 rows
 -- v20210126 49283 rows
+-- v20220328 14034 rows
 
 select
 -- note that we're substituting the BORE_HOLE_ID for LOC_ID
@@ -54,8 +55,8 @@ end as GEOL_MAT3_CODE
 end as GEOL_COMMENT
 ,ROW_NUMBER() over (order by ycb.LOC_ID) as SYS_RECORD_ID
 from 
-MOE_20210119.dbo.YC_20210119_BH_ID as ycb
-inner join MOE_20210119.dbo.TblFormation as moef
+MOE_20220328.dbo.YC_20220328_BH_ID as ycb
+inner join MOE_20220328.dbo.TblFormation as moef
 on ycb.BORE_HOLE_ID=moef.BORE_HOLE_ID
 
 select
@@ -99,10 +100,10 @@ end as GEOL_MAT3_CODE
  else null 
 end as GEOL_COMMENT
 ,ROW_NUMBER() over (order by ycb.LOC_ID) as SYS_RECORD_ID
-into MOE_20210119.dbo.M_D_GEOLOGY_LAYER
+into MOE_20220328.dbo.M_D_GEOLOGY_LAYER
 from 
-MOE_20210119.dbo.YC_20210119_BH_ID as ycb
-inner join MOE_20210119.dbo.TblFormation as moef
+MOE_20220328.dbo.YC_20220328_BH_ID as ycb
+inner join MOE_20220328.dbo.TblFormation as moef
 on ycb.BORE_HOLE_ID=moef.BORE_HOLE_ID
 
 

@@ -7,13 +7,14 @@
 -- v20190509 5670 rows
 -- v20200721 7669 rows
 -- v20210119 15257 rows
+-- v20220328 4383 rows
 
 select 
 BORE_HOLE_ID
 ,max(FORMATION_END_DEPTH) as [FM_MAX_DEPTH]
 ,FORMATION_END_DEPTH_UOM as [FM_MAX_DEPTH_UNITS]
 from 
-MOE_20210119.[dbo].[TblFormation]
+MOE_20220328.[dbo].[TblFormation]
 where 
 BORE_HOLE_ID 
 in
@@ -21,7 +22,7 @@ in
 select 
 BORE_HOLE_ID 
 from 
-MOE_20210119.dbo.YC_20210119_BH_ID as ycb
+MOE_20220328.dbo.YC_20220328_BH_ID as ycb
 )
 and 
 FORMATION_END_DEPTH is not null
@@ -35,6 +36,7 @@ BORE_HOLE_ID,FORMATION_END_DEPTH_UOM
 -- v20190509 0 rows returned
 -- v20200721 
 -- v20210119 0 rows
+-- v20220328 0 rows
 
 select
 t2.BORE_HOLE_ID
@@ -51,7 +53,7 @@ BORE_HOLE_ID
 ,max(FORMATION_END_DEPTH) as [FM_MAX_DEPTH]
 ,FORMATION_END_DEPTH_UOM as [FM_MAX_DEPTH_UNITS]
 from 
-MOE_20210119.[dbo].[TblFormation]
+MOE_20220328.[dbo].[TblFormation]
 where 
 BORE_HOLE_ID 
 in
@@ -59,7 +61,7 @@ in
 select 
 BORE_HOLE_ID 
 from 
-MOE_20210119.dbo.YC_20210119_BH_ID as ycb
+MOE_20220328.dbo.YC_20220328_BH_ID as ycb
 )
 and FORMATION_END_DEPTH is not null
 group by
@@ -80,11 +82,11 @@ t2.rcount>1
 select
 *
 from 
-MOE_20210119.dbo.TblFormation
+MOE_20220328.dbo.TblFormation
 where 
 bore_hole_id= 1007362933
 
-update MOE_20210119.dbo.TblFormation
+update MOE_20220328.dbo.TblFormation
 set
 formation_end_depth_uom='ft'
 where
@@ -95,13 +97,14 @@ formation_id= 1007799730
 -- v20190509 5670 rows
 -- v20200721 7698 rows
 -- v20210119 15257 rows
+-- v20220328 4383 rows
 
-update MOE_20210119.dbo.YC_20210119_BH_ID 
+update MOE_20220328.dbo.YC_20220328_BH_ID 
 set
 fm_max_depth=fm_depth.FM_MAX_DEPTH
 ,fm_max_depth_units=fm_depth.FM_MAX_DEPTH_UNITS
 from 
-MOE_20210119.dbo.YC_20210119_BH_ID as ycb
+MOE_20220328.dbo.YC_20220328_BH_ID as ycb
 inner join
 (
 select 
@@ -109,7 +112,7 @@ BORE_HOLE_ID
 ,max(FORMATION_END_DEPTH) as [FM_MAX_DEPTH]
 ,FORMATION_END_DEPTH_UOM as [FM_MAX_DEPTH_UNITS]
 from 
-MOE_20210119.[dbo].[TblFormation]
+MOE_20220328.[dbo].[TblFormation]
 where 
 BORE_HOLE_ID 
 in
@@ -117,7 +120,7 @@ in
 select 
 BORE_HOLE_ID 
 from 
-MOE_20210119.dbo.YC_20210119_BH_ID as ycb
+MOE_20220328.dbo.YC_20220328_BH_ID as ycb
 )
 and FORMATION_END_DEPTH is not null
 group by

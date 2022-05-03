@@ -5,45 +5,52 @@
 
 -- create a view and place it in the temphold database
 
-create view MOE_LOCN_20210119 as
+create view MOE_LOCN_20220328 as
 select
 d.loc_id
 ,cast(d.loc_coord_easting as int) as x
 ,cast(d.loc_coord_northing as int) as y
 from 
-MOE_20210119.dbo.M_D_LOCATION as d
+MOE_20220328.dbo.M_D_LOCATION as d
 
---drop view MOE_LOCN_20210119
+--drop view MOE_LOCN_20220328
 
---drop table MOE_ELEV_20210119
+--drop table MOE_ELEV_20220328
 
 -- in Grass, run the Giant commands to extract the elevations by loc_id; make sure to change the password fields
 
 -- MNR
-gnat grid_examine -grass -grid=DEM_MNR_v2_10m_BATHY_25km_buffer -i=odbc,ormgpdb2016_temphold,mdsqlrw,public,moe_locn_20210119 -o=odbc,ormgpdb2016_temphold,mdsqlrw,xxxxxxxxxx,moe_elev_20210119 -method=locnrwf -headers=x,y,loc_id
+
+gnat grid_examine -grass -grid=DEM_MNR_v2_10m_BATHY_25km_buffer_20210205 "-i=odbc,gisdbserver_moe_20220328,mdsqlrw,xxxx,moe_locn_20220328" "-o=odbc,gisdbserver_moe_20220328,mdsqlrw,xxxx,moe_elev_20220328" -method=locnrwf "-headers=x,y,loc_id"
 
 select
 *
 from 
-temphold.dbo.MOE_ELEV_20210119
+MOE_ELEV_20220328
 where 
 value= -9999
 
+select * from moe_locn_20220328 where loc_id in
+( select loc_id from moe_elev_20220328 where value= -9999 )
+
 -- SRTM; this is used if -9999 values show up from the MNR dataset
-gnat grid_examine -grass -grid=DEM_SRTMv41_100m -i=odbc,ormgpdb2016_temphold,mdsqlrw,public,moe_locn_20210119 -o=odbc,ormgpdb2016_temphold,mdsqlrw,xxxxxxxxxx,moe_elev_srtm_20210119 -method=locnrwf -headers=x,y,loc_id
+
+gnat grid_examine -grass -grid=DEM_SRTMv41_100m "-i=odbc,gisdbserver_moe_20220328,mdsqlrw,xxxx,moe_locn_20220328" "-o=odbc,gisdbserver_moe_20220328,mdsqlrw,xxxx,moe_elev_srtm_20220328" -method=locnrwf "-headers=x,y,loc_id"
 
 select
-*
+s.*
 from 
-temphold.dbo.MOE_ELEV_SRTM_20210119
+MOE_ELEV_SRTM_20220328 as s
+inner join moe_elev_20220328 as m
+on s.loc_id=m.loc_id
 where
-value= -9999
+m.value= -9999
 
 ---- this locn had a -9999 value for the MNR
 --select
 --*
 --from 
---moe_locn_20210119
+--moe_locn_20220328
 --where 
 --loc_id= 1007278050
 
@@ -53,7 +60,7 @@ value= -9999
 select
 *
 from 
-MOE_ELEV_SRTM_20210119
+MOE_ELEV_SRTM_20220328
 where 
 loc_id= 1007278050
 
@@ -64,33 +71,34 @@ m.loc_id as BORE_HOLE_ID
 ,m.value as DEM_MNR
 ,s.value as DEM_SRTM
 from 
-temphold.dbo.moe_elev_20210119 as m
-inner join temphold.dbo.moe_elev_srtm_20210119 as s
+.moe_elev_20220328 as m
+inner join moe_elev_srtm_20220328 as s
 on m.loc_id=s.loc_id
 
 select
 m.loc_id as BORE_HOLE_ID
 ,m.value as DEM_MNR
 ,s.value as DEM_SRTM
-into MOE_20210119.dbo.YC_20210119_BORE_HOLE_ID_ELEVS
+into MOE_20220328.dbo.YC_20220328_BORE_HOLE_ID_ELEVS
 from 
-temphold.dbo.moe_elev_20210119 as m
-inner join temphold.dbo.moe_elev_srtm_20210119 as s
+moe_elev_20220328 as m
+inner join moe_elev_srtm_20220328 as s
 on m.loc_id=s.loc_id
 
 -- 11851 rows v20190509
 -- 11760 rows v20200721
 -- 24619 rows v20210119
+-- 15235 rows v20220328
 
 select
 count(*) 
 from 
-moe_20210119.dbo.yc_20210119_bore_hole_id_elevs
+moe_20220328.dbo.yc_20220328_bore_hole_id_elevs
 
 select
 *
 from 
-moe_20210119.dbo.yc_20210119_bore_hole_id_elevs
+moe_20220328.dbo.yc_20220328_bore_hole_id_elevs
 where
 --dem_mnr= -9999
 dem_srtm= -9999

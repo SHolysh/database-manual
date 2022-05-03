@@ -10,15 +10,16 @@
 -- v20180530 25 rows - inch
 -- v20190509 0 rows
 -- v20200721 9 rows
--- v20210119 
+-- v20210119 0 rows (?)
+-- v20220328 3 rows
 
 select 
 ycb.LOC_ID
 ,ycb.BH_ID
 ,ycm.*
 from 
-MOE_20210119.dbo.YC_20210119_BH_ID as ycb
-inner join MOE_20210119.dbo.M_D_BOREHOLE_CONSTRUCTION as ycm
+MOE_20220328.dbo.YC_20220328_BH_ID as ycb
+inner join MOE_20220328.dbo.M_D_BOREHOLE_CONSTRUCTION as ycm
 on ycb.BORE_HOLE_ID=ycm.BH_ID
 where 
 not(ycm.CON_UNIT_OUOM in ('m','ft'))
@@ -26,7 +27,7 @@ not(ycm.CON_UNIT_OUOM in ('m','ft'))
 -- for construction, we're assuming anything that's an inch should be a ft
 -- a note is added to CON_COMMENT for this
 
-update MOE_20210119.dbo.M_D_BOREHOLE_CONSTRUCTION
+update MOE_20220328.dbo.M_D_BOREHOLE_CONSTRUCTION
 set
  CON_UNIT_OUOM='ft'
 ,CON_TOP_OUOM=CON_TOP_OUOM/12
@@ -34,6 +35,23 @@ set
 ,CON_COMMENT='depths original indicated as inch; converted to ft'
 where 
 CON_UNIT_OUOM='inch'
+
+--***** Various corrections below
+
+select * from MOE_20220328.dbo.M_D_BOREHOLE_CONSTRUCTION where con_unit_ouom= 'cm'
+
+update MOE_20220328.dbo.M_D_BOREHOLE_CONSTRUCTION
+set
+con_unit_ouom= 'm'
+,con_top_ouom= con_top_ouom/10
+,con_bot_ouom= con_bot_ouom/10
+,con_comment=
+case
+when con_comment is not null then con_comment + '; Converted depths from cm to m'
+else 'Converted depths from cm to m'
+end
+where
+con_unit_ouom= 'cm'
 
 -- for construction we're assuming anything that's a cm should be m's
 -- a note is added to CON_COMMENT for this 

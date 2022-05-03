@@ -7,16 +7,18 @@
 --***** 20200928 Changed null/0 translatation from 4 to 0
 
 -- v20210119 104985 rows
+-- v20220328 121175 rows
 
-update MOE_20210119.dbo.TblWWR
+update MOE_20220328.dbo.TblWWR
 set
 USE_1ST=0
 where
 USE_1ST is null 
 
 -- v20210119 488451 rows
+-- v20220328 510907 rows
 
-update MOE_20210119.dbo.TblWWR
+update MOE_20220328.dbo.TblWWR
 set
 USE_2ND=0
 where
@@ -36,7 +38,7 @@ select
  end
  as [MOE_USE]
 from 
-MOE_20210119.dbo.TblWWR as wwr
+MOE_20220328.dbo.TblWWR as wwr
 group by
 USE_1ST
 order by 
@@ -57,9 +59,9 @@ select
  end
  as [MOE_USE]
 into 
-MOE_20210119.dbo.YC_20210119_MOE_USE
+MOE_20220328.dbo.YC_20220328_MOE_USE
 from 
-MOE_20210119.dbo.TblWWR as wwr
+MOE_20220328.dbo.TblWWR as wwr
 group by
 USE_1ST
 order by 
@@ -81,7 +83,7 @@ select
  end
  as [MOE_USE]
 from 
-MOE_20210119.dbo.TblWWR as wwr
+MOE_20220328.dbo.TblWWR as wwr
 group by
 USE_2ND
 order by 
