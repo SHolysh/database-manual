@@ -1025,13 +1025,132 @@ errors in the calculation of the average water level.
 
 This view returns calculated values of specific capacity, using V_SYS_SPEC_CAP_CALC as a source, that do not already appear in D_INTERVAL_TEMPORAL_2 (by interval and date).  Note that the RD_NAME_CODE '748' (i.e. 'Specific Capacity') is returned and used as a check.  The calculated specific capacity cannot be a NULL value. 
 
+#### V_SYS_CHK_WLS_GEOL_UNIT_RD_UNIT
+
+This view compares water level elevation values and geology layer elevation values based upon their OUOM units.  Where the average water level elevation is below that of the bottom of the borehole, the GEOL_UNIT_OUOM and RD_UNIT_OUOM values are returned along with the count of number of records.  Note that UGAIS wells are specifically ignored (using V_SYS_UGAIS_ALL).
+
+#### V_SYS_CHK_WL_LOGGER
+
+Calculates a new water level elevation for logger data from D_INTERVAL_TEMPORAL_2 using the original values (where present).
+
 #### V_SYS_CHK_WL_MIN_GT_BOT_ELEV
 
 This view checks if the elevation of the lowest water level (from D_INTERVAL_TEMPORAL_2) is below the elevation of the bottom of the borehole (from D_BOREHOLE).  Note that a value of '0.001' is added to the former to account for slight rounding errors introduced during data entry.  The minimum water level is determined using V_SYS_WATERLEVELS_RANGE.
 
-#### V_SYS_CHK_WLS_GEOL_UNIT_RD_UNIT
+#### V_SYS_CHK_WL_OUOM_CORR
 
-This view compares water level elevation values and geology layer elevation values based upon their OUOM units.  Where the average water level elevation is below that of the bottom of the borehole, the GEOL_UNIT_OUOM and RD_UNIT_OUOM values are returned along with the count of number of records.  Note that UGAIS wells are specifically ignored (using V_SYS_UGAIS_ALL).
+Returns calculated depths (in [mbref]) for those records in D_INTERVAL_TEMPORAL_2 with a UNIT_CODE of [6] (i.e. [masl]) and 
+with the OUOM values and units stored as [above probe] (e.g. as [cmap uncomp uncal], [map uncal] or [map uncomp uncal]).  
+The reference elevation is matched using V_SYS_INT_REF_ELEV_RANGE.
+
+#### V_SYS_CHK_WL_RUO_REF_ELEV
+
+This view checks for those water level logger records where RD_VALUE is [0],
+the RD_VALUE_OUOM matches the reference elevation and the RD_UNIT_OUOM is
+[mbref].
+
+This appears to be a problem with York database records
+
+#### V_SYS_CHK_WL_STATIC
+
+Calculates a new water level elevation for manual data from D_INTERVAL_TEMPORAL_2 using the original values (where present).
+
+#### V_SYS_CHK_WL_STATIC_CMP
+
+Extracts the RD_DATE and RD_VALUE for every static water level in D_INTERVAL_TEMPORAL_2 along with the average logger water 
+level within a plus/minus one-hour interval.  The number of logger values are record and the difference between the manual 
+and logger water level is calculated.
+
+A combination of a NULL value for LOGGER_RD_VALUE with a non-NULL value for LOGGER_RCOUNT indicates that the RD_VALUE 
+for the logger data is not populated.  If the LOGGER_RCOUNT value is also NULL then no logger data exists to match against 
+the manual water level.
+
+#### V_SYS_CLIMATE_MARK_ACTIVE
+
+For Climate Station locations, this view examines its associated temporal data (summarized in D_INTERVAL_SUMMARY) to 
+determine whether it has been updated within a specified time period, marking it active or inactive.  The default time 
+period is stored in S_CONSTANT as DEF_ACTIVE_CLIMATE.
+
+#### V_SYS_CONST_ELEV_RANGE
+
+Returns the value of the constant SYS_ELEV_RANGE as specified in S_CONSTANT.  This uses the 
+value stored in the field VALF (i.e. a floating point value).
+
+#### V_SYS_DATETIME_STR
+
+Returns the current datetime.  In addition, converts this datetime to a text string as well as breaking out each of its 
+component parts as both numeric and text.  It also creates a SYS_TEMP1 and SYS_TEMP2 compatible format.
+
+#### V_SYS_DBLIST_FIELDS
+
+Returns a list of fields/columns (as FIELD_NAME) present within the ORMPG database.  These include all fields found in 
+both tables and views (refer to V_SYS_DBLIST_VIEWS for exceptions).
+
+#### V_SYS_DBLIST_FIELDS_INFO
+
+Returns a list of fields/columns (as FIELD_NAME) and their associated characteristics as present within the ORMPG database.  
+This information includes: the table or view source name; numeric (or other) typet; etc...  These include all fields found 
+in both tables and views (refer to V_SYS_DBLIST_VIEWS for exceptions).
+
+#### V_SYS_DBLIST_FIELDS_MISSING
+
+Returns a list of fields/columns (as FIELD_NAME), using V_SYS_DBLIST_FIELDS as a source, that are not present within S_DESC_FIELDS.
+
+#### V_SYS_DBLIST_TABLES
+
+Returns a list of tables (as TABLE_NAME) present within the ORMPG database.
+
+#### V_SYS_DBLIST_TABLES_MISSING
+
+Returns a list of tables (as TABLE_NAME), using V_SYS_DBLIST_TABLES as a source, that are not present within S_DESC_TABLES.
+
+#### V_SYS_DBLIST_TABLES_REMOVED
+
+Compares the TABLE_NAME from S_DESC_TABLE against a current list of tables using 
+V_SYS_DBLIST_TABLES returning those that are present in the former but not in the 
+latter.  These have been removed from the database and should be removed from S_DESC_TABLE.
+
+#### V_SYS_DBLIST_VIEWS
+
+Returns a list of views (as VIEW_NAME) present within the ORMPG database.  Those with the prefix [VSFX] are ignored.
+
+#### V_SYS_DBLIST_VIEWS_MISSING
+
+Returns a list of views (as VIEW_NAME), using V_SYS_DBLIST_VIEWS as a source, that are not present within S_DESC_VIEWS.
+
+#### V_SYS_DBLIST_VIEWS_REMOVED
+
+Compares the VIEW_NAME from S_DESC_VIEW against a current list of views using 
+V_SYS_DBLIST_VIEWS returning those that are present in the former but not in the latter.  
+These have been removed from the database and should be removed from S_DESC_VIEW.
+
+#### V_SYS_DGF_TOP_FEATURE
+
+Returns the top-most (shallowest) geologic feature for a particular location (sourced from D_GEOLOGY_FEATURE)
+
+#### V_SYS_DGL_TOTAL_GEOL_MAT1
+
+Returns the minimum and maximum elevation as well as total thickness of material 
+by location and GEOL_MAT1_CODE.  In addition, the total number of differing materials 
+for GEOL_MAT1_CODE is also returned.
+
+#### V_SYS_DGL_TOTAL_GEOL_MAT1_MAX
+
+Using V_SYS_DGL_TOTAL_GEOL_MAT1 as a base, returns the thickest GEOL_MAT1_CODE material found at a location.
+
+#### V_SYS_DGL_TOTAL_GRAVEL
+
+Calculates the total gravel thickness present at a particular location (by LOC_ID).  
+Note that only GEOL_MAT1_CODE is examined with multiple unit thicknesses summed; a 
+[0] value is returned if no gravel is present.  In addition, the top- and bottom-elevation 
+must be populated.
+
+#### V_SYS_DGL_TOTAL_SAND_GRAVEL
+
+Calculates the total sand and gravel thickness present at a particular location (by LOC_ID).  
+Note that only GEOL_MAT1_CODE is examined with multiple unit thicknesses summed; a [0] 
+value is returned if no sand and gravel is present.  In addition, the top- and bottom-elevation
+must be populated.
 
 #### V_SYS_DIFAF_ASSIGN
 
@@ -1052,6 +1171,79 @@ Returns the assigned geologic unit and unit code (from D_INTERVAL_FORM_ASSIGN)
 for each interval from the variety of geologic models under examination; this
 currently includes CM2004, YT32011, WB2018 and WB2021
 
+#### V_SYS_DIFA_GL
+
+This is the base view for a number of routines/views accessing the
+D_INTERVAL_FORM_ASSIGN table.  In particular, it is used to generate the
+information necessary to determine the penetration of the interval (i.e.
+GL_SCREEN_M) into an aquifer as part of the Transmissivity and Hydraulic
+Conductivity calculation (refer to V_SYS_PUMP_MOE_TRANS_SOURCE). The following
+tables and views are accessed: V_SYS_GENERAL_INTERVAL; V_SYS_INT_MON_MAX_MIN;
+D_INTERVAL_FORM_ASSIGN; R_GEOL_UNIT_CODE (for determining if a given layer is
+classified as an AQUIFER). Both the MON_TOP_ELEV and MON_BOT_ELEV values must
+be non-null.
+
+If the top layer matches the bottom layer (with regard to the screen top and
+bottom), the length of the screen is considered for penetration.  If the
+bottom layer, only, is considered an aquifer, the distance from the bottom to
+the bottom of the prevous layer is considered (this is also the default if no
+condition is otherwise met). If the top layer, only, is considered an aquifer,
+the distance from the top to the top of the next layer is considered. 
+
+#### V_SYS_DIFA_GL_ASSIGN
+
+This view determines the appropriate ASSIGNED_UNIT, by geologic model and
+interval, based upon: the top and bottom units encountered by the screen;
+whether either is an aquifer; the degree of penetration of the geologic layer
+by the screen; etc...  The coding for the view should be examined for complete
+details.
+
+#### V_SYS_DIFA_GL_[geologic unit]
+
+Using V_SYS_DIFA_GL as a base, returns all records from D_INTERVAL_FORM_ASSIGN for 
+which the interval has an assigned formation of [geologic unit].  Note that, currently 
+(as of 20200622), either of the top or bottom of the interval must lie within the formation.
+
+#### V_SYS_DIFA_GL_[geologic unit]_[model]
+
+Using V_SYS_DIFA_GL_[geologic unit] as a base, returns those records from
+D_INTERVAL_FORM_ASSIGN that correspond to the specified [model].
+
+#### V_SYS_DIFA_GL_MOD_[model]
+
+Using V_SYS_DIFA_GL as a base, returns those records that pass some error
+checks and that correspond to the specified [model].  These
+checks include: having valid top and bottom screen depths; the bottom depth
+must be greater than the top depth; the top depth must be greater than or
+equal to zero; the bottom depth must be greater than zero.
+
+Note that this is used as part of the process for calculating the Transmissivity 
+and Hydraulic Conductivity for the particular interval.
+
+#### V_SYS_DIT1_INT_PAR_DAY
+
+Extracts every parameter from D_INTERVAL_TEMPORAL_1A/B with the original
+SAM_SAMPLE_DATE converted to a string in the format [yyyymmdd].  The parameter
+name and units are also present.  As any parameter can be recorded multiple
+times on a particular day the minimum, maximum, count and average value is
+returned.  This view can be used as a base to create a table-format
+spreadsheet for examination of parameter changes over time for a particular
+interval.
+
+#### V_SYS_DIT_COUNTS
+
+Returns the number of records as found in each of the temporal tables related
+through INT_ID (and the associated LOC_ID).  Note that the counts from 1A are
+the number of samples while the counts from 1B are the number of parameters.
+
+#### V_SYS_DOC_BH_NONMOE_LOCNS
+
+This view returns a list of the non-MOE PDFs assembled within the ORMGP Report
+Library. By default, these are entitled [\<LOC_ID\>.pdf] and are stored within
+the DOC_FOLDER_ID [10000].  This relies upon a definition of
+LOC_ALIAS_TYPE_CODE of [6] (i.e. Borehole Document Name) in D_LOCATION_ALIAS
+with the LOC_ID stored in the LOC_ALIAS_NAME field.
+
 #### V_SYS_DOC_REPLIB_ENTRY
 
 This view returns the fields and values from D_DOCUMENT and D_LOCATION that mimics the format of the table in the Microsoft Access Report Library template.  It is used as a source to represent all documents currently stored in the database.
@@ -1071,6 +1263,12 @@ This view returns all elevations associated with a particular location (by LOC_I
 * Shuttle Radar Topography Mission (SRTM) DEM, version 4.1 (90m resolution; LOC_ELEV_CODE '5' - 'DEM - SRTM 90m v41') as LOC_ELEV_MASL_SRTMV41
 
 Additional elevations, not listed here, may be available in D_LOCATION_ELEV_HIST (refer to R_LOC_ELEV_CODE).  This uses V_SYS_ELEV_ASSIGNED (which must have a value for a particular location), V_SYS_ELEV_DEM_MNR_V2, V_SYS_ELEV_DEM_SRTM_V41, V_SYS_ELEV_ORIGINAL and V_SYS_ELEV_SURVEYED as sources.
+
+#### V_SYS_ELEV_ASSIGNED_UPDATE
+
+Returns all elevations associated with a particular location as well as the
+elevation that should be used to update the ASSIGNED_ELEV (if it does not
+already match).
 
 #### V_SYS_ELEV_DEM_MNR_V2
 
@@ -1122,6 +1320,18 @@ This view returns the calculated daily average water level for both logger (RD_N
 #### V_SYS_FIELD_WATERLEVELS_YEARLY
 
 This view returns the water level minimum, maximum, difference and total number of records for each interval for each year of data.  Note that data from RD_NAME_CODEs '628' (i.e. 'Water Level - Manual - Static') and '629' (i.e. 'Water Level - Logger (Compensated & Corrected)') are combined for these calculations.  Only those records with UNIT_CODE '6' (i.e. 'masl') are included.
+
+#### V_SYS_GEN_WL_AVERAGE
+
+This view, using V_SYS_CHK_INT_ELEVS_DEPTHS as a source, returns those records where WL_MASL_AVG is not null and the QA_COORD_CONFIDENCE_CODE is less than '6' (i.e. 'Margin of Error: 300m - 1km'; the uncertainty, then, would be less than 300m horizontal).  Both the spatial geometry (from D_LOCATION_GEOM) and the coordinates (from D_LOCATION) are included.  This can then be used for creating regional water level surfaces.
+
+#### V_SYS_GENERAL
+
+This view extracts locations from D_LOCATION with valid coordinates (i.e. not having a QA_COORD_CONFIDENCE_CODE of '117').  Note that documents (LOC_TYPE_CODE '25') and the 'Viewlog Well Header' location (i.e. LOC_ID '-2147483443') are not included.  This is used as a base for many V_GEN_* views.
+
+#### V_SYS_GENERAL_INTERVAL
+
+This view extracts all intervals from D_INTERVAL that are present in V_SYS_GENERAL; refer to V_SYS_GENERAL, above.  This is used as a base for many V_GEN_* views that include interval information.
 
 #### V_SYS_GEN_BH_INT_MUNIC_WELL
 
@@ -1222,14 +1432,6 @@ This view returns all records from D_INTERVAL_TEMPORAL_1B/1A where the specific 
 #### V_SYS_GEN_WL_AVERAGE
 
 This view, using V_SYS_CHK_INT_ELEVS_DEPTHS as a source, returns those records where WL_MASL_AVG is not null and the QA_COORD_CONFIDENCE_CODE is less than '6' (i.e. 'Margin of Error: 300m - 1km'; the uncertainty, then, would be less than 300m horizontal).  Both the spatial geometry (from D_LOCATION_GEOM) and the coordinates (from D_LOCATION) are included.  This can then be used for creating regional water level surfaces.
-
-#### V_SYS_GENERAL
-
-This view extracts locations from D_LOCATION with valid coordinates (i.e. not having a QA_COORD_CONFIDENCE_CODE of '117').  Note that documents (LOC_TYPE_CODE '25') and the 'Viewlog Well Header' location (i.e. LOC_ID '-2147483443') are not included.  This is used as a base for many V_GEN_* views.
-
-#### V_SYS_GENERAL_INTERVAL
-
-This view extracts all intervals from D_INTERVAL that are present in V_SYS_GENERAL; refer to V_SYS_GENERAL, above.  This is used as a base for many V_GEN_* views that include interval information.
 
 #### V_SYS_GEOL_LAYER_COUNT
 
