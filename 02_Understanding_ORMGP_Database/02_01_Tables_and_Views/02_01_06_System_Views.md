@@ -123,6 +123,11 @@ This view returns the current bedrock elevation (if present) from D_BOREHOLE as 
 
 This view determines the minimum and maximum casing elevations and diameters (as well as the number of records) for each location in D_BOREHOLE.  Any diameters are also shown in inches.  This is limited to a CON_TYPE_CODE of '3' (i.e. 'Casing') in D_BOREHOLE_CONSTRUCTION.
 
+#### V_SYS_BH_DIAMETER_ALL
+
+Returns each of the: borehole diameter; construction diameter; and screen diameter.  The largest of these is chosen as the 
+default diameter value.  All units are converted to meters.
+
 #### V_SYS_CHK_ALIAS_NAME
 
 This view checks for duplicate LOC_NAME_ALIAS text across multiple LOC_ID's (these cannot occur for the same LOC_ID - a built-in constraint prevents this).  This can be used to determine where multiple LOC_ID's actually refer to the same borehole/well (in particular, this can be easily applied against multiple MOE WWDB imports).  However, multiple aliases can occur for MOE nested wells; it could also occur by happenstance so an immediate problem should not be assumed.
@@ -185,53 +190,48 @@ This view returns the deepest construction detail (bottom) depth from D_BOREHOLE
 
 This view returns the deepest construction detail (top) depth from D_BOREHOLE_CONSTRUCTION.  Refer to V_SYS_CHK_BH_CASING_BOTTOM_MAX for additional details.  This is used in the case when only a top depth is present to indicated maximum depth of a borehole.
 
+#### V_SYS_CHK_BH_DEPTH
+
+Using V_SYS_CHK_BH_DEPTH_BASE as a source, returns those locations that do not have a depth in D_BOREHOLE that matches the 
+suggested maximum depth value determine here.
+
+#### V_SYS_CHK_BH_DEPTH_BASE
+
+Returns the depths and elevations for a particular borehole extracted from a variety of tables (e.g. D_BOREHOLE, D_BOREHOLE_CONSTRUCTION, 
+D_GEOLOGY_LAYER, etc...; note that other views are used as source of these values).  A suggest maximum depth is assembled from these values.  
+See also V_SYS_CHK_BH_DEPTH.
+
 #### V_SYS_CHK_BH_ELEV
 
 This view returns a number of elevations associated with a borehole location where: BH_GND_ELEV is NULL; BH_DEM_GND_ELEV is NULL; or BH_GND_ELEV_OUOM is NULL.  These elevations can be used to populate the associated fields.  Note that all three fields in D_BOREHOLE should contain the same value; if BH_GND_ELEV is kept blank, SiteFX considers this row as 'new' data when re-calculating elevations.  The QA_COORD_CONFIDENCE_CODE must not be '117' (i.e. 'YPDT - Coordinate Invalid ?').
 
+#### V_SYS_CHK_BH_ELEV_BASE
+
+Returns all standard elevations and depths associated with a particular location along with the maximum depth and lowest elevation (based 
+on the current BH_GND_ELEV).  All locations returned must have valid coordinates (based on QA_COORD_CONFIDENCE_CODE).  This should be used 
+to update the D_BOREHOLE table to correction the depth and bottom elevation values.
+
+#### V_SYS_CHK_BH_ELEV_BASE_UPDATE
+
+Using V_SYS_CHK_BH_ELEV_BASE as a base, returns the current elevations and depths as well as the new calculated depth and bottom elevation.  
+These can be used to update the appropriate fields in D_BOREHOLE.  In addition, SYS_TEMP1 and SYS_TEMP2 are populated with the current 
+date (the former as a string, the latter as a numeric value).  The original depth units should also be updated.
+
+#### V_SYS_CHK_BH_ELEV_BOT_ELEV
+
+Using V_SYS_CHK_BH_ELEV_BASE_UPDATE as a base, returns those records where the ground and borehole bottom elevation are equivalent, the 
+calculated elevation is not NULL and the depth is greater than zero.  This can be used to update D_BOREHOLE.  In addition, a new 
+BH_COMMENT field is created tracking this update.
+
+#### V_SYS_CHK_BH_ELEV_BOT_ELEV_DEPTH_EMPTY
+
+Using V_SYS_CHK_BH_ELEV_BASE_UPDATE as a base, returns those records where the borehole bottom elevation or depth is null and the newly 
+calculated bottom depth is greater than zero.  This can be used to update D_BOREHOLE.  In addition, a new BH_COMMENT field is created 
+tracking this update.
+
 #### V_SYS_CHK_BH_ELEV_MISSING
 
 This view returns borehole and location information where the BH_GND_ELEV and BH_GND_ELEV_OUOM is NULL and LOC_COORD_EASTING and LOC_COORD_NORTHING are not.
-
-#### V_SYS_CHK_CORR_ELEV_DIRE
-
-Using V_SYS_INT_REF_ELEV_RANGE as a base, returns those records where the REF_ELEV value (from D_INTERVAL_REF_ELEV) does not match a re-calculated reference elevation (incorporating REF_STICK_UP and BH_GND_ELEV) within a specified uncertainty.  This can be used to update the values in the latter table.
-
-#### V_SYS_CHK_CORR_ELEV_D2
-
-Returns those records from D_INTERVAL_TEMPORAL_2 where the RD_VALUE does not match a recalculated value where the original units are expressed as depths (e.g. [mbgs], [fbgs], etc...) within a specified uncertainty.  V_SYS_INT_REF_ELEV_RANGE is used as a base for the reference elevation.  The original values must be populated.  This can be used to update the values in the temporal table.
-
-#### V_SYS_CHK_CORR_ELEV_D5
-
-Returns those records from D_INTERVAL_TEMPORAL_5 where the RD_VALUE does not match a recalculated value where the original units are expressed as depths (e.g. [mbgs], [fbgs], etc...) within a specified uncertainty.  V_SYS_INT_REF_ELEV_RANGE is used as a base for the reference elevation.  The original values must be populated.  This can be used to update the values in the temporal table.
-
-#### V_SYS_CHK_CORR_ELEV_DBC
-
-Returns those records from D_BOREHOLE_CONSTRUCTION where the CON_TOP_ELEV or CON_BOT_ELEV do not match the recalculated values within a specified uncertainty.  This can be used to update the values in the latter table.
-
-#### V_SYS_CHK_CORR_ELEV_DGF
-
-Returns those records from D_GEOLOGY_FEATURE where the FEATURE_TOP_ELEV or FEATURE_BOT_ELEV do not match the recalculated values within a specfiied uncertainty.  This can be used to update the values in the latter table.
-
-#### V_SYS_CHK_CORR_ELEV_DGL
-
-Returns those records from D_GEOLOGY_LAYER where the GEOL_TOP_ELEV or GEOL_BOT_ELEV do not match the recalculated values within a specfied uncertainty.  This can be used to update the values in the latter table.
-
-#### V_SYS_CHK_CORR_ELEV_DIM
-
-Returns those records from D_INTERVAL_MONITOR where the MON_TOP_ELEV or MON_BOT_ELEV do not match the recalculated values within a specified uncertainty.  This can be used to update the values in the latter table.
-
-#### V_SYS_CHK_CORR_ELEV_DIS
-
-Returns those records from D_INTERVAL_SOIL where the SOIL_TOP_ELEV or SOIL_BOT_ELEV do not match the recalculated values within a specified uncertainty.  This can be used to update the values in the latter table.
-
-#### V_SYS_CHK_CORR_ELEV_DBORE
-
-Returns those records from D_BOREHOLE where the BH_BOTTOM_ELEV does not match the recalculated value within a specified uncertainty.  This can be used to update the value in the latter table.
-
-#### V_SYS_CHK_CORR_ELEV_DPICK
-
-Using V_SYS_CHK_ELEV_DPICK as a base, returns those records from D_PICK where the TOP_ELEV does not match a re-calculated top elevation (within a specified uncertainty).  This can be used to update the values in the latter table.
 
 #### V_SYS_CHK_CORR_DEPTH_DBORE_FBGS
 
@@ -261,6 +261,66 @@ Returns records from D_PICK with re-calculated elevations and depths based on th
 
 Returns records from D_BOREHOLE_CONSTRUCTION with re-calculated elevations and depths based on the assumption that the current OUOM units are [fbgs] rather than [mbgs].  This should be used to update the table by limited the affected records to specific records (by SYS_RECORD_ID) or locations (by LOC_ID or BH_ID).
 
+#### V_SYS_CHK_CORR_ELEV_CMP
+
+Compares the BH_GND_ELEV (from D_BOREHOLE) to the ASSIGNED_ELEV (from D_LOCATION_ELEV), returning those records where the difference does 
+not fall with the range of +/- [SYS_ELEV_RANGE] (from S_CONSTANT).  Only valid locations are examined (i.e. excluded QA_COORD_CONFICENCE_CODEs 
+[117] and [118])
+
+Note that this can return multiple records for a location if there are multiple records in D_LOCATION_ELEV_HIST and they fall within the range 
+of the BH_GND_ELEV value.
+
+#### V_SYS_CHK_CORR_ELEV_CMP_UNQ
+
+Using V_SYS_CHK_CORR_ELEV_CMP as a base, returns only those locations for which a single record is found (i.e. there are not multiple values 
+in D_LOCATION_ELEV_HIST that can be considered possible corrections)
+
+#### V_SYS_CHK_CORR_ELEV_D2
+
+Returns those records from D_INTERVAL_TEMPORAL_2 where the RD_VALUE does not match a recalculated value where the original units are expressed as depths (e.g. [mbgs], [fbgs], etc...) within a specified uncertainty.  V_SYS_INT_REF_ELEV_RANGE is used as a base for the reference elevation.  The original values must be populated.  This can be used to update the values in the temporal table.
+
+#### V_SYS_CHK_CORR_ELEV_D5
+
+Returns those records from D_INTERVAL_TEMPORAL_5 where the RD_VALUE does not match a recalculated value where the original units are expressed as depths (e.g. [mbgs], [fbgs], etc...) within a specified uncertainty.  V_SYS_INT_REF_ELEV_RANGE is used as a base for the reference elevation.  The original values must be populated.  This can be used to update the values in the temporal table.
+
+#### V_SYS_CHK_CORR_ELEV_DBC
+
+Returns those records from D_BOREHOLE_CONSTRUCTION where the CON_TOP_ELEV or CON_BOT_ELEV do not match the recalculated values within a specified uncertainty.  This can be used to update the values in the latter table.
+
+#### V_SYS_CHK_CORR_ELEV_DBORE
+
+Returns those records from D_BOREHOLE where the BH_BOTTOM_ELEV does not match the recalculated value within a specified uncertainty.  This can be used to update the value in the latter table.
+
+#### V_SYS_CHK_CORR_ELEV_DGF
+
+Returns those records from D_GEOLOGY_FEATURE where the FEATURE_TOP_ELEV or FEATURE_BOT_ELEV do not match the recalculated values within a specfiied uncertainty.  This can be used to update the values in the latter table.
+
+#### V_SYS_CHK_CORR_ELEV_DGL
+
+Returns those records from D_GEOLOGY_LAYER where the GEOL_TOP_ELEV or GEOL_BOT_ELEV do not match the recalculated values within a specfied uncertainty.  This can be used to update the values in the latter table.
+
+#### V_SYS_CHK_CORR_ELEV_DIM
+
+Returns those records from D_INTERVAL_MONITOR where the MON_TOP_ELEV or MON_BOT_ELEV do not match the recalculated values within a specified uncertainty.  This can be used to update the values in the latter table.
+
+#### V_SYS_CHK_CORR_ELEV_DIRE
+
+Using V_SYS_INT_REF_ELEV_RANGE as a base, returns those records where the REF_ELEV value (from D_INTERVAL_REF_ELEV) does not match a re-calculated reference elevation (incorporating REF_STICK_UP and BH_GND_ELEV) within a specified uncertainty.  This can be used to update the values in the latter table.
+
+#### V_SYS_CHK_CORR_ELEV_DIS
+
+Returns those records from D_INTERVAL_SOIL where the SOIL_TOP_ELEV or SOIL_BOT_ELEV do not match the recalculated values within a specified uncertainty.  This can be used to update the values in the latter table.
+
+#### V_SYS_CHK_CORR_ELEV_DPICK
+
+Using V_SYS_CHK_ELEV_DPICK as a base, returns those records from D_PICK where the TOP_ELEV does not match a re-calculated top elevation (within a specified uncertainty).  This can be used to update the values in the latter table.
+
+#### V_SYS_CHK_CORR_ELEV_TAG
+
+This view returns those locations (and their coordinates) who have COORD_CHECK tagged field (with a default value of [10000]) in D_LOOCATION_GEOM.  
+This is used as a preliminary step in the processing of elevation corrections by location when coordinates have been changed/updated (namely that 
+of determining the new elevation using an external GIS source).
+
 #### V_SYS_CHK_CORR_TEMP_D2
 
 Returns records from D_INTERVAL_TEMPORAL_2 that should be standardized to the
@@ -270,18 +330,6 @@ necessary.
 #### V_SYS_CHK_CORR_WLS_BARO
 
 In some cases, barometric data has been incorporated without correction of an offset value; this can be found, in general where the imported values are less than [300]; these values are corrected by adding the offset (of [950]) back to the original value; both [cmap baro] and [map bar] are corrected
-
-#### V_SYS_CHK_CORR_ELEV_CMP
-
-Compares the BH_GND_ELEV (from D_BOREHOLE) to the ASSIGNED_ELEV (from D_LOCATION_ELEV), returning those records where the difference does not fall with the range of +/- [SYS_ELEV_RANGE] (from S_CONSTANT).  Only valid locations are examined (i.e. excluded QA_COORD_CONFICENCE_CODEs [117] and [118])
-
-#### V_SYS_CHK_CORR_ELEV_CMP_UNQ
-
-Using V_SYS_CHK_CORR_ELEV_CMP as a base, returns only those locations for which a single record is found (i.e. there are not multiple values in D_LOCATION_ELEV_HIST that can be considered possible corrections)
-
-#### V_SYS_CHK_CORR_ELEV_TAG
-
-This view returns those locations (and their coordinates) who have COORD_CHECK tagged field (with a default value of [10000]) in D_LOOCATION_GEOM.  This is used as a preliminary step in the processing of elevation corrections by location when coordinates have been changed/updated (namely that of determining the new elevation using an external GIS source).
 
 #### V_SYS_CHK_DGL_BEDROCK
 
@@ -296,6 +344,17 @@ This view returns the number of geologic layers in D_GEOLOGY_LAYER as well as th
 #### V_SYS_CHK_DGL_DEPTHS_MOE
 
 This view returns information from D_GEOLOGY_LAYER where: the location is identified as from the MOE WWDB; the units for the row is identified as 'mbgs'; the values for the row are whole numbers; the GEOL_SUBCLASS_CODE is not '5' (i.e. 'Original (or Corrected)').  The MOE_PDF_LINK is incorporated from W_GENERAL.  A total number of geologic layers as well as the number of geologic layers whose depths are whole numbers is calculated.
+
+#### V_SYS_CHK_DGL_ELEVS
+
+Returns the original and re-calculated elevations (based on BH_GND_ELEV) for the records in D_GEOLOGY_LAYER where these two sets of values do not match 
+(within a specified uncertainty).  Note that SYS_TEMP1 and SYS_TEMP2 are tagged with the current date (such that they can be used as flagged values).  
+The OUOM values must be populated with units of either [mbgs] or [fbgs].
+
+#### V_SYS_CHK_DGL_ELEV_OUOM
+
+Recalculates the GEOL_TOP_OUOM and GEOL_BOT_OUOM values in D_GEOLOGY_LAYER where the GEOL_UNIT_OUOM is recorded in [masl] or [fasl] (converting them 
+to a depth, instead).  When using this to update the table, remember to update the original units field.
 
 #### V_SYS_CHK_DGL_MAT1_DCR
 
@@ -341,6 +400,58 @@ This view is similar to V_SYS_CHK_DGL_SINGLE_UNKN_SFC_NOPUMP; here, though, an a
 
 This view returns information from D_GEOLOGY_LAYER using locations (i.e. the LOC_ID) that appear in V_SYS_CHK_DGL_COUNTS.  This allows a check of the depth units for the complete geology at a particular location.
 
+#### V_SYS_CHK_DGL_UNITS_UPDATE
+
+Returns the original and re-calculated elevations (based on a non-null BH_GND_ELEV) for the records in D_GEOLOGY_LAYER where the OUOM values are entirly 
+whole numbers and the current units are [mbgs].  These values are interpreted as being, instead, in [fbgs] and should be updated.  Note that for consistency, 
+all of the records in D_GEOLOGY_LAYER must be whole numbers.  In addition, SYS_TEMP1 and SYS_TEMP2 are tagged with the current date (such that they can be 
+used as flagged values).
+
+#### V_SYS_CHK_DIFA_[model]_ADD
+
+Using V_SYS_LOC_MODEL_[model] as a base, returns those records/intervals that
+should be added to D_INTERVAL_FORM_ASSIGN for that particular model.  These
+views include each of CM2004, DM2007, ECM2006, RM2004, WB2018, WB2021 and YT32011
+models.
+
+#### V_SYS_CHK_DIFA_[model]_REMOVE
+
+Returns those records/intervals that should be removed from
+D_INTERVAL_FORM_ASSIGN that should no longer be considered as touching upon
+the particular [model] area.  These views include each of CM2004, DM2007, 
+ECM2006, RM2004, WB2018, WB2021 and YT32011 models.
+
+#### V_SYS_CHK_DIFA_GL_[geologic unit]_[model]_THICK
+
+Using V_SYS_DIFA_GL_[geologic unit]_[model] as a base, extracts those records
+from D_INTERVAL_FORM_ASSIGN that have a top- or bottom-layer assigned to the
+[geologic unit] for the particular [model] and currently does not have a
+record of thickness of the layer at this location (i.e. it is currently set to
+NULL).
+
+#### V_SYS_CHK_DIRE
+
+This view returns pertinent information from D_INTERVAL_REF_ELEV with regard to interval reference elevations.  Of particular importance is the transformation 
+of REF_POINT from a text field to a numeric value allowing for direct update of REF_STICK_UP and REF_OFFSET.
+
+Note that REF_POINT is used to store the stick up value for the interval as it is the only one of the offset fields available to be modified by SiteFX.
+
+#### V_SYS_CHK_DLCH_ALL_ELEV_ID
+
+Returns the coordinates for a location from D_LOCATION along with the current coordinates from D_LOCATION_COORD_HIST where there is no LOC_ELEV_ID (i.e. an elevation) 
+directly associated with these records (in the latter table).  Note that the QA_COORD_CONFIDENCE_CODE must be valid.
+
+#### V_SYS_CHK_DLCH_BH_ELEV_ID
+
+Using V_SYS_CHK_DLCH_ALL_ELEV_ID as a source, includes the BH_GND_ELEV from D_BOREHOLE.
+
+#### V_SYS_CHK_DLSH_ELEV_UPD
+
+Returns those LOC_IDs from D_LOCATION_GEOM (as well as their associated coordinates and spatial id) whose position has been checked (or changed) and whose 
+elevation needs to be updated.  These are marked with a COORD_CHECK value matching DEF_DLSH_ELEV_UPD.
+
+This can be used by an external GIS to associated a new elevation with a spatial id.
+
 #### V_SYS_CHK_DOC_AUTHOR_AGENCY
 
 This view assembles information from D_DOCUMENT where the DOC_AUTHOR_AGENCY_CODE is NULL (or the DOC_AUTHOR_AGENCY_DESCRIPTION is NULL).
@@ -348,6 +459,89 @@ This view assembles information from D_DOCUMENT where the DOC_AUTHOR_AGENCY_CODE
 #### V_SYS_CHK_DOC_YN_FIELDS
 
 This view examines the D_DOCUMENT table, specifically the '*_YN' fields.  It reassigns all '0' values to NULL and all '-1' values to '1' (for consistency).  These values need to be reassigned back to the source table.
+
+#### V_SYS_CHK_DUP_DGEOLLAY
+
+TO BE COMPLETED
+
+#### V_SYS_CHK_DUP_DGEOLLAY_DEL
+
+TO BE COMPLETED
+
+#### V_SYS_CHK_DUP_DINT
+
+TO BE COMPLETED
+
+#### V_SYS_CHK_DUP_DINTMON
+
+TO BE COMPLETED
+
+#### V_SYS_CHK_DUP_DINTMON_DEL
+
+TO BE COMPLETED
+
+#### V_SYS_CHK_DUP_DINTSOIL
+
+TO BE COMPLETED
+
+#### V_SYS_CHK_DUP_DINTSOIL_DEL
+
+TO BE COMPLETED
+
+#### V_SYS_CHK_DUP_DINTSOIL_DEL_MAX
+
+TO BE COMPLETED
+
+#### V_SYS_CHK_DUP_DINT_ALT1
+
+TO BE COMPLETED
+
+#### V_SYS_CHK_DUP_DINT_ALT1_DEL
+
+TO BE COMPLETED
+
+#### V_SYS_CHK_DUP_DINT_DEL
+
+TO BE COMPLETED
+
+#### V_SYS_CHK_DUP_DINT_DEL_MAX
+
+TO BE COMPLETED
+
+#### V_SYS_CHK_DUP_DIRE
+
+TO BE COMPLETED
+
+#### V_SYS_CHK_DUP_DIRE_DEL
+
+TO BE COMPLETED
+
+#### V_SYS_CHK_DUP_DIT1AB
+
+TO BE COMPLETED
+
+#### V_SYS_CHK_DUP_DIT1B_DEL
+
+TO BE COMPLETED
+
+#### V_SYS_CHK_ELEV_DBORE
+
+Returns those records from D_BOREHOLE where BH_GND_ELEV does not match ASSIGNED_ELEV in D_LOCATION_ELEV (within a specified uncertainty).  The latter is 
+also returned along with the associated record in D_LOCATION_ELEV_HIST and coordinate information from D_LOCATION.  The coordinates must be valid.
+
+#### V_SYS_CHK_ELEV_DBORE_UPD
+
+This view returns those records from D_BOREHOLE and D_LOCATION_ELEV where the BH_GND_ELEV varies from the ASSIGNED_ELEV beyond a specified minimum 
+range (as determined by the SYS_ELEV_RANGE constant in S_CONSTANT).  Pertinent information is included from D_LOCATION, D_LOCATION_QA and 
+D_LOCATION_ELEV_HIST in order to determine the reason for the change in elevation.  New elevations should be added to D_LOCATION_ELEV_HIST following 
+by an update of D_LOCATION_ELEV. Various information is assembled in fields to allow easy update of the requisite tables.
+
+Note that only locations with valid QA_COORD_CONFIDENCE_CODEs (i.e. not [117] or [118]) will be examined.  In addition, BH_GND_ELEV cannot be null 
+and the LOC_ELEV_CODE (from D_LOCATION_ELEV_HIST) must be [null] or have a value of [3] (i.e. DEM - MNR 10m v2).
+
+#### V_SYS_CHK_ELEV_DPICK
+
+Checks elevation of pick (from D_PICK) against the elevations in D_BOREHOLE and D_LOCATION_ELEV.  Calculates new elevations based upon these two values.
 
 #### V_SYS_CHK_GEOL_LAY_BOT_ELEV_DEPTH
 
@@ -406,6 +600,15 @@ This view is equivalent to V_SYS_CHK_INT_REF_ELEV_DIT2 (below) for those interva
 
 This view is equivalent to V_SYS_CHK_INT_REF_ELEV_DIT2_DEPTHS (below) for those intervals with multiple records in D_INTERVAL_REF_ELEV (using V_SYS_CHK_INT_REF_ELEV2_DIT2 as a source).
 
+#### V_SYS_CHK_INT_REF_ELEV2_ERR
+
+This view returns all records from D_INTERVAL_REF_ELEV where multiple reference elevations have been specified but their date ranges are invalid.  This should be used to correct those date ranges.
+
+#### V_SYS_CHK_INT_REF_ELEV_CURRENT
+
+Using V_SYS_INT_REF_ELEV_CURRENT as a base, checks D_INTERVAL_REF_ELEV for reference elevation date ranges that overlap with the current date range 
+(starting from REF_ELEV_START_DATE).  When this occurs, RCOUNT will have a value greater than [1] for a particular INT_ID.  These should be corrected.
+
 #### V_SYS_CHK_INT_REF_ELEV_DIT2
 
 This view returns all records from D_INTERVAL_TEMPORAL_2 for intervals present in V_SYS_CHK_REF_ELEV and with READING_GROUP_CODE of '23' (i.e. 'Water Level').  This can be used to determine those records that could be affected by updating (i.e. correcting) the reference elevation (the new, calculated reference elevation is included).
@@ -414,9 +617,10 @@ This view returns all records from D_INTERVAL_TEMPORAL_2 for intervals present i
 
 This view returns all records from V_SYS_CHK_INT_REF_ELEV_DIT2 where the original units of measure are depths (e.g. 'mbgs', 'fbgs', etc?) - these are the only records that should be modified by a change in REF_ELEV.  Units such as 'masl' should remain unchanged.  The corrected RD_VALUE is present in RD_VALUE_NEW.  The SYS_RECORD_ID from D_INTERVAL_TEMPORAL_2 is included.
 
-#### V_SYS_CHK_INT_REF_ELEV2_ERR
+#### V_SYS_CHK_INT_REF_OFFSET
 
-This view returns all records from D_INTERVAL_REF_ELEV where multiple reference elevations have been specified but their date ranges are invalid.  This should be used to correct those date ranges.
+Returns those records from D_INTERVAL_REF_ELEV (and using V_SYS_INT_REF_ELEV_RANGE) where REF_POINT (converted to a numeric value) does not match 
+REF_STICK_UP (in metres) within a specified uncertainty.  This should be used to correct REF_STICK_UP as changes using SiteFX are only applied to REF_POINT.
 
 #### V_SYS_CHK_INT_SOIL_DEPTHS_M
 
@@ -429,6 +633,26 @@ This view returns a list of INT_ID's not present in D_INTERVAL_SUMMARY.  This is
 #### V_SYS_CHK_INT_SUM_REMOVE
 
 This view turns a list of INT_ID's that exist in D_INTERVAL_SUMMARY but are no longer found in D_INTERVAL.  This is used to automatically remove rows from the summary table.  Note that CASCADE rules are present as part of the database schema to automatically remove intervals from this table once they have been removed from D_INTERVAL.
+
+#### V_SYS_CHK_INT_TMP1A_SAID
+
+Returns a list of SAM_IDs present in D_INTERVAL_TEMPORAL_1A that likely refer to the same sample (grouped by INT_ID, SAM_SAMPLE_DATE and SAM_SAMPLE_NAME).  
+In addition, a new SYS_ANALYIS_ID is calculated to allow these disparate SAM_IDs to be grouped.  Note that only those records that have a current 
+SYS_ANALYSIS_ID value of NULL are examined.
+
+#### V_SYS_CHK_INT_TMP1A_SAMID
+
+This view returns a list of SAM_ID's from D_INTERVAL_TEMPORAL_1A that have no related records in D_INTERVAL_TEMPORAL_1B.  This should be used to remove these records.
+
+#### V_SYS_CHK_INT_TMP1B_MOVE
+
+Assembles the records from D_INTERVAL_TEMPORAL_1A and D_INTERVAL_TEMPORAL_1B into a format that can be used as an input into D_INTERVAL_TEMPORAL_2.  In 
+some cases, data is loaded into the former tables that should be located in the latter table - this allows the easy transfer between the two (the records 
+would then be deleted in the _1A/_1B tables).
+
+#### V_SYS_CHK_INT_TMP1B_SAMID
+
+This view returns a list of SAM_ID's from D_INTERVAL_TEMPORAL_1B that have no related records in D_INTERVAL_TEMPORAL_1A.  This should be used to remove these records.
 
 #### V_SYS_CHK_INT_TMP1_DUPLICATES
 
@@ -450,14 +674,6 @@ This view, using V_SYS_CHK_INT_TMP1_DUPLICATES as a source, returns the number o
 
 This view returns those records from D_INTERVAL_TEMPORAL_1A and D_INTERVAL_TEMPORAL_1B where units in the latter table are inappropriate for lab-based analysis (e.g.'masl' and 'mbgs'; any rows tagged with these units should likely be in D_INTERVAL_TEMPORAL_2).
 
-#### V_SYS_CHK_INT_TMP1A_SAMID
-
-This view returns a list of SAM_ID's from D_INTERVAL_TEMPORAL_1A that have no related records in D_INTERVAL_TEMPORAL_1B.  This should be used to remove these records.
-
-#### V_SYS_CHK_INT_TMP1B_SAMID
-
-This view returns a list of SAM_ID's from D_INTERVAL_TEMPORAL_1B that have no related records in D_INTERVAL_TEMPORAL_1A.  This should be used to remove these records.
-
 #### V_SYS_CHK_INT_TMP2_DUPLICATES
 
 This view returns duplicate records from D_INTERVAL_TEMPORAL_2 using comparisons between INT_ID, RD_NAME_CODE, RD_DATE, RD_VALUE and UNIT_CODE.  The number of records and the minimum as well as the maximum SYS_RECORD_ID (from D_INTERVAL_TEMPORAL_2) is also returned - the minimum is usually chosen, by default, to remain in the database.  Refer to V_SYS_CHK_INT_TMP2_DUPLICATES_DEL_SRI, below.  Information from D_DATA_SOURCE (tagged by DATA_ID) is included.
@@ -477,6 +693,23 @@ This view, using V_SYS_CHK_INT_TMP2_DUPLICATES as a source, returns the number o
 #### V_SYS_CHK_INT_TMP2_SOIL
 
 This view returns all records from D_INTERVAL_TEMPORAL_2 that are associated with soil intervals (i.e. INT_TYPE_CODE '29').
+
+#### V_SYS_CHK_INT_TMP5_DUPLICATES
+
+Returns duplicate records from D_INTERVAL_TEMPORAL_5 using comparisons between: INT_ID, RD_NAME_CODE, RD_DATE, RD_VALUE and UNIT_CODE.  The number of 
+records and the minimum as well as the maximum SYS_RECORD_ID is also returned.  The minimum is usually chosen, by default, to remain in the database.  
+Information from D_DATA_SOURCE (tagged by DATA_ID) is included.
+
+#### V_SYS_CHK_INT_TMP5_DUPLICATES_DEL_SRI
+
+Returns the duplicate SYS_RECORD_ID values using V_SYS_CHK_INT_TMP2_DUPLICATES as a source.  These can be used to remove the records from 
+D_INTERVAL_TEMPORAL_2 (using the minimum SYS_RECORD_ID in this case).
+
+#### V_SYS_CHK_LOC_ADDRESS
+
+This view is to be used as an aid for correcting location position, it returns various address fields as well as the current and original coordinates.  
+In addition, the translated township and country descriptions (based upon LOC_TOWNSHIP_CODE) are included.  If the location is an MOE borehole, the 
+MOE PDF link is returned.
 
 #### V_SYS_CHK_LOC_COORDS
 
@@ -505,6 +738,10 @@ This view returns all elevations from the D_LOCATION_ELEV and D_LOCATION_ELEV_HI
 V_SYS_CHK_LOC_ELEV_BH_ELEV
 
 This view returns all elevations similar to V_SYS_CHK_LOC_ELEV_ASSIGNED_ALL but only for those locations whose ASSIGNED_ELEV does not match BH_GND_ELEV (from D_BOREHOLE) within a range of '+/- 0.0001m'.  The QA_COORD_CONFIDENCE_CODE cannot have a value of '117' (i.e. 'YPDT - Coordinate Invalid ?').  This allows comparisons between the elevation tables and D_BOREHOLE as the latter can be modified readily in SiteFX.
+
+#### V_SYS_CHK_LOC_ELEV_BH_ELEV_MOD
+
+Returns all records from V_SYS_CHK_LOC_ELEV_BH_ELEV and adds various SYS_ fields from D_BOREHOLE and D_LOCATION_QA for user modification tracking.
 
 #### V_SYS_CHK_LOC_ELEV_MISSING
 
@@ -562,6 +799,72 @@ This view returns all locations (by LOC_ID) from D_LOCATION that are currently n
 
 This view returns all locations (by LOC_ID) from D_LOCATION_SUMMARY that are no longer found in D_LOCATION.  This is used to automatically remove locations from the former table.  Note that changes to the database schema using CASCADE statements  may have made the use of this view surplus - it may be removed in the future.
 
+#### V_SYS_CHK_MOE_WELL_ID_ATAG
+
+Returns the MOE ATAG and associated MOE_WELL_ID by location.  Note that, in this case, an MOE well is defined as having a MOE_WELL_ID in the D_LOCATION_ALIAS table (i.e. an LOC_ALIAS_TYPE_CODE of [1]).
+
+#### V_SYS_CHK_MOE_WELL_ID_DUP
+
+One of the views used to determine whether multiple boreholes have been imported that are, in reality, the describing the same location.  
+This view examines the D_LOCATION_ALIAS table, grouping by LOC_NAME_ALIAS for MOE_WELL_IDs (i.e. LOC_ALIAS_TYPE_CODE of [4]) and returning 
+those records (and their related D_LOCATION information) where the MOE_WELL_ID has been applied to multiple locations.
+
+#### V_SYS_CHK_MOE_WELL_ID_DUP_UPD
+
+One of the views used to determine whether multiple boreholes have been imported that could be describing the same location.  
+Using V_SYS_CHK_MOE_WELL_ID_DUP as a base, this view returns for each MOE_WELL_ID: the LOC_ID and (possibly) duplicate LOC_IDs; 
+the LOC_MASTER_LOC_ID and duplicate LOC_MASTER_LOC_IDs; the DATA_IDs and duplicate DATA_IDs (using V_SYS_MOE_DATA_ID); the 
+SYS_TIME_STAMP and duplicate SYS_TIME_STAMPs. In addition, the number of MOE_BORE_HOLE_IDs that have been used for the particular 
+MOE_WELL_ID (using V_SYS_MOE_LOCATIONS).
+
+#### V_SYS_CHK_MOE_WELL_ID_DUP_UPD2
+
+One of the views used to determine whether multiple boreholes have been imported that could be describing the same location.  
+Using V_SYS_CHK_MOE_WELL_ID_DUP_UPD as a base, this view returns MOE_BORE_HOLE_IDs associated with both the LOC_IDs and (possibly) 
+duplicate LOC_IDs.  This is only looking for MOE_BORE_HOLE_ID counts of [1]; this removes the complication of having grouped MOE 
+locations with a null MOE_BORE_HOLE_ID (for non-duplicates) indicative of a manual import of a borehole with a subsequent MOE WWDB import.
+
+#### V_SYS_CHK_MOE_WELL_ID_DUP_UPD3
+
+One of the views used to determine whether multiple boreholes have been imported that could be describing the same location.  
+Using V_SYS_CHK_MOE_WELL_ID_DUP_UPD as a base, this view returns MOE_BORE_HOLE_IDs where the LOC_ID matches the LOC_MASTER_LOC_ID 
+(i.e. either a single or master location) and the duplicate LOC_ID and LOC_MASTER_LOC_ID match as well (there is a one-to-one 
+relationship in both cases).  This should allow for relatively easy comparison between the two locations.
+
+#### V_SYS_CHK_MOE_WELL_ID_DUP_UPD4
+
+One of the views used to determine whether multiple boreholes have been imported that could be describing the same location.  
+Using V_SYS_CHK_MOE_WELL_ID_DUP_UPD3 as a base, this view returns each of the Audit Number (LOC_ALIAS_TYPE_CODE of [2]), 
+ATAG Number (LOC_ALIAS_TYPE_CODE of [1]), the MOE_BORE_HOLE_ID (LOC_ALIAS_TYPE_CODE of [3]) as well as the MOE_WELL_ID 
+(LOC_ALIAS_TYPE_CODE of [4]) for each LOC_ID and duplicate LOC_ID.
+
+#### V_SYS_CHK_MOE_WELL_ID_DUP_UPD5
+
+One of the views used to determine whether multiple boreholes have been imported that could be describing the same location.  
+Using V_SYS_CHK_MOE_WELL_ID_DUP_UPD3 as a base, this view returns records from D_GEOLOGY_FEATURE that can be transferred 
+from the duplicate LOC_ID (normally, this information would not be manually entered for a non-MOE well).
+
+#### V_SYS_CHK_MOE_WELL_ID_DUP_UPD6
+
+One of the views used to determine whether multiple boreholes have been imported that could be describing the same location.  
+Using V_SYS_CHK_MOE_WELL_ID_DUP_UPD3 as a base, this view returns records from D_PUMPTEST that can be transferred from the 
+duplicate LOC_ID (normally, this information would not be manually entered for a non-MOE well).
+
+#### V_SYS_CHK_MOE_WELL_ID_DUP_UPD7
+
+One of the views used to determine whether multiple boreholes have been imported that could be describing the same location.  
+Using V_SYS_CHK_MOE_WELL_ID_DUP_UPD6 as a base, this view returns records from D_PUMPTEST_STEP that can be transferred from 
+the duplicate LOC_ID (normally, this information would not be manually entered for a non-MOE well).
+
+#### V_SYS_CHK_MOE_WELL_ID_LON
+
+This returns the MOE_WELL_ID from the D_LOCATION_ALIAS table based upon the LOC_ALIAS_TYPE_CODE (of [4]) as well as assembling 
+the MOE_WELL_ID from the LOC_ORIGINAL_NAME (i.e. [LON]) from D_LOCATION. It should be used as an error checking mechanism with 
+regard to the correct assignment of the WELL_ID for the location.
+
+Note that only certain LOC_TYPE_CODEs are evaluated (i.e. [Well or Borehole], [Archive], [Decommissioning Record], [MOE Error] or 
+[MOE Upgrade/Maintenance Well Record]).  In addition, the LOC_ORIGINAL_NAME must be seven characters long and be numeric.
+
 #### V_SYS_CHK_MON_BOT_GT_BOT_ELEV
 
 This view checks if the elevation of the bottom of any screen (from D_INTERVAL_MONITOR) is below the elevation of the bottom of the borehole (from D_BOREHOLE).  Note that a value of '0.001' is added to the former to account for slight rounding errors introduced during data entry.
@@ -612,6 +915,18 @@ is limited to those RD_NAME_CODEs that have a RD_NAME_DEFAULT_UNIT set to
 #### V_SYS_CHK_PARAM_UNITS_DIT1B_UGL
 
 Returns recalculated values for parameters with a reading group of [Chemistry - Metals (Water &/or Soil/Rock)], [Water - VOCs], [Water - Pesticides & Herbicides], [PAHs (Water &/or Soil/Rock)], [Water - Miscellaneous Organics], [SVOCs (Water &/or Soil/Rock)] or [PHCs (Water &/or Soil/Rock)] converting their current units (of various form) to ug/L.
+
+#### V_SYS_CHK_PARAM_UNITS_EQUIV
+
+Using the DEFAULT_UNIT field in R_UNIT_CODE, this view returns the current unit code and description matched to the preferred 
+unit code (and related description).  This is used by the various value conversion routines (usually for temporal data).
+
+#### V_SYS_CHK_PICK_ABOVE_GND_BELOW_BOT
+
+Returns all records from D_PICK along with calculations comparing the pick elevation (i.e. TOP_ELEV) with the ground 
+elevation (i.e. GND_ELEV).  If this elevation is above the ground surface, a value of [1] is stored in 
+DIFF_PICK_GND_ELEV_TOP_ELEV.  If this elevation is below the bottom of the borehole, a value of [1] is stored in 
+DIFF_TOP_ELEV_BH_BOTTOM_ELEV.  In addition, the TOP_ELEV is compared with the BH_GND_ELEV and ASSIGNED_ELEV values.
 
 #### V_SYS_CHK_PICK_ELEV
 
@@ -684,6 +999,27 @@ This view compares the original ground elevation (from D_LOCATION_ELEV_HIST usin
 #### V_SYS_CHK_PICK_ORIG_GND_ELEV_DIFF
 
 This view returns a variety of information using V_SYS_CHK_PICK_ORIG_GND_ELEV as a base.  It is to be used to evaluate pick errors from D_PICK.
+
+#### V_SYS_CHK_SCREEN_ASSUMED
+
+Returns a variety of locational and other information associated with intervals to which an [Assumed Screen] has been 
+assigned; this is used for error checking as these intervals have been seen to be problematic in some cases (usually to 
+do with the observed static water level)
+
+#### V_SYS_CHK_SEARCH
+
+This view assembles the names, coordinates and various elevations that can be used when examining issues with, for example, 
+water level surfaces (e.g. the presence of bulleys)
+
+#### V_SYS_CHK_SEARCH_XYR
+
+This is a pre-defined routine that allow the user to search within a specified distance (as determined by [SYS_SEARCH_RADIUS]) 
+from specified coordinates (as set by [SYS_SEARCH_XY]).  Note that both of these constands are found in S_CONSTANT; 
+the latter makes use of both VALF (for the x-coordinate) and VALF2 (for the y-coordinate).  These would need to be set by the 
+user in advance of using this view.
+
+Note that this was originally created as a means by which to check on locations based upon a given coordinate in order to fix 
+errors in the calculation of the average water level.
 
 #### V_SYS_CHK_SPEC_CAP_CALC
 
