@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.6"
 author: "ormgpmd"
-date:   "20220429"
+date:   "20220504"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -976,6 +976,29 @@ This view returns all INT_TYPE_CODE's whose INT_TYPE_ALT_CODE (in R_INT_TYPE_COD
 
 This view returns the top- and bottom-elevation of screened intervals in D_INTERVAL_MONITOR.  Note that MON_TOP_ELEV and MON_BOT_ELEV cannot be NULL.
 
+#### V_SYS_LAB_WATER_TYPE_MHM
+
+Determines Water Types A through D based upon a Piper diagram distribution (V_SYS_LAB_CB_PERC_FINAL is used as the data source).  
+In particular: Type A - corresponds to standard Piper subdivision 5 (Magnesium bicarbonate type); Type B - corresponds to standard 
+Piper subdivision 6 and 9 (Calcium chloride type to Mixed type); Type C - corresponds to standard Piper subdivision 7 (Sodium chloride type); 
+Type D - corresponds to standard Piper subdivision 8 and 9 (Sodium bicarbonate type to Mixed type).  
+
+Refer to [Haile-Meskale, M. (2017) Groundwater Quality Analysis, An Interpretation of the Analytical Data From York, 
+Peel, Durham and Toronto – Conservation Authorities Moraines Coalition (YPDT- CAMC) Study Area (December 2017).  Unpublished 
+Technical Report.], Figure 16 in particular.
+
+#### V_SYS_LAB_WATER_TYPE_MHM_AVG
+
+Similar to the classification scheme outlined in V_SYS_LAB_WATER_TYPE_MHM (refer to that view for further details).  In this case, all 
+samples are used to determine an average of each anion and cation for the final calculation of water type (instead of on a sample-by-sample basis).  
+The numeric values returned correspond to standard Piper diagram hydrochemical facies and have the following equivalents: Type A has value [5]; 
+Type B has value [6]; Type C has value [7]; and Type D has value [8].  The [Mixed Type] (i.e. value [9]) is not defined with these methods.  
+Note that a returned value of [0] indicates an undefined type by the methodology.
+
+Refer to [Haile-Meskale, M. (2017) Groundwater Quality Analysis, An Interpretation of the Analytical Data From York, Peel, Durham and 
+Toronto – Conservation Authorities Moraines Coalition (YPDT- CAMC) Study Area (December 2017).  Unpublished Technical Report.], 
+Figure 16 in particular.
+
 #### V_SYS_LOC_COORD_HIST_ADD
 
 This view assembles the pertinent information from D_LOCATION and D_LOCATION_QA into a format needed for inserting data into D_LOCATION_COORD_HIST.  Only those locations that do not already exist in the latter table will be returned.  These will be tagged as a CURRENT_COORD (which will be set to '1').  Both LOC_COORD_EASTING and LOC_COORD_NORTHING cannot be NULL.
@@ -1650,4 +1673,4 @@ This view was originally a source for V_VL_HEADER_SCREEN.  Refer to V_SYS_YPDT_V
 This view returns the information in D_LOCATION related to the 'YPDT Viewlog Header Well'.
 
 
-*Last Modified: 2022-04-29*
+*Last Modified: 2022-05-03*
