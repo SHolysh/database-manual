@@ -17,6 +17,7 @@ from
 select
 bh.BORE_HOLE_ID
 ,bh.WELL_ID
+,cast(bh.well_id as int) as MOE_WELL_ID
 ,bh.ZONE
 ,bh.EAST83
 ,bh.NORTH83
@@ -30,6 +31,7 @@ on bh.WELL_ID=avail.WELL_ID
 select
 bh.BORE_HOLE_ID
 ,bh.WELL_ID
+,cast(bh.well_id as int) as MOE_WELL_ID
 ,bh.ZONE
 ,bh.EAST83
 ,bh.NORTH83

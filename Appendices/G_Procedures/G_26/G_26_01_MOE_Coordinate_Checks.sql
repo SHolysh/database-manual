@@ -12,6 +12,7 @@
 -- v20190509 521
 -- v20200721 522
 -- v20210202 523 
+-- v20220328 524
 
 --***** Coordinate Check 00 - MOE Z17 Coordinates
 
@@ -19,44 +20,69 @@
 -- needs to be created/updated as part of the MOE import process
 
 --***** v20210119
---***** These two zones are now combined in the table YC_20210119_BORE_HOLE_ID_COORDS_YC_SRC;
+--***** These two zones are now combined in the table YC_20220328_BORE_HOLE_ID_COORDS_YC_SRC;
 --***** a number of checks have already been performed with regard to its creation using
 --***** the G.10 instructions
+
+--***** v20220328 
+--***** These two zones are now combined in the table YC_20220328_BORE_HOLE_ID_COORDS_YC; zone_orig
+--***** is now just zone; we're using the table created in G.10.1
 
 -- v20200721 417008 rows
 -- v20210119 380097 rows (bore_hole_id)
 --           689971 rows (well_id)
+-- v20220328 
 
 select
 v.loc_id
 ,c.east83
 ,c.north83
-,c.east83_orig
-,c.north83_orig
-,c.zone_orig
-,m.utmrc
-,m.location_method
-,m.improvement_location_source
-,m.improvement_location_method
-,m.elevation
-,m.elevrc
+,c.zone
+,c.utmrc
+,c.location_method
+,c.improvement_location_source
+,c.improvement_location_method
+,c.elevation
+,c.elevrc
 ,row_number() over (order by v.loc_id) as rkey
-into moe_20210119.dbo.YC_20210119_BORE_HOLE_ID_COORDS_UPD
+--into moe_20220328.dbo.YC_20220328_BORE_HOLE_ID_COORDS_UPD
 from 
 oak_20160831_master.dbo.v_sys_moe_locations as v
-inner join moe_20210119.dbo.YC_20210119_BORE_HOLE_ID_COORDS_YC_SRC as c
+inner join moe_20220328.dbo.tblbore_hole as c
 on v.moe_bore_hole_id=c.bore_hole_id
---on v.moe_well_id=c.well_id
-inner join oak_20160831_master.dbo.d_location as d
-on v.loc_id=d.loc_id
-inner join moe_20210119.dbo.tblbore_hole as m
-on v.moe_bore_hole_id=m.bore_hole_id
-where
-d.loc_type_code= 1
-group by
-v.loc_id,c.east83,c.north83,c.east83_orig,c.north83_orig,c.zone_orig
-,m.utmrc,m.location_method,m.improvement_location_source,m.improvement_location_method
-,m.elevation,m.elevrc
+inner join oak_20160831_master.dbo.d_location_spatial_hist as dlsh
+on vc.spat_id=
+
+
+--select
+--v.loc_id
+--,c.east83
+--,c.north83
+--,c.east83_orig
+--,c.north83_orig
+--,c.zone
+--,m.utmrc
+--,m.location_method
+--,m.improvement_location_source
+--,m.improvement_location_method
+--,m.elevation
+--,m.elevrc
+--,row_number() over (order by v.loc_id) as rkey
+----into moe_20220328.dbo.YC_20220328_BORE_HOLE_ID_COORDS_UPD
+--from 
+--oak_20160831_master.dbo.v_sys_moe_locations as v
+--inner join moe_20220328.dbo.YC_20220328_BORE_HOLE_ID_COORDS as c
+--on v.moe_bore_hole_id=c.bore_hole_id
+--inner join oak_20160831_master.dbo.d_location as d
+--on v.loc_id=d.loc_id
+--inner join moe_20220328.dbo.tblbore_hole as m
+--on v.moe_bore_hole_id=m.bore_hole_id
+--where
+--d.loc_type_code= 1
+--group by
+--v.loc_id,c.east83,c.north83,c.east83_orig,c.north83_orig,c.zone
+--,m.utmrc,m.location_method,m.improvement_location_source,m.improvement_location_method
+--,m.elevation,m.elevrc
 
 -- remove the duplicates based on LOC_ID
 
@@ -72,21 +98,21 @@ loc_id
 ,min(rkey) as rkey_keep
 ,count(*) as rcount
 from 
-moe_20210119.dbo.YC_20210119_BORE_HOLE_ID_COORDS_UPD
+moe_20220328.dbo.YC_20220328_BORE_HOLE_ID_COORDS_UPD
 group by
 loc_id
 ) as t
 where
 t.rcount>1
 
-delete from moe_20210119.dbo.YC_20210119_BORE_HOLE_ID_COORDS_UPD 
+delete from moe_20220328.dbo.YC_20220328_BORE_HOLE_ID_COORDS_UPD 
 where
 rkey in
 (
 select
 m.rkey
 from 
-moe_20210119.dbo.YC_20210119_BORE_HOLE_ID_COORDS_UPD as m
+moe_20220328.dbo.YC_20220328_BORE_HOLE_ID_COORDS_UPD as m
 inner join
 (
 select
@@ -99,7 +125,7 @@ loc_id
 ,min(rkey) as rkey_keep
 ,count(*) as rcount
 from 
-moe_20210119.dbo.YC_20210119_BORE_HOLE_ID_COORDS_UPD
+moe_20220328.dbo.YC_20220328_BORE_HOLE_ID_COORDS_UPD
 group by
 loc_id
 ) as t
@@ -183,7 +209,7 @@ end as QA_ELEV_CODE
 ,cast( '20210202a' as varchar(255) ) as SYS_TEMP1
 ,cast( 20210202 as int ) as SYS_TEMP2
 from 
-moe_20210119.dbo.yc_20210119_bore_hole_id_coords_upd as m
+moe_20220328.dbo.yc_20220328_bore_hole_id_coords_upd as m
 inner join oak_20160831_master.dbo.d_location as dloc
 on m.loc_id=dloc.loc_id
 inner join oak_20160831_master.dbo.d_location_qa as dlqa
@@ -276,7 +302,7 @@ end as QA_ELEV_CODE
 ,cast( '20210202a' as varchar(255) ) as SYS_TEMP1
 ,cast( 20210202 as int ) as SYS_TEMP2
 from 
-moe_20210119.dbo.yc_20210119_bore_hole_id_coords_upd as m
+moe_20220328.dbo.yc_20220328_bore_hole_id_coords_upd as m
 inner join oak_20160831_master.dbo.d_location as dloc
 on m.loc_id=dloc.loc_id
 inner join oak_20160831_master.dbo.d_location_qa as dlqa
@@ -298,9 +324,9 @@ sys_temp1= '20210202a'
 
 --***** Coordinate Check 02 - MOE Coordinates - Invalid (QA 117)
 
--- add the present field to the YC_20210119_BORE_HOLE_ID_COORDS_UPD table
+-- add the present field to the YC_20220328_BORE_HOLE_ID_COORDS_UPD table
 
-alter table YC_20210119_BORE_HOLE_ID_COORDS_UPD add present int
+alter table YC_20220328_BORE_HOLE_ID_COORDS_UPD add present int
 
 -- we need to tag those whose coordinates are already present in the 
 -- master database
@@ -310,7 +336,7 @@ alter table YC_20210119_BORE_HOLE_ID_COORDS_UPD add present int
 select
 m.*
 from 
-moe_20210119.dbo.yc_20210119_bore_hole_id_coords_upd as m
+moe_20220328.dbo.yc_20220328_bore_hole_id_coords_upd as m
 inner join oak_20160831_master.dbo.d_location_qa as dlqa
 on m.loc_id=dlqa.loc_id
 inner join 
@@ -330,11 +356,11 @@ on m.loc_id=t.loc_id and m.east83=t.x and m.north83=t.y
 where
 dlqa.qa_coord_confidence_code= 117
 
-update moe_20210119.dbo.yc_20210119_bore_hole_id_coords_upd
+update moe_20220328.dbo.yc_20220328_bore_hole_id_coords_upd
 set
 present= 1
 from 
-moe_20210119.dbo.yc_20210119_bore_hole_id_coords_upd as m
+moe_20220328.dbo.yc_20220328_bore_hole_id_coords_upd as m
 inner join oak_20160831_master.dbo.d_location_qa as dlqa
 on m.loc_id=dlqa.loc_id
 inner join 
@@ -420,7 +446,7 @@ end as QA_ELEV_CODE
 ,cast( '20210202b' as varchar(255) ) as SYS_TEMP1
 ,cast( 20210202 as int ) as SYS_TEMP2
 from 
-moe_20210119.dbo.yc_20210119_bore_hole_id_coords_upd as m
+moe_20220328.dbo.yc_20220328_bore_hole_id_coords_upd as m
 inner join oak_20160831_master.dbo.d_location as dloc
 on m.loc_id=dloc.loc_id
 inner join oak_20160831_master.dbo.d_location_qa as dlqa
@@ -517,7 +543,7 @@ end as QA_ELEV_CODE
 ,cast( '20210202b' as varchar(255) ) as SYS_TEMP1
 ,cast( 20210202 as int ) as SYS_TEMP2
 from 
-moe_20210119.dbo.yc_20210119_bore_hole_id_coords_upd as m
+moe_20220328.dbo.yc_20220328_bore_hole_id_coords_upd as m
 inner join oak_20160831_master.dbo.d_location as dloc
 on m.loc_id=dloc.loc_id
 inner join oak_20160831_master.dbo.d_location_qa as dlqa
@@ -545,7 +571,7 @@ select
 --count(*)
 m.*
 from 
-moe_20210119.dbo.yc_20210119_bore_hole_id_coords_upd as m
+moe_20220328.dbo.yc_20220328_bore_hole_id_coords_upd as m
 inner join oak_20160831_master.dbo.d_location_qa as dlqa
 on m.loc_id=dlqa.loc_id
 inner join 
@@ -565,11 +591,11 @@ on m.loc_id=t.loc_id and m.east83=t.x and m.north83=t.y
 where
 dlqa.qa_coord_confidence_code not in ( 117, 118 )
 
-update moe_20210119.dbo.yc_20210119_bore_hole_id_coords_upd
+update moe_20220328.dbo.yc_20220328_bore_hole_id_coords_upd
 set
 present= 2
 from 
-moe_20210119.dbo.yc_20210119_bore_hole_id_coords_upd as m
+moe_20220328.dbo.yc_20220328_bore_hole_id_coords_upd as m
 inner join oak_20160831_master.dbo.d_location_qa as dlqa
 on m.loc_id=dlqa.loc_id
 inner join 
@@ -658,7 +684,7 @@ end as QA_ELEV_CODE
 ,cast( '20210202c' as varchar(255) ) as SYS_TEMP1
 ,cast( 20210202 as int ) as SYS_TEMP2
 from 
-moe_20210119.dbo.yc_20210119_bore_hole_id_coords_upd as m
+moe_20220328.dbo.yc_20220328_bore_hole_id_coords_upd as m
 inner join oak_20160831_master.dbo.d_location as dloc
 on m.loc_id=dloc.loc_id
 inner join oak_20160831_master.dbo.d_location_qa as dlqa
@@ -766,7 +792,7 @@ end as QA_ELEV_CODE
 ,cast( '20210202c' as varchar(255) ) as SYS_TEMP1
 ,cast( 20210202 as int ) as SYS_TEMP2
 from 
-moe_20210119.dbo.yc_20210119_bore_hole_id_coords_upd as m
+moe_20220328.dbo.yc_20220328_bore_hole_id_coords_upd as m
 inner join oak_20160831_master.dbo.d_location as dloc
 on m.loc_id=dloc.loc_id
 inner join oak_20160831_master.dbo.d_location_qa as dlqa
