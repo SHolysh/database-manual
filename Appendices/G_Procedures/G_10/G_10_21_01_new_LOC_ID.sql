@@ -26,6 +26,7 @@
 -- v20190509 used 521
 -- v20200721 522 
 -- v20210119 523
+-- v20220328 524
 
 select
 *
@@ -120,7 +121,7 @@ MOE_20220328.dbo.YC_20220328_BH_ID as dloc
 inner join
 (
 select
-top 30000
+top 20000
 v.NEW_ID
 ,ROW_NUMBER() over (order by NEW_ID) as rnum
 from 
@@ -165,7 +166,7 @@ t1.new_BH_ID
 from 
 (
 select 
-top 30000
+top 20000
 v.NEW_ID as new_BH_ID
 from 
 OAK_20160831_MASTER.dbo.V_SYS_RANDOM_ID_BULK_001 as v
@@ -193,7 +194,7 @@ t1.new_BH_ID
 from 
 (
 select 
-top 30000
+top 20000
 v.NEW_ID as new_BH_ID
 from 
 OAK_20160831_MASTER.dbo.V_SYS_RANDOM_ID_BULK_001 as v

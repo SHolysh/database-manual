@@ -9,7 +9,7 @@
 select
 COUNT(*)
 from 
-MOE_20210119.dbo.M_D_INTERVAL
+MOE_20220328.dbo.M_D_INTERVAL
 
 -- 2016.05.31 28188 records
 -- 2017.09.05 17185 records
@@ -17,6 +17,7 @@ MOE_20210119.dbo.M_D_INTERVAL
 -- v20190509 11851 rows
 -- v20200721 11760 rows
 -- v20210119 24619 rows
+-- v20220328 15235 rows
 
 -- randomize these
 
@@ -30,12 +31,12 @@ select
 dint.INT_ID
 ,ROW_NUMBER() over (order by INT_ID) as rnum
 from 
-MOE_20210119.dbo.M_D_INTERVAL as dint
+MOE_20220328.dbo.M_D_INTERVAL as dint
 ) as t1
 inner join
 (
 select
-top 30000
+top 20000
 v.NEW_ID
 ,ROW_NUMBER() over (order by NEW_ID) as rnum
 from 
@@ -55,19 +56,19 @@ select
 t1.INT_ID
 ,t2.NEW_ID as [new_INT_ID]
 ,ROW_NUMBER() over (order by t1.INT_ID) as rnum
-into MOE_20210119.dbo.YC_20210119_new_INT_ID
+into MOE_20220328.dbo.YC_20220328_new_INT_ID
 from 
 (
 select
 dint.INT_ID
 ,ROW_NUMBER() over (order by INT_ID) as rnum
 from 
-MOE_20210119.dbo.M_D_INTERVAL as dint
+MOE_20220328.dbo.M_D_INTERVAL as dint
 ) as t1
 inner join
 (
 select
-top 30000
+top 20000
 v.NEW_ID
 ,ROW_NUMBER() over (order by NEW_ID) as rnum
 from 
@@ -91,7 +92,7 @@ t1.rnum=t2.rnum
 select
 COUNT(*)
 from 
-MOE_20210119.dbo.M_D_PUMPTEST
+MOE_20220328.dbo.M_D_PUMPTEST
 
 -- 2016.05.31 6268
 -- 2017.09.05 3150
@@ -99,6 +100,7 @@ MOE_20210119.dbo.M_D_PUMPTEST
 -- v20190509 1549 rows
 -- v20200721 2238 rows
 -- v20210119 3048 rows
+-- v20220328 525 rows
 
 -- randomize these
 
@@ -112,7 +114,7 @@ select
 dpump.PUMP_TEST_ID
 ,ROW_NUMBER() over (order by PUMP_TEST_ID) as rnum
 from 
-MOE_20210119.dbo.M_D_PUMPTEST as dpump
+MOE_20220328.dbo.M_D_PUMPTEST as dpump
 ) as t1
 inner join
 (
@@ -137,14 +139,14 @@ select
 t1.PUMP_TEST_ID
 ,t2.NEW_ID as [new_PUMP_TEST_ID]
 ,ROW_NUMBER() over (order by t1.PUMP_TEST_ID) as rnum
-into MOE_20210119.dbo.YC_20210119_new_PUMP_TEST_ID
+into MOE_20220328.dbo.YC_20220328_new_PUMP_TEST_ID
 from 
 (
 select
 dpump.PUMP_TEST_ID
 ,ROW_NUMBER() over (order by PUMP_TEST_ID) as rnum
 from 
-MOE_20210119.dbo.M_D_PUMPTEST as dpump
+MOE_20220328.dbo.M_D_PUMPTEST as dpump
 ) as t1
 inner join
 (
@@ -180,7 +182,7 @@ t1.rnum=t2.rnum
 --select
 --COUNT(*)
 --from 
---MOE_20210119.dbo.M_D_LOCATION_ELEV_HIST
+--MOE_20220328.dbo.M_D_LOCATION_ELEV_HIST
 
 -- make the look-up table
 
@@ -189,7 +191,7 @@ t1.rnum=t2.rnum
 --,t2.LOC_ELEV_ID as LOC_ELEV_ID_t2
 --,t2.new_LOC_ELEV_ID
 --from 
---MOE_20210119.dbo.M_D_LOCATION_ELEV_HIST as dhist
+--MOE_20220328.dbo.M_D_LOCATION_ELEV_HIST as dhist
 --inner join 
 --(
 --select
@@ -218,9 +220,9 @@ t1.rnum=t2.rnum
 --dhist.LOC_ELEV_ID
 --,t2.LOC_ELEV_ID as LOC_ELEV_ID_t2
 --,t2.new_LOC_ELEV_ID
---into MOE_20210119.dbo.YC_20210119_new_LOC_ELEV_ID
+--into MOE_20220328.dbo.YC_20220328_new_LOC_ELEV_ID
 --from 
---MOE_20210119.dbo.M_D_LOCATION_ELEV_HIST as dhist
+--MOE_20220328.dbo.M_D_LOCATION_ELEV_HIST as dhist
 --inner join 
 --(
 --select
