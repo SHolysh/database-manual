@@ -8,7 +8,8 @@
 
 -- M_D_LOCATION_SPATIAL_HIST
 
--- remember that this table uses an identity column (i.e. an automatic counter)
+-- remember that this table uses an identity column (i.e. an automatic counter) so we didn't
+-- need to add a separate identifier
 
 -- note that some of these fields need to be manually updated
 
@@ -38,10 +39,10 @@ LOC_ID
 ,QA_ELEV_CODE
 ,LOC_ELEV_DATA_ID
 ,cast(LOC_ELEV_COMMENT as varchar(255)) as LOC_ELEV_COMMENT
-,'20210119a' as SYS_TEMP1
-,20210119 as SYS_TEMP2
+,'20220328a' as SYS_TEMP1
+,20220328 as SYS_TEMP2
 from 
-MOE_20210119.dbo.M_D_LOCATION_SPATIAL_HIST as dlsh
+MOE_20220328.dbo.M_D_LOCATION_SPATIAL_HIST as dlsh
 
 insert into oak_20160831_master.dbo.d_location_spatial_hist
 (
@@ -91,34 +92,39 @@ LOC_ID
 ,QA_ELEV_CODE
 ,LOC_ELEV_DATA_ID
 ,cast(LOC_ELEV_COMMENT as varchar(255)) as LOC_ELEV_COMMENT
-,'20210119a' as SYS_TEMP1
-,20210119 as SYS_TEMP2
+,'20220328a' as SYS_TEMP1
+,20220328 as SYS_TEMP2
 from 
-MOE_20210119.dbo.M_D_LOCATION_SPATIAL_HIST as dlsh
+MOE_20220328.dbo.M_D_LOCATION_SPATIAL_HIST as dlsh
 
 
 -- D_LOCATION_SPATIAL
 
 -- Upate DATA_ID, SYS_TEMP1, SYS_TEMP2
 
-select
-delev.LOC_ID
-,dlsh.SPAT_ID
-,'20210119a' as SYS_TEMP1
-,20210119 as SYS_TEMP2
-from 
-moe_20210119.dbo.m_d_location_elev as delev
-inner join d_location_spatial_hist as dlsh
-on delev.loc_elev_id=dlsh.sys_temp2
-where 
-dlsh.loc_coord_data_id= 523
+-- as of v20220328, the following statement appears to be unnecessary
+
+--select
+--delev.LOC_ID
+--,dlsh.SPAT_ID
+--,'20220328a' as SYS_TEMP1
+--,20220328 as SYS_TEMP2
+--from 
+--moe_20220328.dbo.m_d_location_spatial_hist as delev
+--inner join oak_20160831_master.dbo.d_location_spatial_hist as dlsh
+--on delev.loc_elev_id=dlsh.sys_temp2
+--where 
+--dlsh.loc_coord_data_id= 524
+
+-- note that very few loc_elev_codes of '5' should be present (normally these result
+-- from and 'edge' issue)
 
 select 
 dlsh.LOC_ID
 ,dlsh.SPAT_ID
-,523 as DATA_ID
-,'20210119a' as SYS_TEMP1
-,20210119 as SYS_TEMP2
+,524 as DATA_ID
+,'20220328a' as SYS_TEMP1
+,20220328 as SYS_TEMP2
 from
 (
 select
@@ -128,7 +134,7 @@ from
 oak_20160831_master.dbo.D_LOCATION_SPATIAL_HIST as d1
 where
 d1.LOC_ELEV_CODE=3
-and d1.loc_coord_data_id= 523
+and d1.loc_coord_data_id= 524
 -- Only load the SRTM elev if no MNR elev
 union
 select
@@ -138,7 +144,7 @@ from
 oak_20160831_master.dbo.D_LOCATION_SPATIAL_HIST as d2
 where
 d2.LOC_ELEV_CODE=5
-and d2.loc_coord_data_id=523
+and d2.loc_coord_data_id=524
 ) as dlsh
 
 insert into OAK_20160831_MASTER.dbo.D_LOCATION_SPATIAL
@@ -152,9 +158,9 @@ LOC_ID
 select 
 dlsh.LOC_ID
 ,dlsh.SPAT_ID
-,523 as DATA_ID
-,'20210119a' as SYS_TEMP1
-,20210119 as SYS_TEMP2
+,524 as DATA_ID
+,'20220328a' as SYS_TEMP1
+,20220328 as SYS_TEMP2
 from
 (
 select
@@ -164,7 +170,7 @@ from
 oak_20160831_master.dbo.D_LOCATION_SPATIAL_HIST as d1
 where
 d1.LOC_ELEV_CODE=3
-and d1.loc_coord_data_id= 523
+and d1.loc_coord_data_id= 524
 -- Only load the SRTM elev if no MNR elev
 union
 select
@@ -174,7 +180,7 @@ from
 oak_20160831_master.dbo.D_LOCATION_SPATIAL_HIST as d2
 where
 d2.LOC_ELEV_CODE=5
-and d2.loc_coord_data_id=523
+and d2.loc_coord_data_id=524
 ) as dlsh
 
 
