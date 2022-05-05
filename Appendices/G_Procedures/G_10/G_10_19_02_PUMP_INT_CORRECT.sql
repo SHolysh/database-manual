@@ -20,6 +20,7 @@
 -- v20190509 0 rows returned 
 -- v20200721 0 rows
 -- v20210119 0 rows
+-- v20220328 0 rows
 
 select
 t3.pump_test_id
@@ -41,7 +42,7 @@ select
 pump_test_id 
 ,COUNT(*) as rcount
 from 
-MOE_20220318.[dbo].[M_D_PUMPTEST]
+MOE_20220328.[dbo].[M_D_PUMPTEST]
 group by 
 pump_test_id 
 ) as t1
@@ -49,14 +50,14 @@ where
 t1.rcount>1
 ) as t2
 inner join 
-MOE_20220318.[dbo].[M_D_PUMPTEST] as dpump
+MOE_20220328.[dbo].[M_D_PUMPTEST] as dpump
 on
 t2.pump_test_id=dpump.pump_test_id
 group by 
 dpump.pump_test_id 
 ) as t3
 inner join
-MOE_20220318.[dbo].[M_D_PUMPTEST] as dpump
+MOE_20220328.[dbo].[M_D_PUMPTEST] as dpump
 on
 t3.pump_test_id=dpump.pump_test_id
 
@@ -69,7 +70,7 @@ select
 t3.pump_test_id
 ,t3.int_id_new
 ,dpump.int_id as int_id_old
-into MOE_20220318.dbo.YC_20220318_PUMP_INT
+into MOE_20220328.dbo.YC_20220328_PUMP_INT
 from 
 (
 select 
@@ -86,7 +87,7 @@ select
 pump_test_id 
 ,COUNT(*) as rcount
 from 
-MOE_20220318.[dbo].[M_D_PUMPTEST]
+MOE_20220328.[dbo].[M_D_PUMPTEST]
 group by 
 pump_test_id 
 ) as t1
@@ -94,14 +95,14 @@ where
 t1.rcount>1
 ) as t2
 inner join 
-MOE_20220318.[dbo].[M_D_PUMPTEST] as dpump
+MOE_20220328.[dbo].[M_D_PUMPTEST] as dpump
 on
 t2.pump_test_id=dpump.pump_test_id
 group by 
 dpump.pump_test_id 
 ) as t3
 inner join
-MOE_20220318.[dbo].[M_D_PUMPTEST] as dpump
+MOE_20220328.[dbo].[M_D_PUMPTEST] as dpump
 on
 t3.pump_test_id=dpump.pump_test_id
 
@@ -113,6 +114,7 @@ t3.pump_test_id=dpump.pump_test_id
 -- 2018.05.30 stopped here
 -- v20190509 stopped here 
 -- v20210119 stopped here 
+-- v20220328 stopped here
 
 -- we can now reassign those intervals in d_int_mon to the appropriate
 -- int_ids; remember that the sys_record_id still remains diff for 

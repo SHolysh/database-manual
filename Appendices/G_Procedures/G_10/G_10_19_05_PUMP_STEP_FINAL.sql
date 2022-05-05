@@ -18,7 +18,7 @@ SELECT
 ,[PUMP_RATE_UNITS_OUOM]
 ,min([PUMP_START]) as [PUMP_START]
 ,max([PUMP_END]) as [PUMP_END]
-FROM MOE_20210119.[dbo].[YC_20210119_PUMP_STEP]
+FROM MOE_20220328.[dbo].[YC_20220328_PUMP_STEP]
 where 
 testtype='D'
 group by
@@ -35,6 +35,7 @@ Pump_Test_id
 -- v20190509 1383 
 -- v20200721 2094 
 -- v20210119 2830 rows
+-- v20220328 504 rows
 
 -- note that we're keeping the test columns and the rnum column
 -- to be used when we're adding data to the interval temporal table
@@ -49,7 +50,7 @@ t1.PUMP_TEST_ID
 ,t1.PUMP_RATE_UNITS_OUOM
 ,t1.PUMP_START
 ,t1.PUMP_END
-,cast(523 as int) as DATA_ID
+,cast(524 as int) as DATA_ID
 ,t1.SYS_RECORD_ID
 from 
 (
@@ -62,7 +63,7 @@ SELECT
 ,min([PUMP_START]) as [PUMP_START]
 ,max([PUMP_END]) as [PUMP_END]
 ,ROW_NUMBER() over (order by PUMP_TEST_ID) as SYS_RECORD_ID
-FROM MOE_20210119.[dbo].[YC_20210119_PUMP_STEP]
+FROM MOE_20220328.[dbo].[YC_20220328_PUMP_STEP]
 where 
 testtype='D'
 group by
@@ -78,9 +79,9 @@ t1.PUMP_TEST_ID
 ,t1.PUMP_RATE_UNITS_OUOM
 ,t1.PUMP_START
 ,t1.PUMP_END
-,cast(523 as int) as DATA_ID
+,cast(524 as int) as DATA_ID
 ,t1.SYS_RECORD_ID
-into MOE_20210119.dbo.M_D_PUMPTEST_STEP 
+into MOE_20220328.dbo.M_D_PUMPTEST_STEP 
 from 
 (
 SELECT
@@ -92,7 +93,7 @@ SELECT
 ,min([PUMP_START]) as [PUMP_START]
 ,max([PUMP_END]) as [PUMP_END]
 ,ROW_NUMBER() over (order by PUMP_TEST_ID) as SYS_RECORD_ID
-FROM MOE_20210119.[dbo].[YC_20210119_PUMP_STEP]
+FROM MOE_20220328.[dbo].[YC_20220328_PUMP_STEP]
 where 
 testtype='D'
 group by
