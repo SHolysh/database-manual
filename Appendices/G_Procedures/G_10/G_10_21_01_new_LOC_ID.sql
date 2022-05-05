@@ -43,6 +43,8 @@ COUNT(*)
 from 
 MOE_20220328.[dbo].[M_D_LOCATION]
 
+-- remove this line
+
 -- 2016.05.31 28188 locations
 -- 2017.09.05 17185 locations
 -- 2018.05.30 15578 locations
