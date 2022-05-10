@@ -204,7 +204,6 @@ end as LOC_ELEV_DATE
 when m.elevation is not null then cast( 6 as int ) 
 else null
 end as LOC_ELEV_UNIT_CODE
---,m.elevrc as QA_ELEV_CODE
 ,case
 when len(m.elevrc)>0 and isnumeric( m.elevrc )=1 then cast(m.elevrc as int) 
 else null
@@ -228,9 +227,6 @@ and
 not( m.east83_17 between ( m.x - 5 ) and (m.x + 5) )
 or not( m.north83_17 between (m.y - 5 ) and ( m.y + 5 ) )
 )
-
---and dloc.loc_coord_easting between (m.east83 - 25000) and (m.east83 + 25000)
---and dloc.loc_coord_northing between (m.north83 - 25000) and (m.north83 + 25000)
 
 
 insert into oak_20160831_master.dbo.d_location_spatial_hist
@@ -259,17 +255,16 @@ loc_id
 select
 dloc.LOC_ID
 ,cast( 5 as int ) as LOC_COORD_HIST_CODE 
-,cast( '2021-01-19' as datetime ) as LOC_COORD_DATE
-,m.east83 as X
-,m.north83 as Y
+,cast( '2022-03-28' as datetime ) as LOC_COORD_DATE
+,m.east83_17 as X
+,m.north83_17 as Y
 ,cast( 26917 as int ) as EPSG_CODE
-,m.east83_orig as X_OUOM
-,m.north83_orig as Y_OUOM
+,m.east83 as X_OUOM
+,m.north83 as Y_OUOM
 ,case
-when m.zone_orig=18 then 26918
+when m.zone='18' then 26918
 else 26917
 end as EPSG_CODE_OUOM
---,m.utmrc as QA_COORD_CODE
 ,case
 when m.utmrc is not null then cast(m.utmrc as int) 
 else null
@@ -290,14 +285,14 @@ when m.improvement_location_source is not null then m.improvement_location_sourc
 else ''
 end
 as varchar(255)) as LOC_COORD_METHOD
-,cast( 'Updated from QA_COORD_CODE [118]' as varchar(255) ) as LOC_COORD_COMMENT
-,cast( 523 as int ) as LOC_COORD_DATA_ID
+,cast( 'Updated from QA_COORD_CODE 118' as varchar(255) ) as LOC_COORD_COMMENT
+,cast( 524 as int ) as LOC_COORD_DATA_ID
 ,case
 when m.elevation is not null then cast( 2 as int ) 
 else null
 end as LOC_ELEV_CODE
 ,case 
-when m.elevation is not null then cast( '2021-01-19' as datetime ) 
+when m.elevation is not null then cast( '2022-03-28' as datetime ) 
 else null
 end as LOC_ELEV_DATE
 ,m.elevation as LOC_ELEV
@@ -305,13 +300,12 @@ end as LOC_ELEV_DATE
 when m.elevation is not null then cast( 6 as int ) 
 else null
 end as LOC_ELEV_UNIT_CODE
---,m.elevrc as QA_ELEV_CODE
 ,case
-when len(m.elevrc)>0 then cast(m.elevrc as int) 
+when len(m.elevrc)>0 and isnumeric( m.elevrc )=1 then cast(m.elevrc as int) 
 else null
 end as QA_ELEV_CODE
-,cast( '20210202a' as varchar(255) ) as SYS_TEMP1
-,cast( 20210202 as int ) as SYS_TEMP2
+,cast( '20220510a' as varchar(255) ) as SYS_TEMP1
+,cast( 20220510 as int ) as SYS_TEMP2
 from 
 moe_20220328.dbo.yc_20220328_bore_hole_id_coords_upd as m
 inner join oak_20160831_master.dbo.d_location as dloc
@@ -320,17 +314,26 @@ inner join oak_20160831_master.dbo.d_location_qa as dlqa
 on dloc.loc_id=dlqa.loc_id
 where
 -- make sure to not include the current DATA_ID
-( dloc.data_id is null or dloc.data_id<>523 )
+( dloc.data_id is null or dloc.data_id<>524 )
 and dlqa.qa_coord_confidence_code= 118
-and dloc.loc_coord_easting between (m.east83 - 25000) and (m.east83 + 25000)
-and dloc.loc_coord_northing between (m.north83 - 25000) and (m.north83 + 25000)
+and m.east83_17 is not null and m.north83_17 is not null
+and m.utmrc<>9
+and 
+(
+not( m.east83_17 between ( m.x - 5 ) and (m.x + 5) )
+or not( m.north83_17 between (m.y - 5 ) and ( m.y + 5 ) )
+)
+
+
+-- v20220328 270 rows
+
 
 select
 *
 from 
 oak_20160831_master.dbo.d_location_spatial_hist
 where
-sys_temp1= '20210202a'
+sys_temp1= '20220510a'
 
 
 --***** Coordinate Check 02 - MOE Coordinates - Invalid (QA 117)
@@ -343,6 +346,7 @@ alter table YC_20220328_BORE_HOLE_ID_COORDS_UPD add present int
 -- master database
 
 -- v20210119 2 rows
+-- v20220328 0 rows
 
 select
 m.*
@@ -577,6 +581,7 @@ or not( dloc.loc_coord_northing between (m.north83 - 1) and (m.north83 + 1) )
 -- return those records that are currently present and need to be marked
 
 -- v20210119 240200
+-- v20220328 320803 rows
 
 select
 --count(*)
@@ -598,9 +603,17 @@ x is not null and y is not null
 group by
 loc_id,x,y
 ) as t
-on m.loc_id=t.loc_id and m.east83=t.x and m.north83=t.y
+on m.loc_id=t.loc_id and m.east83_17=t.x and m.north83_17=t.y
 where
 dlqa.qa_coord_confidence_code not in ( 117, 118 )
+
+-- reset present if a mistake has been made (v20220328)
+update moe_20220328.dbo.yc_20220328_bore_hole_id_coords_upd
+set
+present= null
+where
+present= 2
+
 
 update moe_20220328.dbo.yc_20220328_bore_hole_id_coords_upd
 set
@@ -622,7 +635,7 @@ x is not null and y is not null
 group by
 loc_id,x,y
 ) as t
-on m.loc_id=t.loc_id and m.east83=t.x and m.north83=t.y
+on m.loc_id=t.loc_id and m.east83_17=t.x and m.north83_17=t.y
 where
 dlqa.qa_coord_confidence_code not in ( 117, 118 )
 
@@ -634,6 +647,7 @@ dlqa.qa_coord_confidence_code not in ( 117, 118 )
 -- v20190509 192 rows
 -- v20200721 12977 rows
 -- v20210119 121 rows
+-- v20220328 0 rows
 
 
 select
@@ -641,19 +655,18 @@ dloc.LOC_ID
 ,dloc.LOC_COORD_EASTING
 ,dloc.LOC_COORD_NORTHING
 ,cast( 5 as int ) as LOC_COORD_HIST_CODE 
-,cast( '2021-01-19' as datetime ) as LOC_COORD_DATE
-,m.east83 as X
-,m.north83 as Y
+,cast( '2022-03-28' as datetime ) as LOC_COORD_DATE
+,m.east83_17 as X
+,m.north83_17 as Y
 ,cast( 26917 as int ) as EPSG_CODE
-,m.east83_orig as X_OUOM
-,m.north83_orig as Y_OUOM
+,m.east83 as X_OUOM
+,m.north83 as Y_OUOM
 ,case
-when m.zone_orig=18 then 26918
+when m.zone=18 then 26918
 else 26917
 end as EPSG_CODE_OUOM
---,m.utmrc as QA_COORD_CODE
 ,case
-when m.utmrc is not null then cast(m.utmrc as int) 
+when m.utmrc is not null and isnumeric( m.utmrc )=1 then cast(m.utmrc as int) 
 else null
 end as QA_COORD_CODE
 ,cast(
@@ -673,13 +686,13 @@ else ''
 end
 as varchar(255)) as LOC_COORD_METHOD
 ,cast( 'Updated from various QA_COORD_CODEs (CHECK03)' as varchar(255) ) as LOC_COORD_COMMENT
-,cast( 523 as int ) as LOC_COORD_DATA_ID
+,cast( 524 as int ) as LOC_COORD_DATA_ID
 ,case
 when m.elevation is not null then cast( 2 as int ) 
 else null
 end as LOC_ELEV_CODE
 ,case 
-when m.elevation is not null then cast( '2021-01-19' as datetime ) 
+when m.elevation is not null then cast( '2022-03-28' as datetime ) 
 else null
 end as LOC_ELEV_DATE
 ,m.elevation as LOC_ELEV
@@ -692,8 +705,8 @@ end as LOC_ELEV_UNIT_CODE
 when len(m.elevrc)>0 then cast(m.elevrc as int) 
 else null
 end as QA_ELEV_CODE
-,cast( '20210202c' as varchar(255) ) as SYS_TEMP1
-,cast( 20210202 as int ) as SYS_TEMP2
+,cast( '20220510c' as varchar(255) ) as SYS_TEMP1
+,cast( 20220510 as int ) as SYS_TEMP2
 from 
 moe_20220328.dbo.yc_20220328_bore_hole_id_coords_upd as m
 inner join oak_20160831_master.dbo.d_location as dloc
@@ -701,17 +714,17 @@ on m.loc_id=dloc.loc_id
 inner join oak_20160831_master.dbo.d_location_qa as dlqa
 on dloc.loc_id=dlqa.loc_id
 where
-(dloc.data_id is null or dloc.data_id<>523 )
+(dloc.data_id is null or dloc.data_id<>524 )
 and dlqa.qa_coord_confidence_code not in ( 117, 118 )
 and m.present is null
 and 
 (
-not( dloc.loc_coord_easting between (m.east83 - 1) and (m.east83 + 1) )
-or not( dloc.loc_coord_northing between (m.north83 - 1) and (m.north83 + 1) )
+not( dloc.loc_coord_easting between (m.east83_17 - 1) and (m.east83_17 + 1) )
+or not( dloc.loc_coord_northing between (m.north83_17 - 1) and (m.north83_17 + 1) )
 )
-and m.east83 is not null and m.north83 is not null
-and m.east83 between ( 100000 ) and ( 1000000 )
-and m.north83 between ( 1000000 ) and ( 6000000 )
+and m.east83_17 is not null and m.north83_17 is not null
+and m.east83_17 between ( 100000 ) and ( 1000000 )
+and m.north83_17 between ( 1000000 ) and ( 6000000 )
 and dloc.loc_id not in
 (
 select
@@ -749,19 +762,19 @@ loc_id
 select
 dloc.LOC_ID
 ,cast( 5 as int ) as LOC_COORD_HIST_CODE 
-,cast( '2021-01-19' as datetime ) as LOC_COORD_DATE
-,m.east83 as X
-,m.north83 as Y
+,cast( '2022-03-28' as datetime ) as LOC_COORD_DATE
+,m.east83_17 as X
+,m.north83_17 as Y
 ,cast( 26917 as int ) as EPSG_CODE
-,m.east83_orig as X_OUOM
-,m.north83_orig as Y_OUOM
+,m.east83 as X_OUOM
+,m.north83 as Y_OUOM
 ,case
-when m.zone_orig=18 then 26918
+when m.zone=18 then 26918
 else 26917
 end as EPSG_CODE_OUOM
 --,m.utmrc as QA_COORD_CODE
 ,case
-when m.utmrc is not null then cast(m.utmrc as int) 
+when m.utmrc is not null and isnumeric( m.utmrc )=1 then cast(m.utmrc as int) 
 else null
 end as QA_COORD_CODE
 ,cast(
@@ -781,13 +794,13 @@ else ''
 end
 as varchar(255)) as LOC_COORD_METHOD
 ,cast( 'Updated from various QA_COORD_CODEs (CHECK03)' as varchar(255) ) as LOC_COORD_COMMENT
-,cast( 523 as int ) as LOC_COORD_DATA_ID
+,cast( 524 as int ) as LOC_COORD_DATA_ID
 ,case
 when m.elevation is not null then cast( 2 as int ) 
 else null
 end as LOC_ELEV_CODE
 ,case 
-when m.elevation is not null then cast( '2021-01-19' as datetime ) 
+when m.elevation is not null then cast( '2022-03-28' as datetime ) 
 else null
 end as LOC_ELEV_DATE
 ,m.elevation as LOC_ELEV
@@ -800,8 +813,8 @@ end as LOC_ELEV_UNIT_CODE
 when len(m.elevrc)>0 then cast(m.elevrc as int) 
 else null
 end as QA_ELEV_CODE
-,cast( '20210202c' as varchar(255) ) as SYS_TEMP1
-,cast( 20210202 as int ) as SYS_TEMP2
+,cast( '20220328c' as varchar(255) ) as SYS_TEMP1
+,cast( 20220328 as int ) as SYS_TEMP2
 from 
 moe_20220328.dbo.yc_20220328_bore_hole_id_coords_upd as m
 inner join oak_20160831_master.dbo.d_location as dloc
@@ -809,17 +822,17 @@ on m.loc_id=dloc.loc_id
 inner join oak_20160831_master.dbo.d_location_qa as dlqa
 on dloc.loc_id=dlqa.loc_id
 where
-(dloc.data_id is null or dloc.data_id<>523 )
+(dloc.data_id is null or dloc.data_id<>524 )
 and dlqa.qa_coord_confidence_code not in ( 117, 118 )
 and m.present is null
 and 
 (
-not( dloc.loc_coord_easting between (m.east83 - 1) and (m.east83 + 1) )
-or not( dloc.loc_coord_northing between (m.north83 - 1) and (m.north83 + 1) )
+not( dloc.loc_coord_easting between (m.east83_17 - 1) and (m.east83_17 + 1) )
+or not( dloc.loc_coord_northing between (m.north83_17 - 1) and (m.north83_17 + 1) )
 )
-and m.east83 is not null and m.north83 is not null
-and m.east83 between ( 100000 ) and ( 1000000 )
-and m.north83 between ( 1000000 ) and ( 6000000 )
+and m.east83_17 is not null and m.north83_17 is not null
+and m.east83_17 between ( 100000 ) and ( 1000000 )
+and m.north83_17 between ( 1000000 ) and ( 6000000 )
 and dloc.loc_id not in
 (
 select
@@ -840,6 +853,7 @@ loc_coord_hist_code=5
 -- v20190509 0 rows
 -- v20200721 241 rows
 -- v20210202 770 rows
+-- v20220328 270 rows
 
 select
 dloc.loc_id
@@ -856,11 +870,11 @@ dloc.loc_id
 ,dlsh.loc_coord_method 
 ,dlsh.loc_coord_comment 
 ,3 as loc_elev_code
-,cast( '2021-01-19' as datetime ) as loc_elev_date
+,cast( '2022-03-28' as datetime ) as loc_elev_date
 ,6 as loc_elev_unit_code
 ,10 as qa_elev_code
-,'20210202d' as sys_temp1
-,20210202 as sys_temp2
+,'20220328d' as sys_temp1
+,20220328 as sys_temp2
 from 
 oak_20160831_master.dbo.d_location as dloc
 inner join oak_20160831_master.dbo.d_location_qa as dlqa
@@ -869,7 +883,7 @@ inner join oak_20160831_master.dbo.d_location_spatial_hist as dlsh
 on dloc.loc_id=dlsh.loc_id
 where 
 dlqa.qa_coord_confidence_code in ( 117, 118 )
-and dlsh.loc_coord_data_id= 523
+and dlsh.loc_coord_data_id= 524
 and ( dlsh.qa_elev_code is null or dlsh.qa_elev_code<>1 )
 
 select
@@ -877,7 +891,7 @@ select
 from 
 oak_20160831_master.dbo.d_location_spatial_hist
 where
-sys_temp1= '20210202d'
+sys_temp1= '20220328d'
 
 insert into oak_20160831_master.dbo.d_location_spatial_hist
 (
@@ -916,11 +930,11 @@ dloc.loc_id
 ,dlsh.loc_coord_method 
 ,dlsh.loc_coord_comment 
 ,3 as loc_elev_code
-,cast( '2021-01-19' as datetime ) as loc_elev_date
+,cast( '2022-03-28' as datetime ) as loc_elev_date
 ,6 as loc_elev_unit_code
 ,10 as qa_elev_code
-,'20210202d' as sys_temp1
-,20210202 as sys_temp2
+,'20220328d' as sys_temp1
+,20220328 as sys_temp2
 from 
 oak_20160831_master.dbo.d_location as dloc
 inner join oak_20160831_master.dbo.d_location_qa as dlqa
@@ -929,7 +943,7 @@ inner join oak_20160831_master.dbo.d_location_spatial_hist as dlsh
 on dloc.loc_id=dlsh.loc_id
 where 
 dlqa.qa_coord_confidence_code in ( 117, 118 )
-and dlsh.loc_coord_data_id= 523
+and dlsh.loc_coord_data_id= 524
 and ( dlsh.qa_elev_code is null or dlsh.qa_elev_code<>1 )
 
 
@@ -947,6 +961,7 @@ and ( dlsh.qa_elev_code is null or dlsh.qa_elev_code<>1 )
 
 -- v20200721 4796 rows (8219 rows total)
 -- v20210119 0 rows
+-- v20220328 0 rows
 
 select
 dlsh.loc_id
@@ -963,17 +978,17 @@ dlsh.loc_id
 ,dlsh.loc_coord_comment + '; Updated from QA_COORD_CODE 9 (CHECK07)' as loc_coord_comment
 ,dlsh.loc_coord_data_id
 ,cast( 3 as int ) as loc_elev_code
-,cast( '2021-01-19' as datetime ) as loc_elev_date
+,cast( '2022-03-28' as datetime ) as loc_elev_date
 ,cast( 6 as int ) as loc_elev_unit_code
 ,cast( 10 as int ) as qa_elev_code
-,'20210202e' as sys_temp1
-,20210202 as sys_temp2
+,'20220510e' as sys_temp1
+,20220510 as sys_temp2
 from 
 oak_20160831_master.dbo.d_location_spatial_hist as dlsh
 inner join oak_20160831_master.dbo.v_sys_loc_coords as v
 on dlsh.loc_id=v.loc_id
 where 
-dlsh.sys_temp1= '20210119b'
+dlsh.sys_temp1= '20220328b'
 and dlsh.qa_coord_code < v.qa_coord_code
 and v.qa_coord_code= 9
 
@@ -1014,17 +1029,17 @@ dlsh.loc_id
 ,dlsh.loc_coord_comment + '; Updated from QA_COORD_CODE 9 (CHECK07)' as loc_coord_comment
 ,dlsh.loc_coord_data_id
 ,cast( 3 as int ) as loc_elev_code
-,cast( '2021-01-19' as datetime ) as loc_elev_date
+,cast( '2022-03-28' as datetime ) as loc_elev_date
 ,cast( 6 as int ) as loc_elev_unit_code
 ,cast( 10 as int ) as qa_elev_code
-,'20210202e' as sys_temp1
-,20210202 as sys_temp2
+,'20220510e' as sys_temp1
+,20220510 as sys_temp2
 from 
 oak_20160831_master.dbo.d_location_spatial_hist as dlsh
 inner join oak_20160831_master.dbo.v_sys_loc_coords as v
 on dlsh.loc_id=v.loc_id
 where 
-dlsh.sys_temp1= '20210119b'
+dlsh.sys_temp1= '20220328b'
 and dlsh.qa_coord_code < v.qa_coord_code
 and v.qa_coord_code= 9
 
@@ -1034,6 +1049,7 @@ and v.qa_coord_code= 9
 
 -- v20200721 3423 rows (3359 after checking for manual edits)
 -- v20210119 0 rows
+-- v20220328 0 rows
 
 select
 dlsh.loc_id
@@ -1050,11 +1066,11 @@ dlsh.loc_id
 ,dlsh.loc_coord_comment + '; Updated from QA_COORD_CODE ' + cast( v.qa_coord_code as varchar(255) ) + ' (CHECK07)' as loc_coord_comment
 ,dlsh.loc_coord_data_id
 ,cast( 3 as int ) as loc_elev_code
-,cast( '2021-01-19' as datetime ) as loc_elev_date
+,cast( '2022-03-28' as datetime ) as loc_elev_date
 ,cast( 6 as int ) as loc_elev_unit_code
 ,cast( 10 as int ) as qa_elev_code
-,'20210202f' as sys_temp1
-,20210202 as sys_temp2
+,'20220510f' as sys_temp1
+,20220510 as sys_temp2
 from 
 oak_20160831_master.dbo.d_location_spatial_hist as dlsh
 inner join oak_20160831_master.dbo.v_sys_loc_coords as v
@@ -1062,7 +1078,7 @@ on dlsh.loc_id=v.loc_id
 inner join oak_20160831_master.dbo.d_location_spatial_hist as dlsh2
 on v.spat_id=dlsh2.spat_id
 where 
-dlsh.sys_temp1= '20210202b'
+dlsh.sys_temp1= '20220510b'
 and dlsh.qa_coord_code < v.qa_coord_code
 and v.qa_coord_code <> 9 
 and dlsh2.loc_coord_hist_code < 6
@@ -1073,6 +1089,7 @@ and dlsh2.loc_coord_hist_code < 6
 -- as an initial filter as anything 6 or above has been manually edited (in some way)
 
 -- v20210119 0 rows
+-- v20220328 0 rows
 
 select
 dlsh2.*
@@ -1084,7 +1101,7 @@ on dlsh.loc_id=v.loc_id
 inner join oak_20160831_master.dbo.d_location_spatial_hist as dlsh2
 on v.spat_id=dlsh2.spat_id
 where
-dlsh.sys_temp1= '20210202b'
+dlsh.sys_temp1= '20220510b'
 and dlsh.qa_coord_code < v.qa_coord_code
 and v.qa_coord_code <> 9 
 and dlsh2.loc_coord_hist_code < 6
@@ -1128,11 +1145,11 @@ dlsh.loc_id
 ,dlsh.loc_coord_comment + '; Updated from QA_COORD_CODE ' + cast( v.qa_coord_code as varchar(255) ) + ' (CHECK07)' as loc_coord_comment
 ,dlsh.loc_coord_data_id
 ,cast( 3 as int ) as loc_elev_code
-,cast( '2020-08-07' as datetime ) as loc_elev_date
+,cast( '2022-03-28' as datetime ) as loc_elev_date
 ,cast( 6 as int ) as loc_elev_unit_code
 ,cast( 10 as int ) as qa_elev_code
-,'20200807b' as sys_temp1
-,20200807 as sys_temp2
+,'20220510b' as sys_temp1
+,20220510 as sys_temp2
 from 
 d_location_spatial_hist as dlsh
 inner join v_sys_loc_coords as v
@@ -1140,7 +1157,7 @@ on dlsh.loc_id=v.loc_id
 inner join d_location_spatial_hist as dlsh2
 on v.spat_id=dlsh2.spat_id
 where 
-dlsh.sys_temp1= '20200806b'
+dlsh.sys_temp1= '20220510b'
 and dlsh.qa_coord_code < v.qa_coord_code
 and v.qa_coord_code <> 9 
 and dlsh2.loc_coord_hist_code < 6
