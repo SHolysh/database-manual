@@ -1,4 +1,6 @@
 
+--***** G_26_01 = MOE Coordinate Checks
+
 --***** Include any coordinate updates in D_LOCATION_COORD_HIST; these should be tagged with 
 --***** a LOC_COORD_HIST_CODE of 5 with the DATA_ID of the current import
 
@@ -31,63 +33,61 @@
 -- v20200721 417008 rows
 -- v20210119 380097 rows (bore_hole_id)
 --           689971 rows (well_id)
--- v20220328 
+-- v20220328 481987 rows (loc_id)
 
 select
 v.loc_id
+,v.moe_well_id
+,v.moe_bore_hole_id
+,vc.spat_id
+,vc.x
 ,c.east83
+,cast( null as float) as east83_17
+,vc.y
 ,c.north83
+,cast(null as float) as north83_17
 ,c.zone
 ,c.utmrc
+,vc.qa_coord_code
 ,c.location_method
 ,c.improvement_location_source
 ,c.improvement_location_method
 ,c.elevation
 ,c.elevrc
 ,row_number() over (order by v.loc_id) as rkey
---into moe_20220328.dbo.YC_20220328_BORE_HOLE_ID_COORDS_UPD
+into moe_20220328.dbo.YC_20220328_BORE_HOLE_ID_COORDS_CMP
 from 
 oak_20160831_master.dbo.v_sys_moe_locations as v
+inner join oak_20160831_master.dbo.d_location as dloc
+on v.loc_id=dloc.loc_id
 inner join moe_20220328.dbo.tblbore_hole as c
 on v.moe_bore_hole_id=c.bore_hole_id
-inner join oak_20160831_master.dbo.d_location_spatial_hist as dlsh
-on vc.spat_id=
+inner join oak_20160831_master.dbo.v_sys_loc_coords as vc
+on v.loc_id=vc.loc_id
+where 
+dloc.data_id<>524
+and c.zone in (17,18)
+and v.loc_id not in 
+(
+select
+distinct( loc_id ) as loc_id
+from
+oak_20160831_master.dbo.d_location_spatial_hist
+where
+loc_coord_hist_code= 6
+)
 
+select count(*) from moe_20220328.dbo.YC_20220328_BORE_HOLE_ID_COORDS_CMP
 
---select
---v.loc_id
---,c.east83
---,c.north83
---,c.east83_orig
---,c.north83_orig
---,c.zone
---,m.utmrc
---,m.location_method
---,m.improvement_location_source
---,m.improvement_location_method
---,m.elevation
---,m.elevrc
---,row_number() over (order by v.loc_id) as rkey
-----into moe_20220328.dbo.YC_20220328_BORE_HOLE_ID_COORDS_UPD
---from 
---oak_20160831_master.dbo.v_sys_moe_locations as v
---inner join moe_20220328.dbo.YC_20220328_BORE_HOLE_ID_COORDS as c
---on v.moe_bore_hole_id=c.bore_hole_id
---inner join oak_20160831_master.dbo.d_location as d
---on v.loc_id=d.loc_id
---inner join moe_20220328.dbo.tblbore_hole as m
---on v.moe_bore_hole_id=m.bore_hole_id
---where
---d.loc_type_code= 1
---group by
---v.loc_id,c.east83,c.north83,c.east83_orig,c.north83_orig,c.zone
---,m.utmrc,m.location_method,m.improvement_location_source,m.improvement_location_method
---,m.elevation,m.elevrc
+drop table moe_20220328.dbo.yc_20220328_bore_hole_id_coords_cmp
+
+drop table moe_20220328.dbo.yc_20220328_bore_hole_id_coords_upd
 
 -- remove the duplicates based on LOC_ID
 
 -- v20210119 11083 duplicates (well_id)
 --           8 duplicates (bore_hole_id)
+-- v20220328 150 duplicates
 
 select
 t.*
@@ -98,21 +98,21 @@ loc_id
 ,min(rkey) as rkey_keep
 ,count(*) as rcount
 from 
-moe_20220328.dbo.YC_20220328_BORE_HOLE_ID_COORDS_UPD
+moe_20220328.dbo.YC_20220328_BORE_HOLE_ID_COORDS_CMP
 group by
 loc_id
 ) as t
 where
 t.rcount>1
 
-delete from moe_20220328.dbo.YC_20220328_BORE_HOLE_ID_COORDS_UPD 
+delete from moe_20220328.dbo.YC_20220328_BORE_HOLE_ID_COORDS_CMP 
 where
 rkey in
 (
 select
 m.rkey
 from 
-moe_20220328.dbo.YC_20220328_BORE_HOLE_ID_COORDS_UPD as m
+moe_20220328.dbo.YC_20220328_BORE_HOLE_ID_COORDS_CMP as m
 inner join
 (
 select
@@ -125,7 +125,7 @@ loc_id
 ,min(rkey) as rkey_keep
 ,count(*) as rcount
 from 
-moe_20220328.dbo.YC_20220328_BORE_HOLE_ID_COORDS_UPD
+moe_20220328.dbo.YC_20220328_BORE_HOLE_ID_COORDS_CMP
 group by
 loc_id
 ) as t
@@ -137,6 +137,8 @@ where
 m.rkey<>t2.rkey_keep
 )
 
+-- after transoformation of coordinates, the resulting table will be named
+-- YC_20220328_BORE_HOLE_ID_COORDS_UPD
 
 --***** Coordinate Check 01 - MOE Coordinates - Township (QA 118)
 
@@ -145,6 +147,8 @@ m.rkey<>t2.rkey_keep
 -- the text fields should be checked for zero-length
 
 -- update DATA_ID, SYS_TEMP1 and SYS_TEMP2
+
+select * from MOE_20220328.dbo.YC_20220328_BORE_HOLE_ID_COORDS_CMP where qa_coord_code= 118
 
 -- 2018.05.30 0 rows
 -- v20200721 240 rows
@@ -155,17 +159,16 @@ dloc.LOC_ID
 ,dloc.LOC_COORD_EASTING
 ,dloc.LOC_COORD_NORTHING
 ,cast( 5 as int ) as LOC_COORD_HIST_CODE 
-,cast( '2021-01-19' as datetime ) as LOC_COORD_DATE
-,m.east83 as X
-,m.north83 as Y
+,cast( '2022-03-28' as datetime ) as LOC_COORD_DATE
+,m.east83_17 as X
+,m.north83_17 as Y
 ,cast( 26917 as int ) as EPSG_CODE
-,m.east83_orig as X_OUOM
-,m.north83_orig as Y_OUOM
+,m.east83 as X_OUOM
+,m.north83 as Y_OUOM
 ,case
-when m.zone_orig=18 then 26918
+when m.zone='18' then 26918
 else 26917
 end as EPSG_CODE_OUOM
---,m.utmrc as QA_COORD_CODE
 ,case
 when m.utmrc is not null then cast(m.utmrc as int) 
 else null
@@ -186,14 +189,14 @@ when m.improvement_location_source is not null then m.improvement_location_sourc
 else ''
 end
 as varchar(255)) as LOC_COORD_METHOD
-,cast( 'Updated from QA_COORD_CODE [118]' as varchar(255) ) as LOC_COORD_COMMENT
-,cast( 523 as int ) as LOC_COORD_DATA_ID
+,cast( 'Updated from QA_COORD_CODE 118' as varchar(255) ) as LOC_COORD_COMMENT
+,cast( 524 as int ) as LOC_COORD_DATA_ID
 ,case
 when m.elevation is not null then cast( 2 as int ) 
 else null
 end as LOC_ELEV_CODE
 ,case 
-when m.elevation is not null then cast( '2021-01-19' as datetime ) 
+when m.elevation is not null then cast( '2022-03-28' as datetime ) 
 else null
 end as LOC_ELEV_DATE
 ,m.elevation as LOC_ELEV
@@ -203,11 +206,11 @@ else null
 end as LOC_ELEV_UNIT_CODE
 --,m.elevrc as QA_ELEV_CODE
 ,case
-when len(m.elevrc)>0 then cast(m.elevrc as int) 
+when len(m.elevrc)>0 and isnumeric( m.elevrc )=1 then cast(m.elevrc as int) 
 else null
 end as QA_ELEV_CODE
-,cast( '20210202a' as varchar(255) ) as SYS_TEMP1
-,cast( 20210202 as int ) as SYS_TEMP2
+,cast( '20220510a' as varchar(255) ) as SYS_TEMP1
+,cast( 20220510 as int ) as SYS_TEMP2
 from 
 moe_20220328.dbo.yc_20220328_bore_hole_id_coords_upd as m
 inner join oak_20160831_master.dbo.d_location as dloc
@@ -216,10 +219,18 @@ inner join oak_20160831_master.dbo.d_location_qa as dlqa
 on dloc.loc_id=dlqa.loc_id
 where
 -- make sure to not include the current DATA_ID
-( dloc.data_id is null or dloc.data_id<>523 )
+( dloc.data_id is null or dloc.data_id<>524 )
 and dlqa.qa_coord_confidence_code= 118
-and dloc.loc_coord_easting between (m.east83 - 25000) and (m.east83 + 25000)
-and dloc.loc_coord_northing between (m.north83 - 25000) and (m.north83 + 25000)
+and m.east83_17 is not null and m.north83_17 is not null
+and m.utmrc<>9
+and 
+(
+not( m.east83_17 between ( m.x - 5 ) and (m.x + 5) )
+or not( m.north83_17 between (m.y - 5 ) and ( m.y + 5 ) )
+)
+
+--and dloc.loc_coord_easting between (m.east83 - 25000) and (m.east83 + 25000)
+--and dloc.loc_coord_northing between (m.north83 - 25000) and (m.north83 + 25000)
 
 
 insert into oak_20160831_master.dbo.d_location_spatial_hist
