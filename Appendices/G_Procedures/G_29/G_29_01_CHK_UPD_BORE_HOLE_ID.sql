@@ -7,6 +7,7 @@
 
 -- v20190509 18116 rows
 -- v20200721 89 rows
+-- v20220328 3 rows
 
 select
 v.loc_id
@@ -29,14 +30,14 @@ select
 b.well_id
 ,count(*) as bhi_num
 from 
-moe_20200721.dbo.tblbore_hole as b
+moe_20220328.dbo.tblbore_hole as b
 group by
 well_id
 ) as t
 where 
 t.bhi_num= 1
 ) as t2
-inner join moe_20200721.dbo.tblbore_hole as b2
+inner join moe_20220328.dbo.tblbore_hole as b2
 on t2.well_id=b2.well_id
 ) as t3
 inner join oak_20160831_master.dbo.v_sys_moe_locations as v
@@ -44,8 +45,12 @@ on t3.well_id=v.moe_well_id
 where 
 v.moe_bore_hole_id is null
 
+
+-- update DATA_ID and SYS_TEMP
+
 -- v20190509 18116 rows
 -- v20200721 89 rows
+-- v20220328 3 rows
 
 insert into d_location_alias
 (
@@ -55,9 +60,9 @@ select
 v.loc_id
 ,cast(t3.bore_hole_id as varchar(255)) as loc_name_alias
 ,3 as loc_alias_type_code
-,522 as data_id
-,'20200807f' as sys_temp1
-,20200807 as sys_temp2
+,524 as data_id
+,'20220328f' as sys_temp1
+,20220328 as sys_temp2
 from 
 (
 select
@@ -73,14 +78,14 @@ select
 b.well_id
 ,count(*) as bhi_num
 from 
-moe_20200721.dbo.tblbore_hole as b
+moe_20220328.dbo.tblbore_hole as b
 group by
 well_id
 ) as t
 where 
 t.bhi_num= 1
 ) as t2
-inner join moe_20200721.dbo.tblbore_hole as b2
+inner join moe_20220328.dbo.tblbore_hole as b2
 on t2.well_id=b2.well_id
 ) as t3
 inner join oak_20160831_master.dbo.v_sys_moe_locations as v

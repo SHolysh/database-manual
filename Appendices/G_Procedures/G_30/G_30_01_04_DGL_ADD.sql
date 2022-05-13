@@ -1,5 +1,5 @@
 
---***** G.30.01.03 D_GEOLOGY_LAYER Add
+--***** G.30.01.04 D_GEOLOGY_LAYER Add
 
 --***** Assemble the D_GEOLOGY_LAYER information; additional details
 --***** can be found in G.10 concerning material code reassignments
@@ -11,10 +11,12 @@
 -- v20190509 DATA_ID 521
 -- v20200721 DATA_ID 522
 -- v20210119 DATA_ID 523 
+-- v20220328 DATA_ID 524 
 
 -- v20190509 3605 rows
 -- v20200721 5893 rows
 -- v20210119 1315 rows
+-- v20220328 374 rows
 
 select
 od.LOC_ID
@@ -63,14 +65,14 @@ end as int) as GEOL_MAT3_CODE
  when moef.MAT1 is null and moef.MAT2 is null and moef.MAT3 is not null then 'No mat1 or mat2, assigned mat3 to mat1'
  else null 
 end as varchar(255)) as GEOL_COMMENT
-,cast( 523 as int ) as DATA_ID
-,'20210208a' as SYS_TEMP1
-,20210208 as SYS_TEMP2
+,cast( 524 as int ) as DATA_ID
+,'20220513a' as SYS_TEMP1
+,20220513 as SYS_TEMP2
 ,row_number() over (order by od.loc_id) as rkey
-into MOE_20210119.dbo.O_D_GEOLOGY_LAYER
+into MOE_20220328.dbo.O_D_GEOLOGY_LAYER
 from 
-MOE_20210119.dbo.ORMGP_20210119_upd_DGL as od
-inner join MOE_20210119.dbo.TblFormation as moef
+MOE_20220328.dbo.ORMGP_20220328_upd_DGL as od
+inner join MOE_20220328.dbo.TblFormation as moef
 on od.moe_bore_hole_id=moef.bore_hole_id
 inner join oak_20160831_master.dbo.d_borehole as dbore
 on od.loc_id=dbore.loc_id
@@ -82,7 +84,7 @@ on od.loc_id=dbore.loc_id
 select
 count(*) 
 from 
-MOE_20210119.dbo.O_D_GEOLOGY_LAYER
+MOE_20220328.dbo.O_D_GEOLOGY_LAYER
 
 -- create/update the GEOL_IDs
 
@@ -91,7 +93,7 @@ od.loc_id
 ,od.rkey
 ,t2.geol_id
 from 
-moe_20210119.dbo.o_d_geology_layer as od
+moe_20220328.dbo.o_d_geology_layer as od
 inner join
 (
 select
@@ -111,11 +113,11 @@ v.new_id not in
 ) as t2
 on od.rkey=t2.rkey
 
-update moe_20210119.dbo.o_d_geology_layer
+update moe_20220328.dbo.o_d_geology_layer
 set
 geol_id=t2.geol_id
 from 
-moe_20210119.dbo.o_d_geology_layer as od
+moe_20220328.dbo.o_d_geology_layer as od
 inner join
 (
 select
@@ -174,7 +176,7 @@ select
 [SYS_TEMP1], 
 [SYS_TEMP2]
 from 
-moe_20210119.dbo.o_d_geology_layer 
+moe_20220328.dbo.o_d_geology_layer 
 
 
 

@@ -1,6 +1,4 @@
 
-
-
 --***** G.30.02.02 D_GEOLOGY_FEATURE Add
 
 --***** Assemble the D_GEOLOGY_FEATURE information
@@ -10,10 +8,12 @@
 -- change DATA_ID, SYS_TEMP1 and SYS_TEMP2
 
 -- v20190509 DATA_ID 521
+-- v20220328 DATA_ID 524
 
 -- v20190509 7282 rows
 -- v20200721 2866 rows
 -- v20210119 325 rows
+-- v20220328 193 rows
 
 select
 y.LOC_ID
@@ -26,20 +26,20 @@ as [FEATURE_CODE]
 ,'Water Found' as [FEATURE_DESCRIPTION]
 ,moew.WATER_FOUND_DEPTH as [FEATURE_TOP_OUOM]
 ,moew.WATER_FOUND_DEPTH_UOM as [FEATURE_UNIT_OUOM]
-,cast(523 as int) as DATA_ID
+,cast(524 as int) as DATA_ID
 ,ROW_NUMBER() over (order by y.LOC_ID) as rkey
-into MOE_20210119.dbo.O_D_GEOLOGY_FEATURE
+into MOE_20220328.dbo.O_D_GEOLOGY_FEATURE
 from 
-MOE_20210119.dbo.ORMGP_20210119_upd_DGF as y
-inner join MOE_20210119.dbo.TblPipe as moep
+MOE_20220328.dbo.ORMGP_20220328_upd_DGF as y
+inner join MOE_20220328.dbo.TblPipe as moep
 on y.moe_bore_hole_id=moep.Bore_Hole_ID
-inner join MOE_20210119.[dbo].[TblWater] as moew
+inner join MOE_20220328.[dbo].[TblWater] as moew
 on moep.PIPE_ID=moew.PIPE_ID
 
 select
 count(*)
 from 
-MOE_20210119.dbo.O_D_GEOLOGY_FEATURE
+MOE_20220328.dbo.O_D_GEOLOGY_FEATURE
 
 -- update the FEATURE_ID
 
@@ -48,7 +48,7 @@ od.loc_id
 ,od.rkey
 ,t2.feature_id
 from 
-moe_20210119.dbo.o_d_geology_feature as od
+moe_20220328.dbo.o_d_geology_feature as od
 inner join
 (
 select
@@ -69,11 +69,11 @@ v.new_id not in
 on od.rkey=t2.rkey
 
 
-update moe_20210119.dbo.o_d_geology_feature
+update moe_20220328.dbo.o_d_geology_feature
 set
 feature_id=t2.feature_id
 from 
-moe_20210119.dbo.o_d_geology_feature as od
+moe_20220328.dbo.o_d_geology_feature as od
 inner join
 (
 select
@@ -115,10 +115,10 @@ select
 [FEATURE_TOP_OUOM], 
 [FEATURE_UNIT_OUOM], 
 [DATA_ID],
-cast( '20210208a' as varchar(255) ) as SYS_TEMP1,
-cast( 20210208 as int ) as SYS_TEMP2
+cast( '20220513a' as varchar(255) ) as SYS_TEMP1,
+cast( 20220513 as int ) as SYS_TEMP2
 from 
-moe_20210119.dbo.o_d_geology_feature
+moe_20220328.dbo.o_d_geology_feature
 
 
 
