@@ -1,7 +1,7 @@
 ---
 title:  "Appendix M"
 author: "ormgpmd"
-date:   "20220429"
+date:   "20220520"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -39,8 +39,10 @@ Water Table (Surface): [https://owrc.github.io/metadata/surfaces/water_table.htm
 
 #### Other
 
+External Data Sources (Summary): [https://owrc.github.io/interpolants/sources/sources.html](https://owrc.github.io/interpolants/sources/sources.html)
+
 Snowmelt Computation: [https://owrc.github.io/snowmelt/](https://owrc.github.io/snowmelt/)
 
 Watercourse Topology of the ORMGP Region: [https://owrc.github.io/interpolants/interpolation/watercourses.html](https://owrc.github.io/interpolants/interpolation/watercourses.html)
 
-*Last Modified: 2022-04-29*
+*Last Modified: 2022-05-20*
