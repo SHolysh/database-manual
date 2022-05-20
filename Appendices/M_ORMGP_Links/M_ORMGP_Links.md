@@ -16,16 +16,24 @@ knit:   (
         )
 ---
 
-## Appendix M - ORMGP Products, Metadata and Other Links
+## Appendix M - ORMGP Analyses, Metadata and Other Links
 
 
-#### Products
+#### Analysis or Procedure
 
-Fact Sheet - Water Table Mapping: [https://owrc.github.io/watertable/](https://owrc.github.io/watertable/)
+External Data Sources (Summary): [https://owrc.github.io/interpolants/sources/sources.html](https://owrc.github.io/interpolants/sources/sources.html)
 
-ORMGP Hydrograph Explorer: [https://owrc.github.io/HydrographExplorerHelp/](https://owrc.github.io/HydrographExplorerHelp/)
+Hydrograph Explorer: [https://owrc.github.io/HydrographExplorerHelp/](https://owrc.github.io/HydrographExplorerHelp/)
+
+Snowmelt Computation: [https://owrc.github.io/snowmelt/](https://owrc.github.io/snowmelt/)
 
 Watershed Analysis of the ORMGP region: [https://owrc.github.io/subwatershed/](https://owrc.github.io/subwatershed/)
+
+Watercourse Topology of the ORMGP Region: [https://owrc.github.io/interpolants/interpolation/watercourses.html](https://owrc.github.io/interpolants/interpolation/watercourses.html)
+
+#### Fact Sheets
+
+Fact Sheet - Water Table Mapping: [https://owrc.github.io/watertable/](https://owrc.github.io/watertable/)
 
 #### Metadata
 
@@ -36,13 +44,5 @@ Potential Discharge Areas (Surface): [https://owrc.github.io/metadata/surfaces/p
 Potentiometric Surface: [https://owrc.github.io/metadata/surfaces/potentiometric_surface.html](https://owrc.github.io/metadata/surfaces/potentiometric_surface.html)
 
 Water Table (Surface): [https://owrc.github.io/metadata/surfaces/water_table.html](https://owrc.github.io/metadata/surfaces/water_table.html)
-
-#### Other
-
-External Data Sources (Summary): [https://owrc.github.io/interpolants/sources/sources.html](https://owrc.github.io/interpolants/sources/sources.html)
-
-Snowmelt Computation: [https://owrc.github.io/snowmelt/](https://owrc.github.io/snowmelt/)
-
-Watercourse Topology of the ORMGP Region: [https://owrc.github.io/interpolants/interpolation/watercourses.html](https://owrc.github.io/interpolants/interpolation/watercourses.html)
 
 *Last Modified: 2022-05-20*
