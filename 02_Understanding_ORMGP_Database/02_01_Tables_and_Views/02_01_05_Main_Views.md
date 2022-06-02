@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.5"
 author: "ormgpmd"
-date:   "20220131"
+date:   "20220602"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -19,114 +19,6 @@ knit:   (
 ## Section 2.1.5 Main Views
 
 These views were created specifically for general users to allows 'snapshots' of information to be extracted from the database without having to manipulate the underlying tables directly.  Any look-up (i.e. reference) values should include their text descriptions.
-
-These include:
-
-* V_CON_DOCUMENT
-* V_CON_GENERAL
-* V_CON_GEOLOGY
-* V_CON_HYDROGEOLOGY
-* V_CON_HYDROGEOLOGY_FULL
-* V_CON_PICK
-* V_CON_PTTW
-* V_CON_WATER_LEVEL_AVG_DAILY
-* V_GEN
-* V_GEN_BOREHOLE
-* V_GEN_BOREHOLE_BEDROCK
-* V_GEN_BOREHOLE_OUTCROP
-* V_GEN_DOCUMENT
-* V_GEN_DOCUMENT_ASSOCIATION
-* V_GEN_DOCUMENT_BIBLIOGRAPHY
-* V_GEN_FIELD
-* V_GEN_FIELD_CLIMATE
-* V_GEN_FIELD_CLIMATE_SUMMARY
-* V_GEN_FIELD_METEOROLOGICAL
-* V_GEN_FIELD_PUMPING_PRODUCTION
-* V_GEN_FIELD_STREAM_FLOW
-* V_GEN_FIELD_STREAM_FLOW_SUMMARY
-* V_GEN_FIELD_SUMMARY
-* V_GEN_GEOLOGY
-* V_GEN_GEOLOGY_DEEPEST_NONROCK
-* V_GEN_GEOLOGY_OUTCROP
-* V_GEN_HYDROGEOLOGY
-* V_GEN_HYDROGEOLOGY_BEDROCK
-* V_GEN_HYDROGEOLOGY_FULL
-* V_GEN_INTERVAL_FORMATION
-* V_GEN_INTERVAL_INFO_DURHAM
-* V_GEN_LAB
-* V_GEN_LAB_BACTERIOLOGICALS
-* V_GEN_LAB_EXTRACTABLES
-* V_GEN_LAB_GENERAL
-* V_GEN_LAB_HERBICIDES_PESTICIDES
-* V_GEN_LAB_IONS
-* V_GEN_LAB_ISOTOPES
-* V_GEN_LAB_METALS
-* V_GEN_LAB_ORGANICS
-* V_GEN_LAB_SOIL
-* V_GEN_LAB_SUMMARY
-* V_GEN_LAB_SUMMARY_GROUP
-* V_GEN_LAB_SUMMARY_SAMPLE_COUNT
-* V_GEN_LAB_SUMMARY_SAMPLE_COUNT_DETAIL
-* V_GEN_LAB_SUMMARY_SAMPLE_COUNT_YEARLY
-* V_GEN_LAB_SUMMARY_SAMPLE_COUNT_YEARLY_SOIL
-* V_GEN_LAB_SUMMARY_SAMPLE_GROUP
-* V_GEN_LAB_SVOCS
-* V_GEN_LAB_VOCS
-* V_GEN_MOE_REPORT
-* V_GEN_MOE_WELL
-* V_GEN_PICK
-* V_GEN_PTTW
-* V_GEN_PTTW_RELATED
-* V_GEN_PTTW_SOURCE
-* V_GEN_PUMPING_MUNICIPAL_PTTW_VOLUME_YEARLY
-* V_GEN_PUMPING_MUNICIPAL_VOLUME_MONTHLY
-* V_GEN_PUMPING_MUNICIPAL_VOLUME_YEARLY
-* V_GEN_PUMPING_VOLUME_MONTHLY
-* V_GEN_PUMPING_VOLUME_YEARLY
-* V_GEN_STATION_CLIMATE
-* V_GEN_STATION_CLIMATE_PRECIP_ANNUAL
-* V_GEN_STATION_SURFACEWATER
-* V_GEN_STATION_SURFACEWATER_ANNUAL
-* V_GEN_WATER_FOUND
-* V_GEN_WATER_LEVEL
-* V_GEN_WATER_LEVEL_AVG
-* V_GEN_WATER_LEVEL_AVG_DAILY
-* V_GEN_WATER_LEVEL_AVG_DAILY_LOGGER
-* V_GEN_WATER_LEVEL_MANUAL
-* V_GEN_WATER_LEVEL_OTHER
-* V_GEN_WATERLEVEL_BARO_YEARLY
-* V_GEN_WATERLEVEL_LOGGER_YEARLY
-* V_GEN_WATERLEVEL_MANUAL_YEARLY
-* V_GEN_WATERLEVEL_YEARLY
-* V_GROUP_INTERVAL
-* V_GROUP_LOCATION
-* V_QA_NEW_D_BOREHOLE
-* V_QA_NEW_D_INTERVAL
-* V_QA_NEW_D_LOCATION
-* V_SUM_FIELD_LAB_VALUES
-* V_SUM_FIELD_VALUES
-* V_SUM_INT_TYPE_COUNTS
-* V_SUM_LAB_PARAMETER_COUNT
-* V_SUM_LAB_SAMPLES
-* V_SUM_LOC_TYPE_COUNTS
-* V_SUM_READING_GROUP_COUNTS
-* V_SUM_SAMPLE_NUM_SAMPLE_COUNT
-* V_SUM_SCREEN_COUNTS
-* V_SUM_STATION_BARO_WL
-* V_SUM_STATION_CLIMATE_PRECIP
-* V_SUM_STATION_CLIMATE_RAINFALL
-* V_SUM_STATION_CLIMATE_SNOWFALL
-* V_SUM_STATION_CLIMATE_TEMP
-* V_SUM_SURFACE_WATER_FIELD
-* V_SUM_SW_SUBTYPE_COUNTS
-* V_SUM_TABLE_CHANGES
-* V_SUM_TOTAL_CHANGES
-* V_VL_BOREHOLES
-* V_VL_GEO_GSC
-* V_VL_GEO_MAT123
-* V_VL_GEOLOGY
-* V_VL_HEADER_LOG
-* V_VL_HEADER_SCREEN
 
 #### V_CON_\* (Consultant Views)
 
@@ -393,6 +285,14 @@ This view extracts summary precipitation and temperature data (from D_LOCATION_S
 
 This view determines the yearly maximum, average and number of precipitation records (having a RD_NAME_CODE of '551' - 'Precipitation - Daily Total') from D_INTERVAL_TEMPORAL_3 for the climate stations found in V_GEN_STATION_CLIMATE (above).
 
+#### V_GEN_STATION_CLIMATE_PRECIP_WYEAR
+
+Calculates the water-yearly maximum, average and number of precipitation records 
+from D_INTERVAL_TEMPORAL_3 for those climate stations found in V_GEN_STATION_CLIMATE.  
+Note that this corresponds to the date interval October 1st through September 30th. 
+
+The original date of the record is modified by subtracting nine months to determine the water-year.
+
 #### V_GEN_STATION_SURFACEWATER
 
 For those locations of LOC_TYPE_CODE '6' (i.e. 'Surface Water'), this view extracts the various streamflow values present in D_LOCATION_SUMMARY.
@@ -552,3 +452,4 @@ This view returns the information necessary for Viewlog to plot and interact wit
 
 This view returns the information necessary for Viewlog to plot and interact with boreholes when working with cross-sections.  In particular, top and bottom elevations for screens are returned for applicable locations; the TEXT field (name) must be populated with 'SCREEN'.
 
+*Last Modified: 2022-06-02*

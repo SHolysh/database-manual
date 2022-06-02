@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.6"
 author: "ormgpmd"
-date:   "20220504"
+date:   "20220602"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -891,12 +891,26 @@ the units 'mg/L' as defined by the UNIT_DEFAULT field in R_UNIT_CODE.  This
 is limited to those RD_NAME_CODEs that have a RD_NAME_DEFAULT_UNIT set to
 'mg/L'.  The 'new' units are indicated and can be used to update the associated fields.
 
+#### V_SYS_CHK_PARAM_UNITS_DIT1B_RNC_OOO
+
+Returns the recalculated values (as necessary) for any units associated with the 
+units [o/oo] as defined by the UNIT_DEFAULT field in R_UNIT_CODE.  This is limited to 
+those RD_NAME_CODEs that have a RD_NAME_DEFAULT_UNIT set to [o/oo].  The new units 
+are indicated and can be used to update the associated fields.
+
 #### V_SYS_CHK_PARAM_UNITS_DIT1B_RNC_PERC
 
 Returns the recalculated values (as necessary) for any units associated with 
 the units '%' (i.e. percentage) as defined by the UNIT_DEFAULT field in R_UNIT_CODE.  This 
 is limited to those RD_NAME_CODEs that have a RD_NAME_DEFAULT_UNIT set to
 '%'.  The 'new' units are indicated and can be used to update the associated fields.
+
+#### V_SYS_CHK_PARAM_UNITS_DIT1B_RNC_PH
+
+Returns the recalculated values (as necessary) for any units associated with the units 
+[pH Units] as defined by the UNIT_DEFAULT field in R_UNIT_CODE.  This is limited to 
+those RD_NAME_CODEs that have a RD_NAME_DEFAULT_UNIT set to [pH Units].  The new units 
+are indicated and can be used to update the associated fields.
 
 #### V_SYS_CHK_PARAM_UNITS_DIT1B_RNC_UGL
 
@@ -1243,6 +1257,11 @@ Library. By default, these are entitled [\<LOC_ID\>.pdf] and are stored within
 the DOC_FOLDER_ID [10000].  This relies upon a definition of
 LOC_ALIAS_TYPE_CODE of [6] (i.e. Borehole Document Name) in D_LOCATION_ALIAS
 with the LOC_ID stored in the LOC_ALIAS_NAME field.
+
+#### V_SYS_DOC_LAST_MODIFIED
+
+Examining the SYS_TIME_STAMP and SYS_LAST_MODIFIED fields in D_LOCATION and 
+D_DOCUMENT, returns the most recent date as DOC_LAST_MODIFIED.
 
 #### V_SYS_DOC_REPLIB_ENTRY
 
@@ -1655,6 +1674,13 @@ This view returns those locations (and associated information) that are directly
 #### V_SYS_PICK_\*
 
 These series of views extract records from V_GEN_PICK based upon the text description of each geologic unit.
+
+#### V_SYS_PICK_BEDROCK_ALL
+
+Extracts records from V_GEN_PICK and D_PICK_EXTERNAL which match a GEOL_UNIT_CODE 
+of [7] (i.e. [Bedrock - Undifferentiated (YPDT)]).  The locations from V_GEN_PICK 
+are limited to the locations delimited by V_SYS_AGENCY_ORMGP_LARGE.  For 
+D_PICK_EXTERNAL, null Z values are ignored. 
 
 #### V_SYS_PTTW_EXPIRY_DATE_MAX
 
@@ -2211,4 +2237,4 @@ This view was originally a source for V_VL_HEADER_SCREEN.  Refer to V_SYS_YPDT_V
 This view returns the information in D_LOCATION related to the 'YPDT Viewlog Header Well'.
 
 
-*Last Modified: 2022-05-04*
+*Last Modified: 2022-06-02*
