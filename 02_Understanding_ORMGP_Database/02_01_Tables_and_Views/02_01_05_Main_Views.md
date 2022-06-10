@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.5"
 author: "ormgpmd"
-date:   "20220602"
+date:   "20220610"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -56,6 +56,12 @@ This view returns information from the PICKS table - additions including the loc
 #### V_CON_PTTW
 
 This view returns information from the D_LOCATION and D_PTTW tables.  The data returned here is meant to be a subset of V_GEN_PTTW.
+
+#### V_CON_STATION_SURFACEWATER
+
+Extracts various streamflow values present in D_LOCATION_SUMMARY for Surface 
+Water locations.  The data returned here is meant to be a subset of
+V_GEN_STATION_SURFACEWATER (based upon SECURITY_CODE).
 
 #### V_CON_WATER_LEVEL_AVG_DAILY
 
@@ -452,4 +458,4 @@ This view returns the information necessary for Viewlog to plot and interact wit
 
 This view returns the information necessary for Viewlog to plot and interact with boreholes when working with cross-sections.  In particular, top and bottom elevations for screens are returned for applicable locations; the TEXT field (name) must be populated with 'SCREEN'.
 
-*Last Modified: 2022-06-02*
+*Last Modified: 2022-06-10*
