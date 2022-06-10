@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.6"
 author: "ormgpmd"
-date:   "20220602"
+date:   "20220610"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -583,6 +583,28 @@ This view returns the calculated screen depths from D_INTERVAL_MONITOR where MON
 #### V_SYS_CHK_INT_MON_ELEV_DEPTH
 
 This view returns the current depths and elevations from D_INTERVAL_MONITOR as well as BH_GND_ELEV, BH_GND_BOTTOM_ELEV and BH_BOTTOM_DEPTH from D_BOREHOLE.   The ASSIGNED_ELEV is extracted from D_LOCATION_ELEV and LOC_ELEV_MASL_ORIG is from V_SYS_ELEV_ORIGINAL. This should be used as a check between the borehole depth and screened interval depth.
+
+#### V_SYS_CHK_INT_MISSING
+
+Assembles information from D_LOCATION for input into D_INTERVAL where no record 
+currently exists.  This only applies to regional locations specified through the 
+LOC_STUDY field in D_LOCATION.
+
+Note that this is limited to interval types [Well or Borehole], [Surface Water], 
+[Climate Station] and [Pumping Station].
+
+#### V_SYS_CHK_INT_MON_MISSING
+
+Assembles information from D_INTERVAL for input into D_INTERVAL_MONITOR where no 
+record currently exists.  This only applies to regional locations specified through 
+the LOC_STUDY field in D_LOCATION.
+
+Note that this is limited to interval types [Surface Water Flow Gauge], 
+[Surface Water Spot Stage Elevation], [Screen Information Omitted] and 
+[Pumping Station].
+
+Used in conjunction with V_SYS_CHK_INT_MISSING, this allows locations to be 
+included in the V_CON_\* views highlighting their missing information.
 
 #### V_SYS_CHK_INT_REF_ELEV
 
@@ -2237,4 +2259,4 @@ This view was originally a source for V_VL_HEADER_SCREEN.  Refer to V_SYS_YPDT_V
 This view returns the information in D_LOCATION related to the 'YPDT Viewlog Header Well'.
 
 
-*Last Modified: 2022-06-02*
+*Last Modified: 2022-06-10*
