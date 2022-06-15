@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.5"
 author: "ormgpmd"
-date:   "20220610"
+date:   "20220615"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -298,6 +298,8 @@ from D_INTERVAL_TEMPORAL_3 for those climate stations found in V_GEN_STATION_CLI
 Note that this corresponds to the date interval October 1st through September 30th. 
 
 The original date of the record is modified by subtracting nine months to determine the water-year.
+The WYEAR field value corresponds to the year in which the starting month (October)
+occurs.
 
 #### V_GEN_STATION_SURFACEWATER
 
@@ -458,4 +460,4 @@ This view returns the information necessary for Viewlog to plot and interact wit
 
 This view returns the information necessary for Viewlog to plot and interact with boreholes when working with cross-sections.  In particular, top and bottom elevations for screens are returned for applicable locations; the TEXT field (name) must be populated with 'SCREEN'.
 
-*Last Modified: 2022-06-10*
+*Last Modified: 2022-06-15*
