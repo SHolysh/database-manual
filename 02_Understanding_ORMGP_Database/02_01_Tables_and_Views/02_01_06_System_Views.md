@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.6"
 author: "ormgpmd"
-date:   "20220610"
+date:   "20220620"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -2218,6 +2218,20 @@ This view returns the number of barologger readings on a particular day for a pa
 
 This view returns the minimum and maximum barologger readings as well as starting and ending dates (for the data) on a yearly basis, by interval.  The number of days with barologger data is also indicated (using V_SYS_WATERLEVELS_BARO_DAILY).
 
+#### V_SYS_WATERLEVELS_DAILY_AVG
+
+Calculates the daily average of all water levels from D_INTERVAL_TEMPORAL_2
+and D_INTERVAL_TEMPORAL_5 for each interval.  These will have a RD_NAME_CODE
+of either of [628] ([Water Level - Manual - Static]) or [629] ([Water Level -
+Logger (Compensated & Corrected)]).  The date is converted to [mm/dd/yyyy]. 
+
+#### V_SYS_WATERLEVELS_DAILY_AVG_LOGGER
+
+Calculates the daily average of all water levels from D_INTERVAL_TEMPORAL_2
+and D_INTERVAL_TEMPORAL_5 for each interval.  These will have a RD_NAME_CODE
+of [629] ([Water Level - Logger (Compensated & Corrected)]).  The date is 
+converted to [mm/dd/yyyy].
+
 #### V_SYS_WATERLEVELS_MANUAL_FIRST
 
 This view returns the first manual water level from D_INTERVAL_TEMPORAL_2 for each interval.  These will have a RD_NAME_CODE of '628' (i.e. 'Water Level - Manual - Static'); the date is converted to 'mm/dd/yyyy'.
@@ -2225,10 +2239,6 @@ This view returns the first manual water level from D_INTERVAL_TEMPORAL_2 for ea
 #### V_SYS_WATERLEVELS_RANGE
 
 This view returns the minimum, maximum and average value as well as number of water level records from D_INTERVAL_TEMPORAL_2 for each interval.  These will have an RD_NAME_CODE of '628' (i.e. 'Water Level - Manual - Static') or '629' (i.e. 'Water Level - Logger (Compensated & Corrected)') as well as a UNIT_CODE of '6' (i.e. 'masl').
-
-#### V_SYS_WATERLEVELS_YEARLY_AVG
-
-This view returns the minimum, maximum and average value as well as the number of water level records from V_CON_HYDROGEOLOGY for each interval for each year of data.  The same reading name codes and unit codes as V_SYS_WATERLEVELS_RANGE (above) are used.  In addition, only those intervals that have greater than 25 water level records are included.  
 
 #### V_SYS_WATERLEVELS_YEARLY_BOTH
 
@@ -2259,4 +2269,4 @@ This view was originally a source for V_VL_HEADER_SCREEN.  Refer to V_SYS_YPDT_V
 This view returns the information in D_LOCATION related to the 'YPDT Viewlog Header Well'.
 
 
-*Last Modified: 2022-06-10*
+*Last Modified: 2022-06-20*
