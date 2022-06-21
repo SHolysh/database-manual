@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.6"
 author: "ormgpmd"
-date:   "20220620"
+date:   "20220621"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -2210,6 +2210,16 @@ This view is used to populate the W_GENERAL_SCREEN table (generally weekly).  Re
 
 This view returns those locations that have been tagged as belonging to a 'nest' of wells (i.e. a grouping of wells usually from the same general area); the GROUP_LOC_CODE (from D_GROUP_LOCATION) is included.  Note that these groupings will correspond to GROUP_LOC_TYPE_CODE '6' (i.e. 'Well Nest').
 
+#### V_SYS_WATERLEVELS
+
+This view returns all water level records from D_INTERVAL_TEMPORAL_2 and
+D_INTERVAL_TEMPORAL_5 (having a RD_NAME_CODE of [628] - [Water Level - Manual
+- Static] - or [629] - [Water Level - Logger (Compensated & Corrected)]).  The
+original SYS_RECORD_ID from each table are stored in SYS_RECORD_ID_D2 or
+SYS_RECORD_ID_D5.  The values must be in [masl] (i.e. having a UNIT_CODE [6])
+and have a REC_STATUS_CODE value less than [100] (values of [100] and above
+indicate problematic values).
+
 #### V_SYS_WATERLEVELS_BARO_DAILY
 
 This view returns the number of barologger readings on a particular day for a particular interval.  Only those intervals classified as 'Barometric Logger Interval' ('122') are examined.  The RD_NAME_CODE must be '629' ('Water Level - Logger (Compensated & Corrected)' with a UNIT_CODE of '128' ('cmap baro') for a record (from D_INTERVAL_TEMPORAL_2) to be included.  Note that each of year, month and day are returned as separate integer fields.
@@ -2269,4 +2279,4 @@ This view was originally a source for V_VL_HEADER_SCREEN.  Refer to V_SYS_YPDT_V
 This view returns the information in D_LOCATION related to the 'YPDT Viewlog Header Well'.
 
 
-*Last Modified: 2022-06-20*
+*Last Modified: 2022-06-21*
