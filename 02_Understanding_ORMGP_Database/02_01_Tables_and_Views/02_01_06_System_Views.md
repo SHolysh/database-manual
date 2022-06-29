@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.6"
 author: "ormgpmd"
-date:   "20220621"
+date:   "20220629"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -699,6 +699,14 @@ This view returns those records from D_INTERVAL_TEMPORAL_1A and D_INTERVAL_TEMPO
 #### V_SYS_CHK_INT_TMP2_DUPLICATES
 
 This view returns duplicate records from D_INTERVAL_TEMPORAL_2 using comparisons between INT_ID, RD_NAME_CODE, RD_DATE, RD_VALUE and UNIT_CODE.  The number of records and the minimum as well as the maximum SYS_RECORD_ID (from D_INTERVAL_TEMPORAL_2) is also returned - the minimum is usually chosen, by default, to remain in the database.  Refer to V_SYS_CHK_INT_TMP2_DUPLICATES_DEL_SRI, below.  Information from D_DATA_SOURCE (tagged by DATA_ID) is included.
+
+#### V_SYS_CHK_INT_TMP2_DUPLICATES2
+
+This view is similar to V_SYS_CHK_INT_TMP2_DUPLICATES.  In this case, though,
+the UNIT_CODE and RD_TYPE_CODE is not used for grouping records to find those
+that are duplicates.  This should be used carefully and no automatic view
+should subsequently be used to delete the records.  An example of its use can
+be found in Appendix G.35.
 
 #### V_SYS_CHK_INT_TMP2_DUPLICATES_DEL_SRI
 
@@ -2279,4 +2287,4 @@ This view was originally a source for V_VL_HEADER_SCREEN.  Refer to V_SYS_YPDT_V
 This view returns the information in D_LOCATION related to the 'YPDT Viewlog Header Well'.
 
 
-*Last Modified: 2022-06-21*
+*Last Modified: 2022-06-29*
