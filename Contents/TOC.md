@@ -1,7 +1,7 @@
 ---
 title:  "Cover and Table of Contents"
 author: "ormgpmd"
-date:   "20220520"
+date:   "20220629"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -177,6 +177,7 @@ knit:   (
     + **[G.32 Automated Scripts (Listing and Calling Order)](/database-manual/Appendices/G_Procedures/G_32.html)**
     + **[G.33 Update of D_AREA_GEOM](/database-manual/Appendices/G_Procedures/G_33.html)**
     + **[G.34 Incorporation of Bedrock Elevations as Bedrock Picks](/database-manual/Appendices/G_Procedures/G_34.html)**
+    + **[G.35 Handling Temporal Data Duplicates](/database-manual/Appendices/G_Procedures/G_35.html)**
 
 * **[H - Current Problems (to be Corrected)](/database-manual/Appendices/H_Current_Problems/H_Current_Problems.html)**
 
@@ -197,4 +198,4 @@ knit:   (
 
 * **[M - ORMGP Analyses, Metadata and Other Links](/database-manual/Appendices/M_ORMGP_Links/M_ORMGP_Links.html)**
 
-*Last modified: 2022-05-20*
+*Last modified: 2022-06-29*
