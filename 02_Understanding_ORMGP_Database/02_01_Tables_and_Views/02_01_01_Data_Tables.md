@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.1"
 author: "ormgpmd"
-date:   "20220411"
+date:   "20220714"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -17,98 +17,8 @@ knit:   (
 ---
 ## Section 2.1.1 Data Tables (D_\*)
 
-Prefixed with 'D_', these tables are populated with data specific to the table (name).  These include:
-
-* D_AREA_GEOM
-* D_BOREHOLE
-* D_BOREHOLE_CONSTRUCTION
-* D_CLIMATE
-* D_CRITERIA
-* D_DATA_INFO
-* D_DATA_SOURCE
-* D_DATABASE_NOTE
-* D_DOCUMENT
-* D_DOCUMENT_ASSOCIATION
-* D_DOCUMENT_ASSOCIATION_INTERVAL
-* D_GEOLOGY_FEATURE
-* D_GEOLOGY_LAYER
-* D_GEOPHYSICAL_LOG_DATABIN
-* D_GEOPHYSICAL_LOG_FIELD_DETAILS
-* D_GEOPHYSICAL_LOG_LITHO_DESCRIPTIONS
-* D_GEOPHYSICAL_LOG_LOCATION_DETAILS
-* D_GROUP_INTERVAL
-* D_GROUP_LOCATION
-* D_GROUP_READING
-* D_INTERVAL
-* D_INTERVAL_ADVERSE_EVENT
-* D_INTERVAL_ALIAS
-* D_INTERVAL_ATTRIBUTE
-* D_INTERVAL_ATTRIBUTE_LOOKUP
-* D_INTERVAL_ATTRIBUTE_VALUE
-* D_INTERVAL_FORM_ASSIGN
-* D_INTERVAL_FORM_ASSIGN_FINAL
-* D_INTERVAL_INFO
-* D_INTERVAL_INFO_DETAIL
-* D_INTERVAL_MONITOR
-* D_INTERVAL_PROPERTY
-* D_INTERVAL_QC_DATA
-* D_INTERVAL_REF_ELEV
-* D_INTERVAL_SOIL
-* D_INTERVAL_SUMMARY
-* D_INTERVAL_TEMPORAL_1A
-* D_INTERVAL_TEMPORAL_1B
-* D_INTERVAL_TEMPORAL_2
-* D_INTERVAL_TEMPORAL_3
-* D_INTERVAL_TEMPORAL_4
-* D_INTERVAL_TEMPORAL_5
-* D_LOCATION
-* D_LOCATION_ACTIVITY
-* D_LOCATION_ALIAS
-* D_LOCATION_ATTRIBUTE
-* D_LOCATION_ATTRIBUTE_LOOKUP
-* D_LOCATION_ATTRIBUTE_VALUE
-* D_LOCATION_DEPTH_DATA
-* D_LOCATION_GEOM
-* D_LOCATION_INFO
-* D_LOCATION_INFO_DETAIL
-* D_LOCATION_PURPOSE
-* D_LOCATION_QA
-* D_LOCATION_QC
-* D_LOCATION_SPATIAL
-* D_LOCATION_SPATIAL_HIST
-* D_LOCATION_SUMMARY
-* D_LOCATION_VULNERABILITY
-* D_LOGGER_BARO_COMPENSATION
-* D_LOGGER_CALIBRATION
-* D_LOGGER_CALIBRATION_READINGS
-* D_LOGGER_CORRECTION
-* D_LOGGER_INSTALLATION
-* D_LOGGER_INVENTORY
-* D_LOGGER_INVENTORY_MODULE
-* D_LOGGER_INVENTORY_MODULE_ATTRIBUTE
-* D_LOGGER_INVENTORY_SENSOR
-* D_LOGGER_INVENTORY_SIM
-* D_LOGGER_NAME
-* D_LOGGER_QC
-* D_LOGGER_QC_DDS
-* D_OWNER
-* D_PICK
-* D_PICK_EXTERNAL
-* D_PROJECT_LOCATION
-* D_PROJECT_USER_GROUP
-* D_PTTW
-* D_PTTW_RELATED
-* D_PTTW_RELATED_SRC
-* D_PUMPTEST
-* D_PUMPTEST_STEP
-* D_SITE
-* D_SURFACEWATER
-* D_USER_GROUP
-* D_VERSION
-* D_VERSION_CURRENT
-* D_VERSION_STATUS
-
-A (short) discussion of these tables, as used by the ORMGP, follows.
+Prefixed with 'D_', these tables are populated with data specific to the table
+(name).  A (short) discussion of these tables, as used by the ORMGP, follows.
 
 #### D_AREA_GEOM
 
@@ -151,6 +61,7 @@ This table is automatically updated when uploading temporal files (e.g. water le
 * DATA_FILENAME: the source filename (whether it be an Excel, Access or other type of file); ideally this file should be made accessible to the ORMGP to be used for back-checking in the cases of data errors/problems
 * DATA_ADDED_USER: the user name, usually the users Windows or SQL login name
 * DATA_ADDED_DATE: this field is automatically updated (if the information is being added by SiteFX); the date is actually when the records were added to the appropriate tables
+* LOC_ID: This can be used to link a data source to a specific report within the ORMGP report library
 
 #### D_DOCUMENT
 
@@ -521,4 +432,4 @@ The VERSION_COMMENT should be updated whenever the SECONDARY_VERSION is changed 
 
 This table captures the 'status' of the database at various stages, tied to the 'Dated Version' (both primary and secondary).  This includes the number of records for each available location type, each available interval type and each available reading group code type.
 
-*Last Modified: 2022-04-11*
+*Last Modified: 2022-07-14*
