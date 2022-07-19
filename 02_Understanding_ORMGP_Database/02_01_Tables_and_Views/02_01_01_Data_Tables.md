@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.1"
 author: "ormgpmd"
-date:   "20220714"
+date:   "20220719"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -150,11 +150,15 @@ Only intervals (i.e. INT_ID's) found in either of D_INTERVAL_MONITOR or D_INTERV
 * BPLAYER is the previous geologic unit up from the bottom of the interval
 * BPLAYER_VDIST is the distance from the bottom of the interval to the top of the previous geologic unit (from the bottom of the interval)
 * THICKNESS_M is the thickness of the geologic unit (normally an aquifer) to which this interval has been assigned (as stored in ASSIGNED_UNIT)
-* T is the Transmissivity (m2/s)
-* K is the Hydraulic Conductivity (m/s)
-* T_ITER is the number of iterations necessary to calculate T
-* T_ERR is the final calculated error difference between this calculated T and the previously calculated T
-* SC_LPMM is the calculated Specific Capacity incorporating Well Loss (liters-per-minute per metre)
+* T is the Transmissivity (m2/s; also T_SCR)
+* K is the Hydraulic Conductivity (m/s; also K_SCR)
+* T_ITER is the number of iterations necessary to calculate T (also T_ITER_SCR)
+* T_ERR is the final calculated error difference between this calculated T and the previously calculated T (also T_ERR_SCR)
+* SC_LPMM is the calculated Specific Capacity incorporating Well Loss (liters-per-minute per metre; also SC_LPMM_SCR)
+
+The second set of calculated fields, namely those with *_SCR* appended, use
+the screen length to calculate the particular parameter instead of using the
+THICKNESS_M value.  The methodology is otherwise equivalent.
 
 #### D_INTERVAL_FORM_ASSIGN_FINAL
 
@@ -432,4 +436,4 @@ The VERSION_COMMENT should be updated whenever the SECONDARY_VERSION is changed 
 
 This table captures the 'status' of the database at various stages, tied to the 'Dated Version' (both primary and secondary).  This includes the number of records for each available location type, each available interval type and each available reading group code type.
 
-*Last Modified: 2022-07-14*
+*Last Modified: 2022-07-19*
