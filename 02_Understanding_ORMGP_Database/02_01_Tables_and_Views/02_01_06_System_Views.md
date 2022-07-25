@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.6"
 author: "ormgpmd"
-date:   "20220629"
+date:   "20220725"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -1109,12 +1109,6 @@ A combination of a NULL value for LOGGER_RD_VALUE with a non-NULL value for LOGG
 for the logger data is not populated.  If the LOGGER_RCOUNT value is also NULL then no logger data exists to match against 
 the manual water level.
 
-#### V_SYS_CLIMATE_MARK_ACTIVE
-
-For Climate Station locations, this view examines its associated temporal data (summarized in D_INTERVAL_SUMMARY) to 
-determine whether it has been updated within a specified time period, marking it active or inactive.  The default time 
-period is stored in S_CONSTANT as DEF_ACTIVE_CLIMATE.
-
 #### V_SYS_CONST_ELEV_RANGE
 
 Returns the value of the constant SYS_ELEV_RANGE as specified in S_CONSTANT.  This uses the 
@@ -1630,6 +1624,44 @@ Each of these views returns the location (as LOC_ID) whose spatial geometry (fro
 * RM2004 - AREA_ID '27' (YPDT-CAMC REGIONAL Model 2004 5km Buffer)
 
 These views use the built-in function 'STIntersects'.
+
+#### V_SYS_MARK_ACTIVE_CLIMATE
+
+For Climate Station locations, this view examines its associated temporal data (summarized in D_INTERVAL_SUMMARY) to 
+determine whether it has been updated within a specified time period, marking
+it active or inactive (through LOC_STATUS_CODE) .  The default time 
+period is stored in S_CONSTANT as DEF_ACTIVE_CLIMATE.
+
+#### V_SYS_MARK_ACTIVE_MONWELL
+
+For Monitoring Well locations, this view examines its associated temporal data
+(as summarized in D_INTERVAL_SUMMARY) to determine whether it has been updated
+within a specified time period, marking it active or inactive.  The default
+time period is stored in S_CONSTANT as DEF_ACTIVE_MONITOR_WELL.  Only those
+loctions that have the number of water levels greater than DEF_WL_COUNT will
+be processed.
+
+#### V_SYS_MARK_ACTIVE_PTTW
+
+For Permit-To-Take_Water locations, this view examines the PTTW_EXPIRYDATE in
+D_PTTW.  If this date is previous to the current date, the permit is considered
+to have expired (and its LOC_STATUS_CODE updated).
+
+#### V_SYS_MARK_ACTIVE_SW_GAUGE
+
+For Surface Water Gauge locations, this view examines its associated temporal
+data (as summarized in D_INTERVAL_SUMMARY) to determine whether it has been
+updated within a specified time period, marking it active or inactive (through
+the LOC_STATUS_CODE).  The default time period is stored in S_CONSTANT as 
+DEF_ACTIVE_SFWATER.
+
+#### V_SYS_MARK_ACTIVE_SW_SPOTFLOW
+
+For Surface Water Spotflow locations, this view examines its associated temporal
+data (as summarized in D_INTERVAL_SUMMARY) to determine whether it has been
+updated within a specified time period, marking it active or inactive (through
+LOC_STATUS_CODE).  The default time period is stored in S_CONSTANT as 
+DEF_ACTIVE_SW_SPOTFLOW.
 
 #### V_SYS_MOE_BORE_HOLE_ID
 
@@ -2287,4 +2319,4 @@ This view was originally a source for V_VL_HEADER_SCREEN.  Refer to V_SYS_YPDT_V
 This view returns the information in D_LOCATION related to the 'YPDT Viewlog Header Well'.
 
 
-*Last Modified: 2022-06-29*
+*Last Modified: 2022-07-25*
