@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.6"
 author: "ormgpmd"
-date:   "20220725"
+date:   "20220727"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -1625,6 +1625,17 @@ Each of these views returns the location (as LOC_ID) whose spatial geometry (fro
 
 These views use the built-in function 'STIntersects'.
 
+#### V_SYS_MARK_ACTIVE_BAROLOG
+
+For locations with a barologger interval (those with an INT_TYPE_CODE value of
+[122]), this view examines its associated temporal data (summarized in
+D_INTERVAL_SUMMARY) to determine whehter it has been updated within a
+specified time period, marking it active or inactive.  The default time period
+is stored in S_CONSTANT as DEF_ACTIVE_BAROLOG.  Note that, as of 20220727,
+this returned value should only be applied against the W_GENERAL_OTHER table
+(and STATUS field) as this occurs at the interval level as opposed to the
+location level.
+
 #### V_SYS_MARK_ACTIVE_CLIMATE
 
 For Climate Station locations, this view examines its associated temporal data (summarized in D_INTERVAL_SUMMARY) to 
@@ -2319,4 +2330,4 @@ This view was originally a source for V_VL_HEADER_SCREEN.  Refer to V_SYS_YPDT_V
 This view returns the information in D_LOCATION related to the 'YPDT Viewlog Header Well'.
 
 
-*Last Modified: 2022-07-25*
+*Last Modified: 2022-07-27*
