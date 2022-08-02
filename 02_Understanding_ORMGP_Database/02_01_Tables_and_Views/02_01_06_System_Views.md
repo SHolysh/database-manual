@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.6"
 author: "ormgpmd"
-date:   "20220727"
+date:   "20220802"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -1190,6 +1190,11 @@ Note that only GEOL_MAT1_CODE is examined with multiple unit thicknesses summed;
 value is returned if no sand and gravel is present.  In addition, the top- and bottom-elevation
 must be populated.
 
+#### V_SYS_DGL_UNIT_GRAVEL
+
+This view returns the ASSIGNED_UNIT associated with a particular geologic
+layer found in D_GEOLOGY_LAYER that is related to coarse material.
+
 #### V_SYS_DIFAF_ASSIGN
 
 This view examines the contents of D_INTERVAL_FORM_ASSIGN then returns the
@@ -2330,4 +2335,4 @@ This view was originally a source for V_VL_HEADER_SCREEN.  Refer to V_SYS_YPDT_V
 This view returns the information in D_LOCATION related to the 'YPDT Viewlog Header Well'.
 
 
-*Last Modified: 2022-07-27*
+*Last Modified: 2022-08-02*
