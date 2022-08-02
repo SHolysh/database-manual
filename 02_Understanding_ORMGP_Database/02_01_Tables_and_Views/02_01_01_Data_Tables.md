@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.1"
 author: "ormgpmd"
-date:   "20220719"
+date:   "20220802"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -420,7 +420,11 @@ This table is required by SiteFX and allows locations to be linked to a particul
 Contains some minor information (e.g. drainage, elevation, and coordinates)
 concerning surface water stations including HYDAT and spot-flow locations.
 Surface water subtypes are indicated by the SW_SUBTYPE_CODE (linked to
-R_SW_SUBTYPE_CODE).
+R_SW_SUBTYPE_CODE).  As an aid for determining associated surface water
+stations (in relation to the stream along which the station has been located)
+the field SW_SEGMENTID is populated.  Those with the same value are located
+along the same stream (segment).  This segment identifier is found in the
+ORMGP layer OHN_WATERCOURSE_TOPOCORR_MM_20220414.
 
 #### D_VERSION
 
@@ -436,4 +440,4 @@ The VERSION_COMMENT should be updated whenever the SECONDARY_VERSION is changed 
 
 This table captures the 'status' of the database at various stages, tied to the 'Dated Version' (both primary and secondary).  This includes the number of records for each available location type, each available interval type and each available reading group code type.
 
-*Last Modified: 2022-07-19*
+*Last Modified: 2022-08-02*
