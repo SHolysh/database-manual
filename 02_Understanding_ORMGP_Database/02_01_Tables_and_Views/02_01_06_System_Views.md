@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.6"
 author: "ormgpmd"
-date:   "20220802"
+date:   "20220803"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -707,6 +707,13 @@ the UNIT_CODE and RD_TYPE_CODE is not used for grouping records to find those
 that are duplicates.  This should be used carefully and no automatic view
 should subsequently be used to delete the records.  An example of its use can
 be found in Appendix G.35.
+
+#### V_SYS_CHK_INT_TMP2_DUPLICATES3
+
+This view is similar to V_SYS_CHK_INT_TMP2_DUPLICATES2.  In this case, the
+RD_VALUE is not used for grouping records in order to find those that are
+duplicates.  This should be used extremely carefully and no automatic view
+should subsequently be used to delete records.
 
 #### V_SYS_CHK_INT_TMP2_DUPLICATES_DEL_SRI
 
@@ -2335,4 +2342,4 @@ This view was originally a source for V_VL_HEADER_SCREEN.  Refer to V_SYS_YPDT_V
 This view returns the information in D_LOCATION related to the 'YPDT Viewlog Header Well'.
 
 
-*Last Modified: 2022-08-02*
+*Last Modified: 2022-08-03*
