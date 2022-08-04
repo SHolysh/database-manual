@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.6"
 author: "ormgpmd"
-date:   "20220803"
+date:   "20220804"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -679,6 +679,15 @@ This view returns a list of SAM_ID's from D_INTERVAL_TEMPORAL_1B that have no re
 #### V_SYS_CHK_INT_TMP1_DUPLICATES
 
 This view returns duplicate records from D_INTERVAL_TEMPORAL_1B/1A using comparisons between INT_ID, RD_NAME_CODE, SAM_SAMPLE_DATE, RD_VALUE and UNIT_CODE.  The number of records and the minimum SYS_RECORD_ID (from D_INTERVAL_TEMPORAL_1B) is also returned - the latter is chosen, by default, to remain in the database.  Refer to V_SYS_CHK_INT_TMP1_DUPLICATES_DEL_SRI, below.  Information from D_DATA_SOURCE (tagged by DATA_ID) is included.
+
+#### V_SYS_CHK_INT_TMP1_DUPLICATES2
+
+Similar to V_SYS_CHK_INT_TMP1_DUPLICATES, this view returns possible duplicate
+records from D_INTERVAL_TEMPORAL_1B/1A.  However, only INT_ID, RD_NAME_CODE
+and SAM_SAMPLE_DATE area examined.  As such, no automatic deletion should be
+made (based upon minimum SYS_RECORD_ID) - a manual examination of the
+results should be undertaken (deletion or assignment of an appropriate
+REC_STATUS_CODE should be applied carefully).
 
 #### V_SYS_CHK_INT_TMP1_DUPLICATES_DEL_SRI
 
@@ -2342,4 +2351,4 @@ This view was originally a source for V_VL_HEADER_SCREEN.  Refer to V_SYS_YPDT_V
 This view returns the information in D_LOCATION related to the 'YPDT Viewlog Header Well'.
 
 
-*Last Modified: 2022-08-03*
+*Last Modified: 2022-08-04*
