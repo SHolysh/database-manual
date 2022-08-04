@@ -1289,6 +1289,15 @@ returned.  This view can be used as a base to create a table-format
 spreadsheet for examination of parameter changes over time for a particular
 interval.
 
+#### V_SYS_DIT3_ENVSCAN_DATAID
+
+This is to be used to populate null DATA_IDs in D_INTERVAL_TEMPORAL_3 for 
+Environment Canada climate records.  This relies upon a start- and end-date
+specified in S_CONSTANT through DEF_CLIMATE_DDS_DATES and the actual DATA_ID
+value to be used found in DEF_CLIMATE_DDS_DATAID.  This relies upon the
+climate location being defined in D_CLIMATE and having a LOC_NAME_ALT1 value
+of [Env Canada - Climate Station].
+
 #### V_SYS_DIT_COUNTS
 
 Returns the number of records as found in each of the temporal tables related
