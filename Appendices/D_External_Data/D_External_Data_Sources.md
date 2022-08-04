@@ -1,7 +1,7 @@
 ---
 title:  "Appendix D"
 author: "ormgpmd"
-date:   "20220202"
+date:   "20220804"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -170,6 +170,7 @@ Multiple import periods, including (with approximate dates):
 * May, 2019
 * July, 2020
 * January, 2021
+* March, 2022
 
 #### Scarborough Report
 
@@ -213,4 +214,4 @@ Approximately 33,200 geotechnical boreholes, with depths ranging from 0.1 m (soi
 
 
 
-
+*Last Modified: 2022-08-04*
