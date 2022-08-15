@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.6"
 author: "ormgpmd"
-date:   "20220804"
+date:   "20220815"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -1396,7 +1396,76 @@ This view returns the water level minimum, maximum, difference and total number 
 
 #### V_SYS_GEN_WL_AVERAGE
 
-This view, using V_SYS_CHK_INT_ELEVS_DEPTHS as a source, returns those records where WL_MASL_AVG is not null and the QA_COORD_CONFIDENCE_CODE is less than '6' (i.e. 'Margin of Error: 300m - 1km'; the uncertainty, then, would be less than 300m horizontal).  Both the spatial geometry (from D_LOCATION_GEOM) and the coordinates (from D_LOCATION) are included.  This can then be used for creating regional water level surfaces.
+This view, using V_SYS_CHK_INT_ELEVS_DEPTHS as a source, returns those records
+where WL_MASL_AVG is not null and the QA_COORD_CONFIDENCE_CODE is less than 
+'6' (i.e. 'Margin of Error: 300m - 1km'; the uncertainty, then, would be less 
+than 300m horizontal).  Both the spatial geometry (from D_LOCATION_GEOM) and 
+the coordinates (from D_LOCATION) are included.  This can then be used for 
+creating regional water level surfaces.
+
+#### V_SYS_GEN_WL_AVERAGE_DEEP
+
+Using V_SYS_GEN_WL_AVERAGE as a base, returns those records/intervals where the 
+top of the interval has a depth of greater than (or equal to) [40] metres.
+
+#### V_SYS_GEN_WL_AVERAGE_DEEP_BR
+
+Using V_SYS_GEN_WL_AVERAGE_DEEP as a base, returns those records/intervals where 
+the borehole intersects bedrock.
+
+#### V_SYS_GEN_WL_AVERAGE_DEEP_NBR
+
+Using V_SYS_GEN_WL_AVERAGE_DEEP as a base, returns those records/intervals where 
+the borehole does not intersect bedrock.
+
+#### V_SYS_GEN_WL_AVERAGE_MID
+
+Using V_SYS_GEN_WL_AVERAGE as a base, returns those records/intervals where the 
+top of the interval has a depth of greater than [20] and less than [40] metres.
+
+#### V_SYS_GEN_WL_AVERAGE_SHALLOW
+
+Using V_SYS_GEN_WL_AVERAGE as a base, returns those records/intervals where the 
+bottom of the interval has a depth of less than (or equal to) [20] metres.
+
+#### V_SYS_GEN_WL_AVERAGE_SHALLOW_MOD
+
+This is a modification of the V_SYS_GEN_WL_AVERAGE_SHALLOW view.  In this case, 
+assumed screens (i.e. intervals) are discarded unless they have more than [4] water 
+level measurements recorded.
+
+#### V_SYS_GEN_WL_AVERAGE_UNIT_SCAR
+
+Using V_SYS_GEN_WL_AVERAGE as a source, returns those records whose assigned
+geologic unit is [59] (i.e. Scarborough).
+
+#### V_SYS_GEN_WL_AVERAGE_UNIT_SHAL
+
+Using V_SYS_GEN_WL_AVERAGE as a source, returns those records whose assigned
+geologic units is any of
+
+*Late Stage Glaciolacustrine-Glaciofluvial ([1])
+*Halton/Kettleby Till ([2])
+*Mackinaw/Oak Ridges (MIS/ORAC) ([3])
+*Upper Newmarket ([4])
+*Inter Newmarket SedimentLower ([5])
+*Newmarket Till/Northern Till ([87])
+*Halton Till ([89])
+
+This is specified as the shallow groundwater system and differs from
+V_SYS_GEN_WL_AVERAGE_SHALLOW which imposes a fixed depth delineating the
+shallow system.
+
+#### V_SYS_GEN_WL_AVERAGE_UNIT_THORN
+
+Using V_SYS_GEN_WL_AVERAGE as a source, returns those records whose assigned
+geologic unit is [65] (i.e. Thorncliffe).
+
+#### V_SYS_GEN_WL_SPOTFLOW
+
+Returns those locations than have a non-zero average spotflow value recorded 
+(from D_INTERVAL_SUMMARY).  The [Z] value is the elevation of the location
+which is assumed to be equivalent to the water level (at surface).
 
 #### V_SYS_GENERAL
 
@@ -2360,4 +2429,4 @@ This view was originally a source for V_VL_HEADER_SCREEN.  Refer to V_SYS_YPDT_V
 This view returns the information in D_LOCATION related to the 'YPDT Viewlog Header Well'.
 
 
-*Last Modified: 2022-08-04*
+*Last Modified: 2022-08-15*
