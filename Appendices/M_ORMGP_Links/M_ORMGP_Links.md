@@ -1,7 +1,7 @@
 ---
 title:  "Appendix M"
 author: "ormgpmd"
-date:   "20220520"
+date:   "20220817"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -10,7 +10,7 @@ knit:   (
                     input_file,
                     encoding=encoding,
                     output_file=file.path(dirname(input_file), out_dir,
-                    'L_Database_Reports.html')
+                    'M_ORMGP_Links.html')
                 )
             }
         )
@@ -45,4 +45,10 @@ Potentiometric Surface: [https://owrc.github.io/metadata/surfaces/potentiometric
 
 Water Table (Surface): [https://owrc.github.io/metadata/surfaces/water_table.html](https://owrc.github.io/metadata/surfaces/water_table.html)
 
-*Last Modified: 2022-05-20*
+#### Other Information
+
+Data Snapshots: [https://owrc.github.io/interpolants/](https://owrc.github.io/interpolants/)
+
+Data Interpolation and Products: [https://owrc.github.io/snapshots/](https://owrc.github.io/snapshots/)
+
+*Last Modified: 2022-08-17*
