@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.6"
 author: "ormgpmd"
-date:   "20220815"
+date:   "20220824"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -1069,17 +1069,28 @@ do with the observed static water level)
 #### V_SYS_CHK_SEARCH
 
 This view assembles the names, coordinates and various elevations that can be used when examining issues with, for example, 
-water level surfaces (e.g. the presence of bulleys)
+water level surfaces (e.g. the presence of bulleys).
+
+#### V_SYS_CHK_SEARCH_LIDR
+
+The LOC_ID from which coordinates are to be accessed when searching within 
+the database for nearby locations.  This value is stored in the S_CONSTANT
+table using the CONST_NAME [SYS_SEARCH_LOC_ID].
+
+Note that the default LOC_ID is arbitrary.
 
 #### V_SYS_CHK_SEARCH_XYR
 
 This is a pre-defined routine that allow the user to search within a specified distance (as determined by [SYS_SEARCH_RADIUS]) 
-from specified coordinates (as set by [SYS_SEARCH_XY]).  Note that both of these constands are found in S_CONSTANT; 
-the latter makes use of both VALF (for the x-coordinate) and VALF2 (for the y-coordinate).  These would need to be set by the 
+from specified coordinates (as set by [SYS_SEARCH_XY]).  Note that both of
+these constants are found in S_CONSTANT; 
+the latter makes use of both VALF (for the x-coordinate) and VALF2 (for the
+y-coordinate).  These would need to be set by the 
 user in advance of using this view.
 
 Note that this was originally created as a means by which to check on locations based upon a given coordinate in order to fix 
-errors in the calculation of the average water level.
+errors in the calculation of the average water level.  The default coordinates
+are arbitrary.
 
 #### V_SYS_CHK_SPEC_CAP_CALC
 
@@ -2429,4 +2440,4 @@ This view was originally a source for V_VL_HEADER_SCREEN.  Refer to V_SYS_YPDT_V
 This view returns the information in D_LOCATION related to the 'YPDT Viewlog Header Well'.
 
 
-*Last Modified: 2022-08-15*
+*Last Modified: 2022-08-24*
