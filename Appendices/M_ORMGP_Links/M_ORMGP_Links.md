@@ -1,7 +1,7 @@
 ---
 title:  "Appendix M"
 author: "ormgpmd"
-date:   "20220817"
+date:   "20220825"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -47,8 +47,8 @@ Water Table (Surface): [https://owrc.github.io/metadata/surfaces/water_table.htm
 
 #### Other Information
 
-Data Snapshots: [https://owrc.github.io/interpolants/](https://owrc.github.io/interpolants/)
+Data Interpolation and Products: [https://owrc.github.io/interpolants/](https://owrc.github.io/interpolants/)
 
-Data Interpolation and Products: [https://owrc.github.io/snapshots/](https://owrc.github.io/snapshots/)
+Data Snapshots: [https://owrc.github.io/snapshots/](https://owrc.github.io/snapshots/)
 
-*Last Modified: 2022-08-17*
+*Last Modified: 2022-08-25*

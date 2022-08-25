@@ -1,7 +1,7 @@
 ---
 title:  "Section 2.1.1"
 author: "ormgpmd"
-date:   "20220802"
+date:   "20220825"
 output: html_document
 knit:   (
             function(input_file, encoding) {
@@ -401,7 +401,9 @@ This table has been implemented as an alternative to the general relation
 between a PTTW record and a location based upon the LOC_MASTER_LOC_ID of the
 former.  Here, they are directly tracked using LOC_ID and LOC_ID_SRC; the
 latter will indicate the location of the water source.  In some cases, a
-single permit may reference more than a single source.
+single permit may reference more than a single source.  In addition, a single
+location may have more than one interval - the INT_ID_SRC ties the permit to
+the specific interval for the given location.
 
 #### D_PUMPTEST
 
@@ -434,10 +436,20 @@ This table is required by SiteFX and contains the 'Database_Version', used inter
 
 This table contains the current primary and secondary versions (i.e. the dated version) of the database.  The single row, here, is accessed when distributing a subset of the database to specify the PRIMARY_VERSION and SECONDARY_VERSION (as well as the CUT_VERSION which is populated in the output database) within the distributed database itself.
 
-The VERSION_COMMENT should be updated whenever the SECONDARY_VERSION is changed (it should provide an explanation for the change).  These changes should also be captured in the database timeline as found in Appendix E.
+The VERSION_COMMENT should be updated whenever the SECONDARY_VERSION is
+changed (it should provide an explanation for the change).  Note that the
+specific update should be captured, separately, in D_VERSION_CURRENT_HIST as
+well as present in the database timeline as found in Appendix E.
+
+#### D_VERSION_CURRENT_HIST
+
+This table contains the description for each combination of primary and
+secondary database versions and updates (these are dated versions, i.e. with
+format [yyyymmdd]).  A primary and secondary version comment should describe
+the update of modification of the database.
 
 #### D_VERSION_STATUS
 
 This table captures the 'status' of the database at various stages, tied to the 'Dated Version' (both primary and secondary).  This includes the number of records for each available location type, each available interval type and each available reading group code type.
 
-*Last Modified: 2022-08-02*
+*Last Modified: 2022-08-25*
